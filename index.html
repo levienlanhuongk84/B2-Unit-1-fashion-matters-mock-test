@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Mock Test · Fashion Matters</title>
+<meta name="description" content="Four-skill mock test in VSTEP B2 format on Unit 1 (Fashion Matters): reading, writing, listening with audio, speaking with recording; timed sections, answer explanations and evidence in the text.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400&family=Roboto+Condensed:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap">
+<style>
+  :root {
+    --bg: #FBF9FC; --surface: #FFFFFF; --surface-2: #F4EEFA; --surface-3: #FBF5FF;
+    --ink: #241530; --ink-2: #5A4C68; --muted: #8B7C99;
+    --line: #E6DDF0; --line-strong: #CDB9E1;
+    --purple: #613087; --purple-ink: #4A2467; --purple-soft: #EFE4F7;
+    --orange: #DD5A28; --orange-ink: #B8471E; --orange-soft: #FCEBDD; --gold: #FCB715; --gold-soft: #FFF4D6;
+    --good: #2E7D4F; --good-soft: #DFF1E5; --bad: #B23B3B; --bad-soft: #F8E1E1;
+    --chart-1: #7E4FAE; --chart-2: #DD5A28; --chart-track: #EFE4F7;
+    --hl: #FFF0A6;
+    --shadow: 0 1px 2px rgba(74,36,103,.06), 0 10px 28px rgba(74,36,103,.08);
+    --radius: 12px;
+    --font: "Roboto", "Segoe UI", Arial, sans-serif;
+    --font-cond: "Roboto Condensed", "Arial Narrow", Arial, sans-serif;
+    --font-mono: "Roboto Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--font); }
+  .wrap { max-width: none; margin: 0 auto; padding: 0 clamp(16px, 2.5vw, 40px); }
+  .wrap.narrow { max-width: 1100px; }
+  a { color: var(--purple); }
+  [hidden] { display: none !important; }
+
+  header.top { background: linear-gradient(135deg, var(--purple-ink) 0%, var(--purple) 55%, #7A3E9C 100%); color: #fff; padding: 26px 0 20px; }
+  .eyebrow { font: 700 12px/1 var(--font-cond); letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+  header h1 { margin: 8px 0 6px; font: 900 30px/1.1 var(--font); letter-spacing: -.01em; }
+  header .meta { display: flex; flex-wrap: wrap; gap: 6px 10px; font: 500 13px var(--font-cond); letter-spacing: .03em; opacity: .95; }
+  header .meta span { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 4px 10px; }
+
+  nav.tabs { position: sticky; top: 0; z-index: 30; background: var(--surface); border-bottom: 1px solid var(--line); }
+  nav.tabs .wrap { display: flex; gap: 2px; overflow-x: auto; }
+  nav.tabs button { appearance: none; border: 0; background: none; padding: 14px 14px 12px; font: 700 14px var(--font-cond); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+  nav.tabs button.on { color: var(--purple); border-bottom-color: var(--orange); }
+
+  main { padding: 22px 0 70px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 18px; }
+  .card h2 { margin: 0 0 6px; font: 700 21px/1.25 var(--font); color: var(--purple-ink); }
+  .card h3 { margin: 18px 0 8px; font: 700 15px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+  .sub { color: var(--ink-2); margin: 0 0 12px; font-size: 15px; }
+  .chip { display: inline-block; font: 700 11px/1 var(--font-cond); letter-spacing: .1em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; background: var(--purple-soft); color: var(--purple-ink); }
+  .chip.or { background: var(--orange-soft); color: var(--orange-ink); }
+  .chip.gd { background: var(--good-soft); color: var(--good); }
+  .chip.bd { background: var(--bad-soft); color: var(--bad); }
+  .chip.mu { background: var(--surface-2); color: var(--ink-2); }
+
+  .field { display: grid; gap: 6px; margin-bottom: 14px; }
+  .field label { font: 700 13px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+  .field input, select.sel, textarea.ta { font: 16px var(--font); padding: 11px 12px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: var(--ink); width: 100%; }
+  .pw-wrap { position: relative; }
+  .pw-wrap input { padding-right: 68px; }
+  .pw-toggle { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); appearance: none; border: 0; background: var(--surface-2); color: var(--purple-ink); font: 700 12px var(--font-cond); letter-spacing: .04em; text-transform: uppercase; padding: 7px 10px; border-radius: 8px; cursor: pointer; }
+  .pw-toggle:hover { background: var(--purple-soft); }
+  .remember { display: flex; align-items: center; gap: 8px; margin: 4px 0 14px; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+  .remember input { accent-color: var(--orange); width: 16px; height: 16px; }
+  .field input:focus, select.sel:focus, textarea.ta:focus, .opt:focus-within { outline: 3px solid rgba(221,90,40,.28); outline-offset: 1px; border-color: var(--orange); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 600px) { .two { grid-template-columns: 1fr; } }
+  .btn { appearance: none; border: 0; border-radius: 10px; padding: 12px 20px; font: 700 15px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; color: #fff; background: var(--orange); box-shadow: 0 6px 16px rgba(221,90,40,.28); transition: transform .08s ease, box-shadow .08s ease; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(221,90,40,.34); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn.ghost { background: var(--surface); color: var(--purple-ink); border: 1px solid var(--line-strong); box-shadow: none; }
+  .btn.sm { padding: 8px 12px; font-size: 13px; }
+  .btn.purple { background: var(--purple); box-shadow: 0 6px 16px rgba(97,48,135,.28); }
+
+  /* start page */
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+  .skill { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-3); cursor: pointer; }
+  .skill input { margin-top: 4px; accent-color: var(--orange); }
+  .skill b { display: block; color: var(--purple-ink); }
+  .skill small { color: var(--ink-2); font-size: 13px; }
+  .skill { flex-direction: column; }
+  .skill .head { display: flex; gap: 10px; align-items: flex-start; }
+  .skill .pchips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+  .skill .pchips button { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--muted); font: 700 11px var(--font-mono); padding: 5px 8px; border-radius: 999px; cursor: pointer; }
+  .skill .pchips button.on { background: var(--purple); border-color: var(--purple); color: #fff; }
+  .skill.off { opacity: .55; }
+  .modes { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mode { flex: 1 1 220px; display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+  .mode input { margin-top: 4px; accent-color: var(--orange); }
+  .mode.on { border-color: var(--orange); background: var(--orange-soft); }
+  table.plan { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.plan th, table.plan td { text-align: left; padding: 7px 8px; border-top: 1px solid var(--line); vertical-align: top; }
+  table.plan th { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-top: 0; }
+  table.plan td.num, table.plan th.num { text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+  table.plan tr.sk td { background: var(--surface-2); font-weight: 700; color: var(--purple-ink); }
+  table.plan td.part { padding-left: 22px; color: var(--ink-2); }
+  @media (max-width: 600px) { table.plan { font-size: 13px; } table.plan th, table.plan td { padding: 6px 4px; } table.plan td.part { padding-left: 10px; } table.plan th { letter-spacing: .02em; } }
+  .rules { margin: 12px 0 0; padding: 0 0 0 18px; color: var(--ink-2); font-size: 14px; }
+  .rules li { margin: 3px 0; }
+
+  /* skill progress + test bar */
+  .sk-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .sk-nav span { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+  .sk-nav span.done { background: var(--good-soft); color: var(--good); border-color: transparent; }
+  .sk-nav span.cur { background: var(--purple); color: #fff; border-color: var(--purple); }
+  .testbar { position: sticky; top: 49px; z-index: 25; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 8px 14px; margin-bottom: 14px; display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 6px 14px; }
+  @media (max-width: 640px) { .testbar > span { grid-row: 1; grid-column: 2; } }
+  .testbar .layout-btn { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--purple-ink); font: 700 12px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; padding: 8px 10px; border-radius: 999px; cursor: pointer; }
+  @media (max-width: 900px) { .testbar .layout-btn { display: none; } }
+  @media (max-width: 640px) { .testbar { grid-template-columns: 1fr auto; padding: 8px 12px; } .testbar .time { font-size: 22px; grid-row: 1; grid-column: 1; } .testbar .btn { grid-row: 1; grid-column: 2; } .testbar .mid { grid-row: 2; grid-column: 1 / -1; } }
+  /* study4-style shell: main column + question palette */
+  .shell { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; }
+  @media (max-width: 1100px) { .shell { grid-template-columns: 1fr; } }
+  .palette { position: sticky; top: 132px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 14px; max-height: calc(100vh - 150px); overflow: auto; }
+  @media (max-width: 1100px) { .palette { position: static; max-height: none; } }
+  .palette h4 { margin: 0 0 8px; font: 700 12px var(--font-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .palette .pgrp { margin-bottom: 12px; }
+  .palette .pgrp .lab { display: flex; justify-content: space-between; align-items: center; font: 700 12px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; color: var(--purple-ink); margin: 0 0 6px; cursor: pointer; }
+  .palette .pgrp .lab.cur { color: var(--orange-ink); }
+  .palette .pgrp .lab .pt { font: 700 11px var(--font-mono); color: var(--muted); }
+  .palette .pgrp .lab.over .pt { color: var(--orange); }
+  .palette .nums { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .palette .nums button { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2); font: 700 12px var(--font-mono); padding: 6px 0; border-radius: 6px; cursor: pointer; position: relative; }
+  .palette .nums button.done { background: var(--purple); border-color: var(--purple); color: #fff; }
+  .palette .nums button.flag::after { content: ""; position: absolute; top: 2px; right: 2px; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+  .palette .nums button.here { box-shadow: 0 0 0 2px var(--orange); }
+  .palette .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .palette .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; border: 1px solid var(--line-strong); }
+  .palette .legend i.d { background: var(--purple); border-color: var(--purple); } .palette .legend i.f { background: var(--orange); border-color: var(--orange); border-radius: 50%; }
+  .palette .prow { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px; font-size: 13px; cursor: pointer; }
+  .palette .prow.cur { border-color: var(--orange); background: var(--orange-soft); }
+  .palette .prow b { font-family: var(--font-mono); font-size: 12px; }
+  .flagbtn { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; border-radius: 6px; padding: 3px 7px; cursor: pointer; margin-left: 6px; vertical-align: 2px; }
+  .flagbtn.on { color: var(--orange-ink); border-color: var(--orange); background: var(--orange-soft); }
+  .testbar .time { font: 700 26px/1 var(--font-mono); color: var(--purple-ink); min-width: 92px; }
+  .testbar .time.warn { color: var(--orange-ink); }
+  .testbar .time.danger { color: var(--bad); animation: blink 1s steps(2) infinite; }
+  .testbar .time small { display: block; font: 700 10px var(--font-cond); letter-spacing: .1em; color: var(--muted); margin-top: 3px; text-transform: uppercase; }
+  @keyframes blink { 50% { opacity: .55; } }
+  .testbar .mid .lbl { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .testbar .mid .track { height: 6px; background: var(--chart-track); border-radius: 999px; overflow: hidden; margin-top: 4px; }
+  .testbar .mid .fill { height: 100%; width: 0; background: var(--chart-1); border-radius: 999px; transition: width .2s ease; }
+  .parts-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .parts-nav button { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--purple-ink); font: 700 12px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; padding: 7px 11px; border-radius: 999px; cursor: pointer; display: flex; gap: 6px; align-items: center; }
+  .parts-nav button.cur { background: var(--purple); color: #fff; border-color: var(--purple); }
+  .parts-nav button .pt { font: 700 11px var(--font-mono); opacity: .8; }
+  .parts-nav button.over .pt { color: var(--orange); }
+  .parts-nav button.cur.over .pt { color: #FFD9C7; }
+  .ptimer { display: inline-flex; gap: 8px; align-items: center; font: 700 13px var(--font-mono); color: var(--purple-ink); background: var(--purple-soft); border-radius: 999px; padding: 6px 12px; }
+  .ptimer.over { background: var(--orange-soft); color: var(--orange-ink); }
+  .ptimer small { font: 700 10px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+  /* parts & items */
+  .part { padding: 0; overflow: clip; }  /* clip, not hidden: a hidden overflow would break the sticky passage */
+  .part-head { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); background: var(--surface-3); display: grid; gap: 4px; }
+  .part-head .eyebrow { color: var(--orange-ink); opacity: 1; }
+  .part-head h2 { margin: 2px 0 2px; }
+  .part-head .instr { margin: 0; color: var(--ink-2); font-size: 15px; }
+  .part-head .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+  .items { padding: 4px 20px 10px; }
+  .item { display: grid; grid-template-columns: 38px 1fr; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .item:first-child { border-top: 0; }
+  .qn { font: 700 13px/1 var(--font-mono); color: var(--purple); background: var(--purple-soft); border-radius: 8px; padding: 7px 0; text-align: center; height: 28px; align-self: start; }
+  .q { margin: 3px 0 10px; font-size: 16px; }
+  .opts { display: grid; gap: 8px; }
+  @media (min-width: 640px) { .opts.two-col { grid-template-columns: 1fr 1fr; } }
+  .opt { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); cursor: pointer; font-size: 15px; line-height: 1.4; }
+  .opt:hover { border-color: var(--line-strong); background: var(--surface-3); }
+  .opt input { margin: 3px 0 0; accent-color: var(--orange); flex: 0 0 auto; }
+  .opt.sel { border-color: var(--orange); background: var(--orange-soft); }
+  .opt .letter { font: 700 12px/1 var(--font-mono); color: var(--purple); background: var(--purple-soft); border-radius: 6px; padding: 5px 6px; flex: 0 0 auto; }
+  .block-intro { font-weight: 700; color: var(--purple-ink); padding: 14px 20px 0; }
+
+  /* passages & scripts */
+  .passage { padding: 16px 20px 6px; font-size: 16px; line-height: 1.7; }
+  .passage p { margin: 0 0 12px; }
+  .passage .pn { display: inline-block; font: 700 11px/1 var(--font-mono); color: var(--orange-ink); background: var(--orange-soft); border-radius: 6px; padding: 4px 6px; margin-right: 8px; vertical-align: 2px; }
+  .passage h4 { margin: 0 0 10px; font: 700 18px var(--font); color: var(--purple-ink); }
+  .split { display: grid; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .split.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .split.two > .pwrap { border-right: 1px solid var(--line); position: sticky; top: 128px; align-self: start; max-height: calc(100vh - 140px); display: flex; flex-direction: column; } .split.two > .pwrap .passage { overflow: auto; flex: 1 1 auto; } }
+  .split.stack { grid-template-columns: 1fr !important; } .split.stack > .pwrap { position: static !important; max-height: none !important; border-right: 0 !important; border-bottom: 1px solid var(--line); }
+  .ptools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--line); background: var(--surface-3); font-size: 13px; color: var(--ink-2); }
+  .ptools .tb { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--purple-ink); font: 700 12px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; cursor: pointer; }
+  .ptools .tb.on { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .passage.hl-on { cursor: text; }
+  .passage .pt mark.uhl { background: #FFE96B; color: inherit; padding: 1px 0; border-radius: 2px; cursor: pointer; }
+  .passage .pt mark.uhl:hover { background: #FFD43B; }
+  .script { font-size: 15px; line-height: 1.65; }
+  .script p { margin: 0 0 8px; }
+  .script b { color: var(--purple-ink); }
+  mark.hl { background: var(--hl); color: inherit; padding: 1px 2px; border-radius: 3px; box-shadow: 0 0 0 2px var(--hl); }
+  mark.hl.flash { animation: flash 1.2s ease 2; }
+  @keyframes flash { 0%, 100% { background: var(--hl); } 50% { background: var(--gold); } }
+  details.fold { border: 1px solid var(--line); border-radius: 10px; margin: 10px 0; background: var(--surface-3); }
+  details.fold > summary { cursor: pointer; padding: 10px 14px; font: 700 13px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; color: var(--purple-ink); list-style: none; }
+  details.fold > summary::-webkit-details-marker { display: none; }
+  details.fold > summary::before { content: "▸ "; color: var(--orange); }
+  details[open].fold > summary::before { content: "▾ "; }
+  details.fold > .in { padding: 4px 14px 14px; }
+
+  /* audio */
+  .audio-box { display: grid; grid-template-columns: auto 1fr; gap: 12px 14px; align-items: center; padding: 14px 20px; background: var(--gold-soft); border-bottom: 1px solid var(--line); }
+  .audio-box .play { width: 54px; height: 54px; border-radius: 50%; border: 0; background: var(--orange); color: #fff; font-size: 22px; cursor: pointer; box-shadow: 0 6px 16px rgba(221,90,40,.3); display: grid; place-items: center; }
+  .audio-box .play:disabled { background: var(--muted); box-shadow: none; cursor: default; }
+  .audio-box .st { font-size: 14px; color: var(--ink-2); }
+  .audio-box .st b { color: var(--purple-ink); }
+  .audio-box .track { height: 8px; background: rgba(0,0,0,.08); border-radius: 999px; overflow: hidden; margin-top: 6px; }
+  .audio-box .fill { height: 100%; width: 0; background: var(--orange); border-radius: 999px; }
+  .audio-box audio { width: 100%; margin-top: 6px; }
+
+  /* writing */
+  textarea.ta { min-height: 260px; line-height: 1.6; resize: vertical; font-size: 16px; }
+  .wc { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font: 700 13px var(--font-mono); color: var(--muted); margin-top: 6px; }
+  .wc b { color: var(--purple-ink); }
+  .wc b.low { color: var(--orange-ink); }
+  .wc b.ok { color: var(--good); }
+  .prompt { background: var(--surface-2); border-left: 3px solid var(--purple); padding: 12px 14px; border-radius: 0 10px 10px 0; margin: 8px 0 12px; }
+  .prompt p { margin: 0 0 8px; }
+  .prompt p:last-child { margin: 0; }
+  .prompt.quote p { font-style: italic; }
+  .checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .checks li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; background: var(--surface); }
+  .checks li input { margin-top: 3px; accent-color: var(--good); }
+  .checks li.auto-ok { border-color: var(--good); background: var(--good-soft); }
+  .checks li.auto-no { border-color: var(--orange); background: var(--orange-soft); }
+  .stat-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
+  .stat { font: 700 13px var(--font-mono); background: var(--surface-2); border-radius: 8px; padding: 6px 10px; color: var(--ink-2); }
+  .stat.ok { background: var(--good-soft); color: var(--good); }
+  .stat.no { background: var(--orange-soft); color: var(--orange-ink); }
+  .sample { background: var(--surface-3); border: 1px dashed var(--line-strong); border-radius: 10px; padding: 14px 16px; font-size: 15px; }
+  .sample p { margin: 0 0 10px; }
+  .sample .n { font-size: 13px; color: var(--muted); font-style: italic; margin: 6px 0 0; }
+  .usertext { white-space: pre-wrap; background: var(--surface-2); border-radius: 10px; padding: 12px 14px; font-size: 15px; line-height: 1.6; }
+
+  /* speaking */
+  .cue { border: 2px solid var(--purple); border-radius: 12px; padding: 16px 18px; background: var(--surface); }
+  .cue b { display: block; font-size: 17px; color: var(--purple-ink); margin-bottom: 8px; }
+  .cue ul { margin: 6px 0 8px; padding-left: 20px; }
+  .qlist { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .qlist li { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-3); font-size: 15px; }
+  .qlist li .lead { display: block; font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--orange-ink); margin-bottom: 4px; }
+  .rec-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 12px 0; }
+  .rec { appearance: none; border: 0; border-radius: 999px; padding: 10px 16px; font: 700 14px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; background: var(--bad); color: #fff; }
+  .rec.on { background: var(--ink); animation: blink 1s steps(2) infinite; }
+  .rec:disabled { opacity: .5; cursor: not-allowed; }
+  .rec-st { font-size: 13px; color: var(--muted); }
+  .big-timer { font: 700 40px/1 var(--font-mono); color: var(--purple-ink); }
+  .big-timer.over { color: var(--orange-ink); }
+  .notes { font-size: 14px; color: var(--ink-2); background: var(--gold-soft); border-radius: 8px; padding: 8px 12px; }
+
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: space-between; }
+  .submit-row .note { color: var(--ink-2); font-size: 14px; }
+
+  /* results */
+  .hero { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; }
+  @media (max-width: 600px) { .hero { grid-template-columns: 1fr; } }
+  .score { font: 900 56px/1 var(--font); color: var(--purple-ink); letter-spacing: -.02em; }
+  .score small { font: 700 20px var(--font-cond); color: var(--muted); letter-spacing: .04em; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .fact { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+  .fact .l { font: 700 11px var(--font-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .fact .v { font: 700 20px var(--font); color: var(--ink); margin-top: 2px; }
+  .fact .s { font-size: 12px; color: var(--muted); }
+  .status { margin-top: 12px; font-size: 14px; color: var(--ink-2); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .status .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); display: inline-block; }
+  .status.ok .dot { background: var(--good); } .status.err .dot { background: var(--bad); }
+  .bars { display: grid; gap: 8px; }
+  .bar { display: grid; grid-template-columns: 150px 1fr 60px; gap: 10px; align-items: center; font-size: 14px; }
+  @media (max-width: 600px) { .bar { grid-template-columns: 96px 1fr 54px; } }
+  .bar .n { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar .t { height: 14px; background: var(--chart-track); border-radius: 0 4px 4px 0; position: relative; overflow: hidden; }
+  .bar .f { height: 100%; background: var(--chart-1); border-radius: 0 4px 4px 0; width: 0; transition: width .4s ease; }
+  .bar .f.low { background: var(--chart-2); }
+  .bar .v { font: 700 14px var(--font-mono); color: var(--ink); text-align: right; }
+  .review .item { grid-template-columns: 30px 1fr; }
+  .review .mark { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 700 13px var(--font-mono); color: #fff; margin-top: 2px; }
+  .review .mark.ok { background: var(--good); } .review .mark.no { background: var(--bad); } .review .mark.na { background: var(--muted); }
+  .review .q { margin-bottom: 6px; }
+  .ans { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; margin-bottom: 6px; }
+  .ans .you { color: var(--bad); } .ans .you.ok { color: var(--good); }
+  .ans .key { color: var(--good); font-weight: 700; }
+  .exp { font-size: 14px; color: var(--ink-2); background: var(--surface-2); border-left: 3px solid var(--gold); padding: 6px 10px; border-radius: 0 8px 8px 0; }
+  .ev { margin-top: 6px; font-size: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; }
+  .ev q { font-style: italic; color: var(--ink-2); background: var(--hl); padding: 1px 4px; border-radius: 4px; quotes: "“" "”"; }
+  .ev button { appearance: none; border: 1px solid var(--line-strong); background: var(--surface); color: var(--purple-ink); font: 700 11px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; border-radius: 999px; padding: 4px 9px; cursor: pointer; white-space: nowrap; }
+  .ev button:hover { border-color: var(--orange); color: var(--orange-ink); }
+  .filter { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 0 0 10px; }
+  .toggle { font: 700 13px var(--font-cond); letter-spacing: .05em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+  .toggle.on { background: var(--purple); border-color: var(--purple); color: #fff; }
+  table.tm { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.tm th, table.tm td { text-align: left; padding: 7px 8px; border-top: 1px solid var(--line); }
+  table.tm th { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-top: 0; }
+  table.tm td.num, table.tm th.num { text-align: right; font-family: var(--font-mono); white-space: nowrap; }
+  table.tm td.over { color: var(--orange-ink); font-weight: 700; }
+  table.tm td.under { color: var(--good); }
+
+  /* report */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .kpi .l { font: 700 11px var(--font-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .kpi .v { font: 700 26px/1.1 var(--font); color: var(--purple-ink); margin-top: 4px; }
+  .kpi .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .toolbar .st { font-size: 13px; color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+  .cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end; height: 160px; padding: 8px 4px 0; border-bottom: 1px solid var(--line); }
+  .col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .col .c { width: 24px; background: var(--chart-1); border-radius: 4px 4px 0 0; min-height: 2px; transition: height .4s ease; }
+  .col .lab { font: 700 13px/1 var(--font-mono); color: var(--ink); margin-bottom: 5px; }
+  .xl { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; text-align: center; font: 500 12px var(--font-cond); color: var(--muted); margin-top: 6px; letter-spacing: .03em; }
+  .tip { position: fixed; pointer-events: none; z-index: 60; background: var(--ink); color: #fff; font-size: 13px; padding: 6px 9px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.2); transform: translate(-50%, calc(-100% - 10px)); white-space: nowrap; opacity: 0; transition: opacity .12s; }
+  .tip.show { opacity: 1; }
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; }
+  table.tbl th, table.tbl td { text-align: left; padding: 8px 8px; border-top: 1px solid var(--line); vertical-align: top; }
+  table.tbl th { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border-top: 0; cursor: pointer; user-select: none; white-space: nowrap; }
+  table.tbl th.sorted { color: var(--purple); }
+  table.tbl td.num, table.tbl th.num { text-align: right; font-family: var(--font-mono); }
+  table.tbl tr.top td { background: var(--gold-soft); }
+  table.tbl td .att { font: 700 10px var(--font-mono); background: var(--surface-2); color: var(--ink-2); border-radius: 6px; padding: 2px 5px; margin-left: 6px; }
+  .rank { font: 700 14px var(--font-mono); color: var(--purple); }
+  .medal { font-size: 15px; }
+  .lock { text-align: center; padding: 26px 16px; color: var(--ink-2); background: var(--surface-2); border-radius: 10px; }
+  .empty { color: var(--muted); text-align: center; padding: 30px 10px; }
+  .wrongans { font: 500 13px var(--font-mono); color: var(--bad); }
+  .keyans { font: 700 13px var(--font-mono); color: var(--good); }
+  .note-box { border: 1px dashed var(--line-strong); border-radius: 10px; padding: 10px 12px; color: var(--ink-2); font-size: 14px; background: var(--surface-3); }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 10px 16px 30px; }
+  .modal { position: fixed; inset: 0; z-index: 80; background: rgba(36,21,48,.55); display: grid; place-items: center; padding: 16px; }
+  .modal-box { background: var(--surface); border-radius: 14px; padding: 22px 22px 18px; max-width: 460px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.3); max-height: 90vh; overflow: auto; }
+  .modal-box.wide { max-width: 760px; }
+  .modal-box p { margin: 0 0 16px; font-size: 16px; color: var(--ink); }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+  @media print { nav.tabs, .testbar, .btn, .rec { display: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Fashion Matters · Unit 1 · VSTEP B2 format</div>
+    <h1>Unit 1 Mock Test · Four Skills</h1>
+    <div class="meta"><span>Reading 40 · Writing 30 · Listening 35 · Speaking 10</span><span>Timed by skill and by part</span><span>Explanations and evidence after you submit</span></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap">
+  <button data-tab="test" class="on">Test</button>
+  <button data-tab="results" id="tab-btn-results" hidden>My results</button>
+  <button data-tab="report">Class report</button>
+  <button data-tab="teacher" id="tab-btn-teacher">Teacher</button>
+</div></nav>
+
+<main><div class="wrap">
+
+  <!-- ============ TEST ============ -->
+  <section id="tab-test">
+    <div class="card" id="start-card">
+      <h2>Before you start</h2>
+      <p class="sub">Enter your name as on the class list, choose the skills you want to take, and press <b>Start</b>. Each skill has its own clock; inside a skill, every part shows the time you should give it.</p>
+      <div class="two">
+        <div class="field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" placeholder="e.g. Nguyen Van A" maxlength="80"></div>
+        <div class="field"><label for="f-sid">Class / ID (optional)</label><input id="f-sid" placeholder="e.g. CH – 12" maxlength="40"></div>
+      </div>
+      <h3>What to take</h3>
+      <p class="sub">Tick a whole skill, or only the parts you want to practise. The clock of a skill is the sum of the parts you choose.</p>
+      <div class="skills" id="skill-pick"></div>
+      <p class="sub" id="pick-summary" style="margin-top:10px"></p>
+      <h3>Mode</h3>
+      <div class="modes" id="mode-pick">
+        <label class="mode on"><input type="radio" name="mode" value="exam" checked><span><b>Exam mode</b><br><small>Clocks count down and close each skill when time is up. Each recording plays once, as in the real test.</small></span></label>
+        <label class="mode"><input type="radio" name="mode" value="practice"><span><b>Practice mode</b><br><small>Same test, but the clocks only warn you, and you can replay the recordings.</small></span></label>
+      </div>
+      <h3>Time plan</h3>
+      <table class="plan"><thead><tr><th>Skill / part</th><th>What you do</th><th class="num">Time</th><th class="num">Marks</th></tr></thead><tbody id="plan-body"></tbody></table>
+      <ul class="rules">
+        <li>Reading and Listening are marked automatically (75 objective marks). Writing and Speaking get a structure check, a checklist and a sample answer; the teacher gives the final mark.</li>
+        <li>After you finish, every question shows the correct answer, why it is correct, and the sentence in the text or recording that proves it.</li>
+        <li>You can leave and come back: your answers and the clocks are kept on this device until you submit.</li>
+        <li>Use headphones for Listening and allow the microphone for Speaking (nothing is uploaded; recordings stay in your browser).</li>
+      </ul>
+      <div id="closed-note" class="note-box" hidden style="margin-top:14px"></div>
+      <p style="margin:18px 0 0"><button class="btn" id="btn-start">Start the test</button></p>
+    </div>
+
+    <div id="quiz" hidden>
+      <div class="sk-nav" id="sk-nav"></div>
+      <div class="testbar" id="testbar">
+        <div class="time" id="timer">60:00<small id="timer-lbl">Reading</small></div>
+        <div class="mid"><div class="lbl"><span id="who"></span><span id="mid-right"></span></div><div class="track"><div class="fill" id="prog-fill"></div></div></div>
+        <button class="layout-btn" id="btn-layout" title="Passage beside or above the questions">⇆ Layout</button>
+        <span style="display:flex;gap:6px"><button class="btn ghost sm" id="btn-exit" title="Leave this attempt and go back to the start page">Exit</button><button class="btn sm" id="btn-finish-top">Finish section</button></span>
+      </div>
+      <div id="section-intro" hidden></div>
+      <div id="section-body" hidden class="shell">
+        <div>
+          <div class="parts-nav" id="parts-nav"></div>
+          <div id="part-host"></div>
+          <div class="card submit-row"><div class="note" id="finish-note"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" id="btn-prev-part">Previous part</button><button class="btn purple" id="btn-next-part">Next part</button><button class="btn" id="btn-finish">Finish section</button></div></div>
+        </div>
+        <aside class="palette" id="palette"></aside>
+      </div>
+    </div>
+
+    <div class="card" id="reset-note" hidden><h2>Your previous attempt was cleared</h2><p class="sub">The teacher has allowed you to take the test again. Enter your name above and press Start.</p></div>
+    <div class="card" id="done-card" hidden>
+      <h2>You have submitted this test</h2>
+      <p class="sub">Your answers are locked. Open <a href="#" data-go="results">My results</a> for your scores, every explanation and the evidence in the texts, or <a href="#" data-go="report">Class report</a> for the ranking.</p>
+      <p style="margin:6px 0 0"><button class="btn ghost" id="btn-again">Back to the start page · take another part</button></p>
+      <p class="sub" style="margin:8px 0 0;font-size:13px">A new attempt is saved separately; the ranking keeps your first attempt.</p>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section id="tab-results" hidden>
+    <div class="card">
+      <div class="hero">
+        <div class="score" id="r-score">0<small> / 75</small></div>
+        <div class="facts" id="r-facts"></div>
+      </div>
+      <div class="status" id="r-status"><span class="dot"></span><span>Saving to the class sheet…</span></div>
+    </div>
+    <div class="card">
+      <h2>Time used against the plan</h2>
+      <p class="sub">Suggested time for each part and the time you actually spent on it. Orange means you went over.</p>
+      <div class="tbl-wrap"><table class="tm" id="r-time"></table></div>
+    </div>
+    <div class="card">
+      <h2>Score by part</h2>
+      <div class="bars" id="r-parts"></div>
+    </div>
+    <div class="card review">
+      <h2>Answer review</h2>
+      <p class="sub">Each question: your answer, the key, why, and the evidence. Press <b>Show in text</b> to open the passage or script with the sentence highlighted.</p>
+      <div class="filter"><button class="toggle on" data-f="all">All questions</button><button class="toggle" data-f="wrong">Only my mistakes</button></div>
+      <div id="r-review"></div>
+    </div>
+    <div id="r-writing"></div>
+    <div id="r-speaking"></div>
+  </section>
+
+  <!-- ============ REPORT ============ -->
+  <section id="tab-report" hidden>
+    <div class="toolbar">
+      <div class="st" id="rp-status">Loading…</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="btn-refresh">Refresh</button><button class="btn ghost sm" id="btn-csv">Download CSV</button></div>
+    </div>
+    <div id="rp-note" class="note-box" hidden style="margin-bottom:14px"></div>
+    <div class="kpis" id="rp-kpis"></div>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card">
+        <h2>Score distribution</h2>
+        <p class="sub">Students per band of the objective score (Reading + Listening, out of 10).</p>
+        <div class="cols" id="rp-dist"></div>
+        <div class="xl"><span>0–1.9</span><span>2–3.9</span><span>4–5.9</span><span>6–7.9</span><span>8–10</span></div>
+      </div>
+      <div class="card">
+        <h2>Accuracy by part</h2>
+        <p class="sub">Share of correct answers on each part of Reading and Listening.</p>
+        <div class="bars" id="rp-partsacc"></div>
+      </div>
+    </div>
+    <div class="card" id="rank-card">
+      <h2>Ranking</h2>
+      <p class="sub">Objective score, then time, then submission time. Click a column header to re-sort. Only the first attempt of each student is ranked.</p>
+      <div class="tbl-wrap"><table class="tbl" id="rp-rank"><thead><tr>
+        <th data-k="rank" class="num sorted">#</th><th data-k="name">Name</th><th data-k="sid">Class / ID</th><th data-k="score10" class="num">/10</th><th data-k="reading" class="num">Reading</th><th data-k="listening" class="num">Listening</th><th data-k="timeSec" class="num">Time</th><th data-k="submittedAt">Submitted</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Common mistakes</h2>
+      <p class="sub">Questions with the highest error rate and the wrong answer chosen most often.</p>
+      <div id="rp-lock" class="lock"><p style="margin:0">This section shows correct answers. It unlocks after you submit the test, or when a teacher <a href="#" data-go="teacher">signs in</a>.</p></div>
+      <div id="rp-mistakes" hidden></div>
+    </div>
+  </section>
+
+  <!-- ============ TEACHER ============ -->
+  <section id="tab-teacher" hidden>
+    <div class="card" id="login-card">
+      <h2>Teacher sign-in</h2>
+      <p class="sub">Teachers can see the full class report, read every student's writing and export results. The administrator can also open or close the test and manage submissions.</p>
+      <div class="two">
+        <div class="field"><label for="l-name">Name</label><input id="l-name" autocomplete="username" placeholder="Teacher name"></div>
+        <div class="field"><label for="l-pass">Password</label>
+          <div class="pw-wrap">
+            <input id="l-pass" type="password" autocomplete="current-password">
+            <button type="button" class="pw-toggle" id="btn-pw-toggle" aria-label="Show password" tabindex="-1">Show</button>
+          </div>
+        </div>
+      </div>
+      <label class="remember"><input type="checkbox" id="l-remember"><span>Remember me on this device</span></label>
+      <div class="status err" id="l-err" hidden><span class="dot"></span><span></span></div>
+      <p style="margin:10px 0 0"><button class="btn" id="btn-login">Sign in</button></p>
+    </div>
+    <div id="teacher-panel" hidden>
+      <div class="card"><div class="toolbar" style="margin:0"><div><b id="t-name"></b> <span class="chip or" id="t-role"></span></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ghost sm" href="#" data-go="report" style="text-decoration:none;display:inline-block">Class report</a><button class="btn ghost sm" id="btn-signout">Sign out</button></div></div></div>
+      <div class="card" id="admin-settings">
+        <h2>Test settings</h2>
+        <p class="sub" id="settings-hint">Changes apply to every student the next time the page loads.</p>
+        <div class="two">
+          <div class="field"><label for="s-open">Test status</label><select id="s-open" class="sel"><option value="1">Open — students can start</option><option value="0">Closed — students cannot start</option></select></div>
+          <div class="field"><label for="s-rank">Ranking visible to students</label><select id="s-rank" class="sel"><option value="1">Yes — everyone sees the ranking</option><option value="0">No — teachers only</option></select></div>
+          <div class="field"><label for="s-pass">Pass mark (out of 10)</label><input id="s-pass" type="number" min="0" max="10" step="0.5"></div>
+        </div>
+        <div class="field"><label for="s-msg">Message on the start page (optional)</label><input id="s-msg" maxlength="200" placeholder="e.g. Deadline: Friday 20:00"></div>
+        <div class="toolbar" style="margin:0"><div class="status" id="s-status" hidden><span class="dot"></span><span></span></div><button class="btn" id="btn-save-settings">Save settings</button></div>
+      </div>
+      <div class="card" id="admin-subs">
+        <h2>Submissions</h2>
+        <p class="sub">Every attempt, newest first. Press <b>Writing</b> to read a student's two texts. <span id="subs-admin-hint">Delete all of a student's attempts to let them take the test again.</span></p>
+        <div class="toolbar"><div class="st" id="subs-status"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="btn-subs-refresh">Refresh</button><button class="btn ghost sm" id="btn-subs-csv">Download CSV</button><button class="btn sm" id="btn-clear-all" style="background:var(--bad)">Delete all results</button></div></div>
+        <div class="tbl-wrap"><table class="tbl" id="subs-tbl"><thead><tr><th>Submitted</th><th>Name</th><th>Class / ID</th><th class="num">R /40</th><th class="num">L /35</th><th class="num">W words</th><th class="num">Time</th><th></th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+</div></main>
+<footer>Unit 1 Mock Test · Fashion Matters · VSTEP B2 format</footer>
+<div class="tip" id="tip"></div>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-msg"><div class="modal-box"><p id="modal-msg"></p><div class="modal-btns"><button class="btn ghost" id="modal-cancel">Go back</button><button class="btn" id="modal-ok">Submit</button></div></div></div>
+<div class="modal" id="view-modal" hidden role="dialog" aria-modal="true"><div class="modal-box wide"><div id="view-body"></div><div class="modal-btns" style="margin-top:14px"><button class="btn ghost" id="view-close">Close</button></div></div></div>
+<script>
+(function () {
+'use strict';
+
+/* ====================== CONFIG ====================== */
+const CONFIG = {
+  API_URL: 'https://script.google.com/macros/s/AKfycbxQgnpGseAexcKz0fXq030Q5aaxp3_8BOBwh8fqmPbGO1rTueCFCJvOvLJIZMlDaxSp3A/exec', // Google Apps Script web-app URL
+  TEST_ID: 'b2-unit-1-fashion-matters-mock-test',
+  LOCAL_USERS: [],   // accounts live only in the Apps Script backend, never in this page
+  PASS_MARK: 5.5,
+  KEY: 'b2-unit-1-fashion-matters-mock-test',            // localStorage namespace; change to reset every device
+  CSV_PREFIX: 'B2-Unit-1-fashion-matters-mock-test'
+};
+
+const TEST = {"readingDirections":"In this section of the test, you will read FOUR different passages, each followed by 10 questions about it. For questions 1–40, you are to choose the best answer A, B, C or D to each question. Then, on your answer sheet, find the number of the question and fill in the space that corresponds to the letter of the answer you have chosen. Answer all questions following a passage on the basis of what is stated or implied in that passage. You have 60 minutes to answer all the questions, including the time to transfer your answers to the answer sheet.","reading":[{"id":"R1","title":"Goodbye to the Tie?","paras":["Walk into almost any bank in London or Singapore today and you will see something that would have shocked a manager thirty years ago: staff in open-necked shirts, and a few of them in trainers. The suit and tie, once the uniform of every serious office worker, is slowly disappearing from many workplaces.","The change began in technology companies, where young founders wanted their firms to look relaxed and creative. It spread quickly. Many large employers now have a smart-casual dress code, and some have replaced written rules with a simple instruction to “dress for your day”. An employee who is meeting clients puts on a jacket; one who is spending the day at a desk does not have to.","Employers give two main reasons for the change. The first is recruitment: younger workers say they feel more comfortable and work better when they can choose what to wear, and companies want to attract them. The second is cost. A good suit is expensive, and staff on lower salaries were spending a large part of their income just to fit in with their managers.","Not everyone is happy about it. Some older employees say they no longer know what is expected of them, and that a clear rule was easier to follow than an instruction to use their own judgement. Others worry that clients will take them less seriously. A lawyer in a faded sweatshirt, they argue, is nowhere near as reassuring as one in a well-cut suit.","Perhaps the most interesting effect is that relaxed dress codes have not made choosing clothes easier. Smart-casual turns out to be far harder to get right than a suit, which only needs a shirt and a tie that go with it. Many workers admit that they now take longer to decide what to put on in the morning than they did when the rules were strict."],"items":[{"id":"R1","n":1,"q":"What is the passage mainly about?","opts":["Why banks in London have stricter rules than banks in Singapore","How and why office dress codes have become more relaxed","The history of the suit and tie in Europe","Advice for office workers who have to meet clients"],"a":1,"exp":"The first paragraph says the suit and tie is disappearing, and the rest of the passage explains where the change began, why employers made it and what it has led to.","ev":[{"p":0,"t":"The suit and tie, once the uniform of every serious office worker, is slowly disappearing from many workplaces."}]},{"id":"R2","n":2,"q":"According to paragraph 2, where did the move towards relaxed dress codes begin?","opts":["In banks","In law firms","In clothes shops","In technology companies"],"a":3,"exp":"Paragraph 2 opens by saying the change began in technology companies. Banks and lawyers appear only as examples elsewhere.","ev":[{"p":1,"t":"The change began in technology companies, where young founders wanted their firms to look relaxed and creative."}]},{"id":"R3","n":3,"q":"The word “founders” in paragraph 2 is closest in meaning to","opts":["people who start a company","people who buy shares","people who design clothes","people who look after new employees"],"a":0,"exp":"The founders are the people who set up the technology firms and decided how they should look.","ev":[{"p":1,"t":"young founders wanted their firms to look relaxed and creative"}]},{"id":"R4","n":4,"q":"An employee who follows the rule “dress for your day” would most probably","opts":["wear a suit every day","wear the same clothes as the manager","wear a jacket only on days with client meetings","wear a uniform that the company provides and washes"],"a":2,"exp":"The rule means dressing for what you are doing that day: a jacket for meeting clients, nothing formal for a day at a desk.","ev":[{"p":1,"t":"An employee who is meeting clients puts on a jacket; one who is spending the day at a desk does not have to."}]},{"id":"R5","n":5,"q":"The word “them” in paragraph 3 (“companies want to attract them”) refers to","opts":["younger workers","employers","managers","clients"],"a":0,"exp":"Companies want to attract the younger workers mentioned earlier in the same sentence, who work better when they choose their clothes.","ev":[{"p":2,"t":"younger workers say they feel more comfortable and work better when they can choose what to wear, and companies want to attract them"}]},{"id":"R6","n":6,"q":"Why does the writer mention staff on lower salaries?","opts":["To show that suits are cheaper than they used to be","To explain what it cost them to dress like their managers","To argue that managers should earn less","To show that younger workers prefer trainers"],"a":1,"exp":"The point is cost: lower-paid staff spent a large part of their income on suits just to fit in with their managers.","ev":[{"p":2,"t":"staff on lower salaries were spending a large part of their income just to fit in with their managers"}]},{"id":"R7","n":7,"q":"Which of the following is NOT given as a worry about relaxed dress codes?","opts":["Staff are not sure what is expected of them","Clients may take staff less seriously","A clear rule was easier to follow","Casual clothes are less hygienic"],"a":3,"exp":"Paragraph 4 lists uncertainty, a preference for clear rules and the reaction of clients. Hygiene is never mentioned.","ev":[{"p":3,"t":"Some older employees say they no longer know what is expected of them"},{"p":3,"t":"a clear rule was easier to follow than an instruction to use their own judgement"},{"p":3,"t":"Others worry that clients will take them less seriously."}]},{"id":"R8","n":8,"q":"It can be inferred from paragraph 4 that people who dislike relaxed dress codes believe that","opts":["younger workers should be paid more","trainers are bad for the feet","clothes affect how much clients trust a professional","employers should give every worker a free suit"],"a":2,"exp":"They compare a lawyer in a sweatshirt with one in a suit and find the first less reassuring, so they believe clothes shape how far clients trust someone.","ev":[{"p":3,"t":"A lawyer in a faded sweatshirt, they argue, is nowhere near as reassuring as one in a well-cut suit."}]},{"id":"R9","n":9,"q":"The phrase “get right” in paragraph 5 is closest in meaning to","opts":["put on quickly","do correctly","make cheaper","buy easily"],"a":1,"exp":"Smart-casual is hard to get right because it is hard to do correctly; a suit needs only a matching shirt and tie.","ev":[{"p":4,"t":"Smart-casual turns out to be far harder to get right than a suit, which only needs a shirt and a tie that go with it."}]},{"id":"R10","n":10,"q":"What is the writer’s main point in the last paragraph?","opts":["Relaxed rules have made dressing for work harder for many people","Suits are more fashionable than smart-casual clothes","Office workers should go back to wearing ties","Companies should write longer and clearer dress codes for new staff"],"a":0,"exp":"The paragraph argues that the new freedom has not made choosing clothes easier: workers now take longer to decide what to wear.","ev":[{"p":4,"t":"Perhaps the most interesting effect is that relaxed dress codes have not made choosing clothes easier."}]}]},{"id":"R2","title":"A Full Wardrobe and Nothing to Wear","paras":["Open the wardrobe of an average young adult in a big city and you will probably find it packed. Yet many of the same people say, almost every morning, that they have nothing to wear. The complaint is an old one, but the reason behind it has changed.","Twenty years ago, most high-street shops brought out new collections twice a year, one for spring and summer and one for autumn and winter. Today some fast-fashion brands add new designs to their websites every week. Prices have fallen at the same time, so a T-shirt can cost less than a cup of coffee, and a dress seen on a model on Monday can be in a shopper’s home by Wednesday.","The result is that people buy far more clothes than their parents did and keep them for a much shorter time. When Hannah Reid, a researcher in Manchester, asked two hundred students to keep a diary of what they wore for a month, she found that they wore fewer than half the clothes they owned. Some items still had the price label on.","Why do people keep buying? Price is part of it: when a shirt is so cheap, taking it back because it does not fit hardly seems worth the trouble. Social media is another reason. Many young people say they do not like to be photographed in the same outfit twice, so they feel they need something new for every party or trip. Reid calls this “the photo problem”.","There is also a cost that shoppers do not see. Cheap clothes are usually made from polyester, which comes from oil, and they are often so badly made that they cannot be passed on or sold second-hand. Most end up in landfill or are burnt.","Reid does not think the answer is to stop buying clothes altogether. Her advice is simpler: before buying anything, ask yourself whether you will wear it at least thirty times, and if the answer is no, walk away. It sounds strict, she admits, but her students who tried it for a term said they had spent less and, to their surprise, found getting dressed much easier."],"items":[{"id":"R11","n":11,"q":"What is the passage mainly about?","opts":["How clothes are made from oil","How clothes shops choose their spring and summer collections","Why people buy so many clothes and wear so few of them","How to sell clothes second-hand"],"a":2,"exp":"The passage explains why wardrobes are full (more buying, cheaper prices, social media) and why so little of it is worn.","ev":[{"p":2,"t":"The result is that people buy far more clothes than their parents did and keep them for a much shorter time."}]},{"id":"R12","n":12,"q":"According to paragraph 2, how often did most high-street shops bring out new collections twenty years ago?","opts":["Twice a year","Once a year","Every month","Every week"],"a":0,"exp":"There was one collection for spring and summer and one for autumn and winter. Every week describes some fast-fashion brands today.","ev":[{"p":1,"t":"Twenty years ago, most high-street shops brought out new collections twice a year"}]},{"id":"R13","n":13,"q":"Why does the writer mention a cup of coffee?","opts":["To show that coffee has become expensive","To describe what shoppers do between shops","To compare two kinds of shop","To show how cheap some clothes have become"],"a":3,"exp":"A T-shirt that costs less than a coffee is an example of how far clothes prices have fallen.","ev":[{"p":1,"t":"so a T-shirt can cost less than a cup of coffee"}]},{"id":"R14","n":14,"q":"What did Hannah Reid find in her study?","opts":["The students owned fewer clothes than their parents did","The students wore less than half of their clothes","The students bought most of their clothes online","The students threw clothes away after one month"],"a":1,"exp":"The diaries showed that the students wore fewer than half the clothes they owned during the month.","ev":[{"p":2,"t":"she found that they wore fewer than half the clothes they owned"}]},{"id":"R15","n":15,"q":"The word “packed” in paragraph 1 is closest in meaning to","opts":["neatly organised","almost empty","completely full","locked"],"a":2,"exp":"The wardrobe is packed, that is, full of clothes. This is the contrast the writer draws with people saying they have nothing to wear.","ev":[{"p":0,"t":"Open the wardrobe of an average young adult in a big city and you will probably find it packed."}]},{"id":"R16","n":16,"q":"What does “the photo problem” most probably refer to?","opts":["Clothes in online photos look better than the real items","Many people dislike having their photo taken","Photos of models are often edited","The wish not to be seen twice in the same outfit"],"a":3,"exp":"Reid uses the name for young people’s dislike of appearing in the same outfit in two sets of photos, which makes them buy more.","ev":[{"p":3,"t":"Many young people say they do not like to be photographed in the same outfit twice, so they feel they need something new for every party or trip."}]},{"id":"R17","n":17,"q":"The word “they” in paragraph 5 (“they are often so badly made”) refers to","opts":["cheap clothes","shoppers","second-hand shops","oil companies"],"a":0,"exp":"The sentence is about cheap clothes: they are made from polyester and they are often badly made.","ev":[{"p":4,"t":"Cheap clothes are usually made from polyester, which comes from oil, and they are often so badly made that they cannot be passed on or sold second-hand."}]},{"id":"R18","n":18,"q":"According to paragraph 5, which of the following is NOT true of cheap clothes?","opts":["They are often made from polyester","They are hard to wash at home","Many of them cannot be sold second-hand","Most of them end up in landfill or are burnt"],"a":1,"exp":"Polyester, the second-hand problem and landfill are all in paragraph 5. Washing is not mentioned.","ev":[{"p":4,"t":"Cheap clothes are usually made from polyester"},{"p":4,"t":"they cannot be passed on or sold second-hand"},{"p":4,"t":"Most end up in landfill or are burnt."}]},{"id":"R19","n":19,"q":"What does Reid advise shoppers to do?","opts":["Stop buying new clothes completely for at least a year","Buy only second-hand clothes","Take a photo of every outfit","Buy only what they expect to wear at least thirty times"],"a":3,"exp":"Her rule is to ask whether you will wear an item thirty times and to walk away if not. She says the answer is not to stop buying altogether.","ev":[{"p":5,"t":"before buying anything, ask yourself whether you will wear it at least thirty times"}]},{"id":"R20","n":20,"q":"It can be inferred that the students who tried Reid’s rule","opts":["could not follow it for a whole term","spent more money than before","found that it had an unexpected benefit","thought it was too strict to be useful"],"a":2,"exp":"They spent less, as the rule intends, and to their surprise found that getting dressed was also easier.","ev":[{"p":5,"t":"her students who tried it for a term said they had spent less and, to their surprise, found getting dressed much easier"}]}]},{"id":"R3","title":"Size Zero and the Mirror","paras":["For most of the last forty years, the women on the world’s catwalks have been much thinner than the women in the audience. A typical model today is several sizes smaller than the average customer who buys the clothes she shows, and she is often younger than twenty.","Fashion houses have their reasons, or at least their explanations. Designers say that clothes hang better on a very slim figure, and that samples are made in one small size to save money. Casting directors add that the look of a show has to be consistent, so everyone who walks in it must fit the same dress.","Doctors see the problem differently. Dr Sarah Lowe, who has treated young people with eating disorders for fifteen years, says that many of her patients describe the same moment: the first time they compared themselves with a model and decided that their own body was wrong. “Nobody develops an eating disorder because of one photograph,” she says. “But when every image you see shows the same figure, you start to think that figure is normal. It isn’t. For most people it is not even possible.”","A few governments have decided to act. Some now require models to have a certificate from a doctor showing that they are healthy, and at least one has banned agencies from employing models whose weight is dangerously low. Others require advertisers to state when a photograph has been digitally changed, so that viewers know the thin arms and perfect skin are not real.","The industry has also started to change on its own. Several well-known brands now use models of different sizes and ages in their advertising, and a number of them report that sales have gone up rather than down. Customers, it seems, like to see clothes on people who look a little more like them.","Dr Lowe welcomes these steps, but she doubts that they will be enough. Magazines matter less than they did, she points out. Most of the pressure now comes from social media, where young people compare themselves with friends as well as with celebrities, and where filters make everyone look slimmer than they are. “We have spent years arguing with the fashion industry,” she says. “The harder conversation now is with ourselves.”"],"items":[{"id":"R21","n":21,"q":"What is the passage mainly about?","opts":["How fashion shows are planned and organised in Europe","Why designers make all their samples in one small size","The daily work of casting directors at fashion shows","Thin models and the way young people see their bodies"],"a":3,"exp":"The passage moves from the thinness of models to its effect on young patients, then to what governments and brands have done about it.","ev":[{"p":0,"t":"For most of the last forty years, the women on the world’s catwalks have been much thinner than the women in the audience."},{"p":2,"t":"But when every image you see shows the same figure, you start to think that figure is normal."}]},{"id":"R22","n":22,"q":"According to paragraph 2, why are samples made in one small size?","opts":["Because customers prefer small sizes","To save money","Because most models are young","Because a show must look consistent"],"a":1,"exp":"Designers give saving money as the reason for the single sample size. Consistency is the casting directors’ reason for choosing models who fit the same dress.","ev":[{"p":1,"t":"samples are made in one small size to save money"}]},{"id":"R23","n":23,"q":"The word “consistent” in paragraph 2 is closest in meaning to","opts":["expensive","surprising and exciting","the same throughout","modern"],"a":2,"exp":"A consistent look is the same from start to finish, which is why every model must fit the same dress.","ev":[{"p":1,"t":"Casting directors add that the look of a show has to be consistent, so everyone who walks in it must fit the same dress."}]},{"id":"R24","n":24,"q":"What do many of Dr Lowe’s patients remember?","opts":["Comparing their body with a model’s for the first time","Seeing one photo that made them ill","Being told by a doctor that they were too thin","Working as models in fashion shows when they were teenagers"],"a":0,"exp":"They describe the first time they compared themselves with a model and decided their body was wrong. Dr Lowe says one photo alone does not cause the illness.","ev":[{"p":2,"t":"the first time they compared themselves with a model and decided that their own body was wrong"}]},{"id":"R25","n":25,"q":"The word “It” in paragraph 3 (“It isn’t.”) refers to","opts":["one photograph","the figure shown in the images","an eating disorder","the moment of comparison"],"a":1,"exp":"People start to think the figure in the images is normal; Dr Lowe answers that it is not.","ev":[{"p":2,"t":"you start to think that figure is normal. It isn’t."}]},{"id":"R26","n":26,"q":"What does Dr Lowe mean when she says “For most people it is not even possible”?","opts":["Most people could never become models","Most people cannot afford designer clothes","Most people could never reach that body shape","Most people cannot stop looking at photos"],"a":2,"exp":"The figure in the images is out of reach: most bodies simply cannot become that thin.","ev":[{"p":2,"t":"For most people it is not even possible."}]},{"id":"R27","n":27,"q":"Which of the following is NOT mentioned as a step taken by governments?","opts":["Asking models for a doctor’s certificate","Banning agencies from employing dangerously thin models","Making advertisers say when photos have been changed","Limiting the number of fashion shows each year"],"a":3,"exp":"Paragraph 4 names certificates, a ban on agencies and labels on changed advertising photos. Nothing is said about the number of shows.","ev":[{"p":3,"t":"require models to have a certificate from a doctor showing that they are healthy"},{"p":3,"t":"one has banned agencies from employing models whose weight is dangerously low"},{"p":3,"t":"Others require advertisers to state when a photograph has been digitally changed"}]},{"id":"R28","n":28,"q":"According to paragraph 5, what happened when some brands used models of different sizes?","opts":["Their sales increased","Customers complained","Their prices went up","Magazines refused their adverts"],"a":0,"exp":"Several of these brands report that sales have gone up rather than down.","ev":[{"p":4,"t":"a number of them report that sales have gone up rather than down"}]},{"id":"R29","n":29,"q":"According to Dr Lowe, where does most of the pressure on young people come from now?","opts":["Magazines","The fashion industry","Social media","Their doctors"],"a":2,"exp":"She says magazines matter less than before and that most of the pressure now comes from social media and its filters.","ev":[{"p":5,"t":"Most of the pressure now comes from social media"}]},{"id":"R30","n":30,"q":"Which of the following best describes Dr Lowe’s attitude to the recent changes?","opts":["Angry","Cautiously positive","Completely satisfied","Not interested"],"a":1,"exp":"She welcomes the steps but doubts they will be enough, because most of the pressure has moved to social media.","ev":[{"p":5,"t":"Dr Lowe welcomes these steps, but she doubts that they will be enough."}]}]},{"id":"R4","title":"Real or Fake?","paras":["Anyone who has walked through a busy tourist market in almost any big city has probably been offered a “designer” handbag at a fraction of the price it would cost in a shop. Counterfeit fashion goods, or knock-offs, are now sold almost everywhere, from street stalls to websites that look exactly like those of the brands they copy.","The trade is huge, and it has grown with online shopping. Twenty years ago, a buyer usually knew when a bag was fake: it was sold from a blanket on the pavement and fell apart within a month. Today many copies are made in the same kind of factories as the real products, and some are so well made that even shop assistants find it hard to tell them apart.","Why do people buy them? Ask buyers, and the most common answer is simple: they want the image of a luxury brand without paying for it. A smaller group say they enjoy the feeling of getting a bargain, and some do not see any harm in it. “Nobody is hurt,” one shopper told a reporter in Rome. “The company is already making millions.”","The brands see it differently, and so do the police. Counterfeit goods reduce the sales of the genuine product, and they damage the reputation of a brand when a badly made copy falls apart and the owner blames the company whose name is on it. More seriously, the money often goes to criminal groups, and the workers who make the copies usually have no contracts and no protection. Some fake products are also dangerous: cheap sunglasses may not block harmful light, and fake cosmetics have been found to contain chemicals that are banned in most countries.","The fashion industry is now fighting back with technology. Some brands sew a tiny chip into each bag, so that a customer can use a phone to check whether it is genuine. Others print a code on the label that is recorded in an online database. A few companies have even started to sell their own second-hand goods, with a guarantee, so that customers who want a cheaper bag can buy a real one instead of a copy.","Whether any of this will work is another question. As long as there is a large gap between the price of a luxury bag and what most people can afford, somebody will make a cheaper version, and somebody will buy it. In the end, the thing most likely to shrink the trade is a change in what buyers think is worth paying for, and that is much harder to produce than a chip."],"items":[{"id":"R31","n":31,"q":"What is the passage mainly about?","opts":["The trade in fake fashion goods and efforts to stop it","How tourists can recognise a fake handbag in a market","Why luxury brands charge such high prices","The history of tourist markets"],"a":0,"exp":"The passage describes how big the counterfeit trade is, why people buy fakes, the harm they do and how brands are fighting back.","ev":[{"p":0,"t":"Counterfeit fashion goods, or knock-offs, are now sold almost everywhere"},{"p":4,"t":"The fashion industry is now fighting back with technology."}]},{"id":"R32","n":32,"q":"According to paragraph 2, how were fake bags different twenty years ago?","opts":["They were more expensive","They were sold only online","They were easy to recognise as fakes","They were made in the same factories"],"a":2,"exp":"A buyer usually knew a bag was fake because of where it was sold and how quickly it fell apart. Same-factory copies are a feature of today.","ev":[{"p":1,"t":"Twenty years ago, a buyer usually knew when a bag was fake"}]},{"id":"R33","n":33,"q":"The phrase “tell them apart” in paragraph 2 is closest in meaning to","opts":["sell them separately to different customers","see the difference between them","report them to the police","take them to pieces"],"a":1,"exp":"The copies are so good that even shop assistants find it hard to see which bag is real and which is fake.","ev":[{"p":1,"t":"some are so well made that even shop assistants find it hard to tell them apart"}]},{"id":"R34","n":34,"q":"What is the most common reason people give for buying fakes?","opts":["They enjoy the feeling of getting a bargain","They see no harm in buying them","They cannot find the genuine product in local shops","They want a luxury image at a low price"],"a":3,"exp":"The most common answer is wanting the image of a luxury brand without paying for it. The bargain and the no-harm answers come from smaller groups.","ev":[{"p":2,"t":"they want the image of a luxury brand without paying for it"}]},{"id":"R35","n":35,"q":"The shopper who said “Nobody is hurt” believes that","opts":["buying fakes does no real harm to the brands","fake bags are better made than real ones","shop assistants cannot spot fakes","the police should do more"],"a":0,"exp":"The shopper argues that the company is already making millions, so a fake purchase does not really hurt it.","ev":[{"p":2,"t":"The company is already making millions."}]},{"id":"R36","n":36,"q":"Which of the following is NOT mentioned as a problem caused by counterfeit goods?","opts":["Lower sales for the genuine brands","Money going to criminal groups","Dangerous chemicals in some products","Higher taxes for shoppers"],"a":3,"exp":"Paragraph 4 mentions lost sales, criminal groups and banned chemicals. Taxes are never mentioned.","ev":[{"p":3,"t":"Counterfeit goods reduce the sales of the genuine product"},{"p":3,"t":"the money often goes to criminal groups"},{"p":3,"t":"fake cosmetics have been found to contain chemicals that are banned in most countries"}]},{"id":"R37","n":37,"q":"Why does the writer mention sunglasses?","opts":["To show that fake sunglasses are the most popular item with tourists","To compare the prices of fashion items","To give an example of a fake product that can be dangerous","To explain how brands use chips"],"a":2,"exp":"Cheap fake sunglasses may not block harmful light, so they illustrate the point that some fakes are dangerous.","ev":[{"p":3,"t":"cheap sunglasses may not block harmful light"}]},{"id":"R38","n":38,"q":"Where would the following sentence best fit? “This makes life much harder for customs officers, who once relied on poor stitching and spelling mistakes to spot fakes.”","opts":["At the end of paragraph 1","At the end of paragraph 2","At the end of paragraph 3","At the end of paragraph 5"],"a":1,"exp":"“This” needs something that makes fakes hard to spot. Paragraph 2 ends by saying some copies are so well made that even shop assistants find it hard to tell them apart.","ev":[{"p":1,"t":"some are so well made that even shop assistants find it hard to tell them apart"}]},{"id":"R39","n":39,"q":"According to paragraph 5, why have some brands started selling their own second-hand goods?","opts":["So that customers can buy a real bag at a lower price","To reduce the number of chips they need","To get rid of old stock quickly","Because second-hand bags have become more fashionable than new ones"],"a":0,"exp":"Second-hand goods with a guarantee let customers who want a cheaper bag buy a genuine one instead of a copy.","ev":[{"p":4,"t":"so that customers who want a cheaper bag can buy a real one instead of a copy"}]},{"id":"R40","n":40,"q":"What is the writer’s view in the last paragraph?","opts":["Chips and codes will soon end the trade in fakes","Luxury brands should lower their prices","Buyers of fakes should be punished","Technology alone is unlikely to solve the problem"],"a":3,"exp":"The writer says fakes will be made and bought while the price gap remains, and that a change in buyers’ thinking is harder to produce than a chip.","ev":[{"p":5,"t":"As long as there is a large gap between the price of a luxury bag and what most people can afford, somebody will make a cheaper version, and somebody will buy it."}]}]}],"listening":[{"id":"L1","title":"Part 1 · Announcements and instructions","audio":"audio/B2-Unit-1-fashion-matters-mock-test-P1.mp3","audioMin":5.0,"instr":"In this part, you will hear EIGHT short announcements or instructions. There is one question for each announcement or instruction. For each question, choose the right answer A, B, C or D. Then, on the answer sheet, find the number of the question and fill in the space that corresponds to the letter of the answer that you have chosen.","example":"Now, let’s listen to an example. On the recording, you will hear: “Good afternoon, shoppers. Our summer sale finishes at eight o’clock this evening, although the store itself stays open until nine. All swimwear on the second floor is now half price. Thank you for shopping with us.” On the test book, you will read: When does the sale end? A. 6:00  B. 7:30  C. 8:00  D. 9:00. The correct answer is C. 8:00. Now, let’s begin with the first question.","blocks":[{"intro":"Question 1.","script":[{"who":"","t":"This is a message for all theatre staff. From Monday the fifth of October, clean scrubs will be collected from the laundry room on the ground floor, not from the changing rooms on the third floor. The laundry room is open twenty-four hours a day. Used scrubs go in the blue bins next to the lifts."}],"items":[{"id":"L1","n":1,"q":"From Monday, where will theatre staff collect clean scrubs?","opts":["The laundry room on the ground floor","The changing rooms on the third floor","The main entrance","The store room next to the operating theatre"],"a":0,"exp":"The scrubs move to the ground-floor laundry room; the speaker says they will no longer come from the third-floor changing rooms.","ev":[{"p":0,"t":"clean scrubs will be collected from the laundry room on the ground floor"}]}]},{"intro":"Question 2.","script":[{"who":"","t":"Good morning, delegates, and a quick reminder about this evening. The conference dinner starts at seven thirty in the hotel’s main hall. You don’t need a jacket and tie, but please don’t turn up in jeans and trainers either. Coaches back to the city centre will leave from the front of the hotel at a quarter past ten. And please bring your name badge."}],"items":[{"id":"L2","n":2,"q":"What should delegates wear to the dinner?","opts":["A jacket and tie","Jeans and trainers","Something smart but not formal","A long evening dress or a dinner jacket"],"a":2,"exp":"A jacket and tie are not needed, but jeans and trainers are too casual, so delegates should choose something smart but not formal.","ev":[{"p":0,"t":"You don’t need a jacket and tie, but please don’t turn up in jeans and trainers either."}]}]},{"intro":"Question 3.","script":[{"who":"","t":"Hello, this is Karen from Brightwear customer service, calling about the boots you sent back last week. We’ve checked them, and you’re right, the sole of the left boot was coming away. We haven’t got another pair in your size, so we’ve given you a full refund instead. It should appear in your account within five working days."}],"items":[{"id":"L3","n":3,"q":"What has the company decided to do?","opts":["Send a new pair in the same size","Give the customer their money back","Repair the sole of the left boot","Offer the boots in a different colour"],"a":1,"exp":"There is no replacement pair in the customer’s size, so the company has given a full refund.","ev":[{"p":0,"t":"We haven’t got another pair in your size, so we’ve given you a full refund instead."}]}]},{"intro":"Question 4.","script":[{"who":"","t":"Attention, please. A dark blue woollen coat was found in the lecture hall after this morning’s session. There’s a pair of leather gloves in the pocket. If it’s yours, please collect it from the security office next to the library before six o’clock. After that, it will be kept at the main reception until Friday."}],"items":[{"id":"L4","n":4,"q":"Where can the owner collect the coat before six o’clock?","opts":["The lecture hall","The main reception","The library","The security office"],"a":3,"exp":"Before six the coat is at the security office, which is next to the library. It goes to the main reception only after six.","ev":[{"p":0,"t":"please collect it from the security office next to the library before six o’clock"}]}]},{"intro":"Question 5.","script":[{"who":"","t":"Tired of your wardrobe? This Saturday, the Old Town Community Centre is holding its first clothes swap. Bring up to five clean items you no longer wear, and go home with the same number of things that someone else has brought. Entry is free, and anything left at the end will go to a local charity. Doors open at nine."}],"items":[{"id":"L5","n":5,"q":"What is the main purpose of the announcement?","opts":["To advertise a new clothes shop","To invite people to exchange clothes","To ask people to give money to a charity","To announce a fashion show"],"a":1,"exp":"People bring clothes they no longer wear and take home the same number of other people’s items, so the event is a swap.","ev":[{"p":0,"t":"Bring up to five clean items you no longer wear, and go home with the same number of things that someone else has brought."}]}]},{"intro":"Question 6.","script":[{"who":"","t":"Good morning, it’s Mr Phong from the tailor’s shop on Silk Street. Your suit is almost ready, but I’d like you to come in for one more fitting before I finish the trousers. They looked a little long last time. Could you come on Thursday afternoon? If Thursday is difficult, Friday morning is fine too."}],"items":[{"id":"L6","n":6,"q":"Why does the tailor want the customer to come to the shop?","opts":["To try the suit on once more","To pay for the suit","To choose the material","To collect the finished suit"],"a":0,"exp":"He wants one more fitting because the trousers looked long; the suit is not finished yet.","ev":[{"p":0,"t":"I’d like you to come in for one more fitting before I finish the trousers"}]}]},{"intro":"Question 7.","script":[{"who":"","t":"Welcome to tonight’s graduate fashion show. Before we begin, a few requests. Please keep the aisle next to the catwalk clear at all times. You’re welcome to take photos, but please switch off your flash, as it can distract the models. And if you’d like to buy any of the designs, speak to our staff at the information desk after the show."}],"items":[{"id":"L7","n":7,"q":"Which of the following is the audience NOT asked to do?","opts":["Keep the aisle clear","Switch off camera flash","Go to the information desk to buy designs","Stay in their seats until the end"],"a":3,"exp":"The speaker mentions the aisle, the flash and the information desk. Nobody is told to stay seated.","ev":[{"p":0,"t":"Please keep the aisle next to the catwalk clear at all times."},{"p":0,"t":"please switch off your flash"},{"p":0,"t":"speak to our staff at the information desk after the show"}]}]},{"intro":"Question 8.","script":[{"who":"","t":"Hi Mai, it’s Kate. I got back from the shopping centre about an hour ago. I finally found a dress for Minh’s wedding, and it was half price! The thing is, I’ve just tried it on again at home, and it looks nothing like it did in the shop. The colour’s awful in daylight. I can’t believe I didn’t notice. Call me when you can."}],"items":[{"id":"L8","n":8,"q":"How does Kate feel about the dress now?","opts":["Excited","Relieved","Disappointed","Proud"],"a":2,"exp":"She was pleased with the price, but at home the dress looks nothing like it did in the shop and the colour is awful.","ev":[{"p":0,"t":"it looks nothing like it did in the shop. The colour’s awful in daylight."}]}]}]},{"id":"L2","title":"Part 2 · Conversations","audio":"audio/B2-Unit-1-fashion-matters-mock-test-P2.mp3","audioMin":6.3,"instr":"In this part, you will hear THREE conversations. The conversations will not be repeated. There are four questions for each conversation, and for each question you should choose the correct answer A, B, C or D.","blocks":[{"intro":"Questions 9 to 12 refer to the following conversation. Listen to a conversation between two colleagues, Lan and Mark, about what to wear to a hospital party.","script":[{"who":"Mark","t":"Lan, have you seen the invitation for the hospital’s fiftieth anniversary? It says black tie."},{"who":"Lan","t":"I saw it. I’ve been worrying about it all week. I haven’t got anything formal enough."},{"who":"Mark","t":"Neither have I. Black tie means a dinner jacket for men, and I’ve never owned one in my life."},{"who":"Lan","t":"You could hire one. There’s a shop near the station that rents them out. My brother got one there for his wedding, and it was much cheaper than buying."},{"who":"Mark","t":"That’s an idea. What about you? Are you going to buy a new dress?"},{"who":"Lan","t":"I’d rather not spend a fortune on something I’ll wear once. I was thinking of wearing my ao dai. It’s silk, and it’s easily the most elegant thing I own."},{"who":"Mark","t":"That would be perfect. Nobody could say that isn’t formal enough."},{"who":"Lan","t":"That’s what I thought. The only problem is that it’s a bit tight now. I’ll need to take it to the tailor and have it let out."},{"who":"Mark","t":"How long will that take? The party’s on the twentieth."},{"who":"Lan","t":"A few days, I think. I’ll go on Saturday. Do you want to come? The hire shop is on the same street, so you could look at the dinner jackets while I’m there."},{"who":"Mark","t":"Fine. But I’m not trying anything on in front of you."},{"who":"Lan","t":"Deal. I’ll wait outside."}],"items":[{"id":"L9","n":9,"q":"Why is Lan worried about the party?","opts":["She does not want to go","She will be working that evening","She has nothing formal to wear","She does not understand the dress code"],"a":2,"exp":"Lan says she has been worrying because she has nothing formal enough for a black-tie event.","ev":[{"p":1,"t":"I haven’t got anything formal enough."}]},{"id":"L10","n":10,"q":"What does Lan suggest Mark should do?","opts":["Hire a dinner jacket","Buy a dinner jacket","Borrow her brother’s jacket","Wear his usual suit"],"a":0,"exp":"She tells him he could hire one from a shop near the station. Her brother hired one there; he did not lend it.","ev":[{"p":3,"t":"You could hire one."}]},{"id":"L11","n":11,"q":"Why has Lan decided to wear her ao dai?","opts":["It is the newest and most expensive item in her wardrobe","Her brother advised her to wear it","Mark suggested it to her","She does not want to pay a lot for a dress she will wear once"],"a":3,"exp":"She would rather not spend a fortune on something she will wear once, so she chooses a dress she already owns.","ev":[{"p":5,"t":"I’d rather not spend a fortune on something I’ll wear once."}]},{"id":"L12","n":12,"q":"What will Lan do on Saturday?","opts":["Buy a new evening dress","Take her ao dai to a tailor","Go to the anniversary party","Try on a dinner jacket"],"a":1,"exp":"The ao dai is too tight, so she will take it to the tailor on Saturday. Mark, not Lan, may look at the jackets.","ev":[{"p":7,"t":"I’ll need to take it to the tailor and have it let out."},{"p":9,"t":"I’ll go on Saturday."}]}]},{"intro":"Questions 13 to 16 refer to the following conversation. Listen to a conversation between a customer and a shop assistant.","script":[{"who":"Customer","t":"Hi. I bought this jacket here about ten days ago, and I’d like to bring it back."},{"who":"Assistant","t":"Of course. What seems to be the problem?"},{"who":"Customer","t":"Look at the pocket. The stitching has come loose, and one of the buttons fell off the second time I wore it. For the price I paid, I expected it to be much better made than this."},{"who":"Assistant","t":"I’m sorry about that. Have you got your receipt?"},{"who":"Customer","t":"It’s on my phone. Here you are."},{"who":"Assistant","t":"Thanks. Right, you bought it in the sale, so normally we’d only offer an exchange, not a refund. But as it’s faulty, you can have either. Would you like another one in the same size?"},{"who":"Customer","t":"Honestly, I don’t think so. If one fell apart this quickly, I’m not sure the others will be any better."},{"who":"Assistant","t":"That’s fair. We’ve got a similar jacket from a different brand. It’s wool rather than cotton, and it’s slightly more expensive, but it’s far warmer."},{"who":"Customer","t":"Can I try it on?"},{"who":"Assistant","t":"Sure. The changing rooms are just behind you."},{"who":"Customer","t":"It fits well, and it feels a lot heavier than the other one. How much more is it?"},{"who":"Assistant","t":"Fifteen pounds more than the one you’re returning."},{"who":"Customer","t":"OK, I’ll take it. I’ll pay the difference."}],"items":[{"id":"L13","n":13,"q":"Why is the customer returning the jacket?","opts":["It is badly made","It is the wrong size","He found it cheaper in another shop","He does not like the colour"],"a":0,"exp":"The stitching has come loose and a button fell off, so the jacket is badly made.","ev":[{"p":2,"t":"The stitching has come loose, and one of the buttons fell off the second time I wore it."}]},{"id":"L14","n":14,"q":"What does the assistant say about items bought in the sale?","opts":["They cannot be returned at all","They can be returned for a refund at any time","They must be returned within a week","They can usually only be exchanged"],"a":3,"exp":"For sale items the shop normally offers only an exchange; this jacket is an exception because it is faulty.","ev":[{"p":5,"t":"normally we’d only offer an exchange, not a refund"}]},{"id":"L15","n":15,"q":"Why doesn’t the customer want the same jacket again?","opts":["It is too expensive now","It is not warm enough","He thinks it will have the same problem","The shop has run out of that jacket in his size"],"a":2,"exp":"Because his jacket fell apart so quickly, he doubts that another one of the same kind will be any better.","ev":[{"p":6,"t":"If one fell apart this quickly, I’m not sure the others will be any better."}]},{"id":"L16","n":16,"q":"What does the customer finally decide to do?","opts":["Get a full refund","Buy a warmer jacket and pay a little extra","Come back for another jacket later","Order the same jacket in a bigger size from another branch"],"a":1,"exp":"He chooses the woollen jacket, which is warmer, and pays the fifteen pounds difference.","ev":[{"p":12,"t":"OK, I’ll take it. I’ll pay the difference."}]}]},{"intro":"Questions 17 to 20 refer to the following conversation. Listen to a conversation between a hospital manager, Mr Evans, and a nurse, Trang, about a new uniform.","script":[{"who":"Mr Evans","t":"Thanks for coming, Trang. Your team has been wearing the new uniform on the children’s ward for a month now. I’d like to hear what they really think before we order it for the whole hospital."},{"who":"Trang","t":"Well, the colour’s a big success. The children love the light green. They say we look less frightening than the doctors in white."},{"who":"Mr Evans","t":"That’s good to hear. And the fabric? We chose a polyester mix because it’s cheaper and it dries faster."},{"who":"Trang","t":"That’s the main complaint, I’m afraid. It’s fine in the morning, but by the afternoon it’s hot and uncomfortable. On a twelve-hour shift, people would much rather have cotton, even if it costs more."},{"who":"Mr Evans","t":"How much more are we talking about?"},{"who":"Trang","t":"I asked the supplier. About fifteen percent."},{"who":"Mr Evans","t":"Hmm. I’d have to get that past the finance committee. Is there anything else?"},{"who":"Trang","t":"Just the pockets. There’s only one, and it’s too small for a phone and a notebook. Most of us have started carrying things in our hands, which is exactly what we’re trying to avoid on the ward."},{"who":"Mr Evans","t":"That should be easy to fix. Leave it with me. I’ll ask for a sample in cotton with two larger pockets, and we’ll try it on your ward for another month before anything is decided."},{"who":"Trang","t":"The team will be pleased. They were worried that the decision had already been made."}],"items":[{"id":"L17","n":17,"q":"Why does Mr Evans want to talk to Trang?","opts":["To ask her to find a cheaper supplier for the hospital uniforms","To tell her about the finance committee","To offer her a job on another ward","To find out what staff think of the new uniform"],"a":3,"exp":"He wants to hear the team’s real opinion of the uniform before ordering it for the whole hospital.","ev":[{"p":0,"t":"I’d like to hear what they really think before we order it for the whole hospital."}]},{"id":"L18","n":18,"q":"What does Trang say about the colour of the uniform?","opts":["The children find it frightening","The children like it","It looks too much like the doctors’ white coats","It fades after washing"],"a":1,"exp":"The children love the light green and say the nurses look less frightening than the doctors in white.","ev":[{"p":1,"t":"The children love the light green."}]},{"id":"L19","n":19,"q":"What is the main complaint about the uniform?","opts":["The fabric becomes uncomfortable later in the day","It is much more expensive than the uniform it replaced","The colour is too light for a hospital","It takes too long to dry"],"a":0,"exp":"The polyester mix is fine in the morning but hot and uncomfortable by the afternoon. Cotton, not the new uniform, is the more expensive option.","ev":[{"p":3,"t":"It’s fine in the morning, but by the afternoon it’s hot and uncomfortable."}]},{"id":"L20","n":20,"q":"What will happen next?","opts":["The uniform will be ordered for the whole hospital","Trang will speak to the finance committee","A new version will be tested on Trang’s ward","The team will choose a different colour"],"a":2,"exp":"Mr Evans will ask for a cotton sample with bigger pockets and try it on Trang’s ward for another month.","ev":[{"p":8,"t":"I’ll ask for a sample in cotton with two larger pockets, and we’ll try it on your ward for another month before anything is decided."}]}]}]},{"id":"L3","title":"Part 3 · Talks and lectures","audio":"audio/B2-Unit-1-fashion-matters-mock-test-P3.mp3","audioMin":9.3,"instr":"In this part, you will hear THREE talks or lectures. The talks or lectures will not be repeated. There are five questions for each talk or lecture. For each question, choose the correct answer A, B, C or D.","blocks":[{"intro":"Questions 21 to 25 refer to a talk to new junior doctors about the hospital dress code.","script":[{"who":"","t":"Good afternoon, and welcome to your first week. My name’s Claire Walsh, and I lead the infection control team. You’ll hear a lot of rules this week. Most of the ones I’m going to give you are about clothes, and every single one has a medical reason behind it."},{"who":"","t":"Let’s start with your arms. On every ward in this hospital we follow a policy called bare below the elbows. That means short sleeves, or long sleeves rolled up above the elbow, whenever you’re examining a patient. Why? Because cuffs touch everything. They brush against patients and bed rails, and then they brush against the next patient. Nobody washes their cuffs between patients, but everyone can wash their hands and wrists."},{"who":"","t":"The same logic applies to jewellery. Watches and bracelets have to come off before you start on the ward. The only ring you may wear is a plain band with no stones, because stones hold dirt that soap can’t reach. I know some of you will find that hard, especially if a ring has a personal meaning. You’re welcome to wear it on a chain round your neck, under your top."},{"who":"","t":"Now, ties. Many of you were probably told at medical school that a tie makes a doctor look professional. Here, ties aren’t allowed in clinical areas at all. When my team tested the ties of twenty doctors a few years ago, most of them carried more bacteria than the doctors’ shirts, simply because ties are almost never washed."},{"who":"","t":"Shoes are the one area where I’d ask you to put comfort first. A shift here lasts twelve hours, and you’ll spend most of it standing. Wear closed shoes that you can wipe clean. Sandals aren’t allowed, because a dropped needle can do real damage to a bare foot."},{"who":"","t":"Finally, scrubs. They belong in the hospital. Please don’t wear them to the canteen across the road or on your way home. Patients notice, and it undoes all the good work of the rules I’ve just described. Tomorrow you’ll collect your uniforms and name badges from the staff office on the second floor."}],"items":[{"id":"L21","n":21,"q":"What is the talk mainly about?","opts":["How to wash hospital uniforms","The reasons behind the hospital’s rules on clothes","How to choose comfortable shoes","The history of doctors’ white coats in Europe"],"a":1,"exp":"The speaker says most of her rules are about clothes and that each has a medical reason, then goes through them one by one.","ev":[{"p":0,"t":"Most of the ones I’m going to give you are about clothes, and every single one has a medical reason behind it."}]},{"id":"L22","n":22,"q":"According to the speaker, why must sleeves be above the elbow?","opts":["Short sleeves look more professional to patients and their families","Long sleeves are too hot on the ward","Patients prefer doctors in short sleeves","Cuffs can carry germs from one patient to another"],"a":3,"exp":"Cuffs brush against one patient and then the next, and nobody washes them between patients.","ev":[{"p":1,"t":"Nobody washes their cuffs between patients, but everyone can wash their hands and wrists."}]},{"id":"L23","n":23,"q":"What does the speaker say about rings?","opts":["Only a plain band may be worn","All rings must be removed","Rings may be worn under gloves","Rings with stones are allowed on some wards"],"a":0,"exp":"A plain band with no stones is the only ring allowed, because stones hold dirt that soap cannot reach.","ev":[{"p":2,"t":"The only ring you may wear is a plain band with no stones"}]},{"id":"L24","n":24,"q":"What did the infection control team find when they tested doctors’ ties?","opts":["Most ties were cleaner than shirts","Silk ties carried fewer bacteria","Most ties carried more bacteria than shirts","Doctors washed their ties once a week"],"a":2,"exp":"Most of the twenty ties carried more bacteria than the doctors’ shirts because ties are hardly ever washed.","ev":[{"p":3,"t":"most of them carried more bacteria than the doctors’ shirts"}]},{"id":"L25","n":25,"q":"Why does the speaker ask doctors not to wear scrubs outside the hospital?","opts":["Patients see it and it spoils the effect of the other rules","Scrubs are expensive and the hospital cannot replace them often","The canteen does not allow them","It is against the law"],"a":0,"exp":"Patients notice when scrubs are worn outside, and that undoes the good work of all the other rules.","ev":[{"p":5,"t":"Patients notice, and it undoes all the good work of the rules I’ve just described."}]}]},{"intro":"Questions 26 to 30 refer to a lecture on the psychology of clothes.","script":[{"who":"","t":"Today I want to look at a question that sounds simple: do the clothes we wear change the way we think? We usually talk about clothes in terms of how other people see us. First impressions form very quickly, and appearance is a large part of them. But in the last fifteen years or so, psychologists have become more interested in the effect our clothes have on ourselves."},{"who":"","t":"The best-known work in this area involved a plain white coat. In one experiment, volunteers were given a task that needed close attention: spotting small differences between pairs of pictures. Some of them wore a white coat and were told it was a doctor’s coat. Others wore exactly the same coat but were told it belonged to a painter. The group who thought they were wearing a doctor’s coat found noticeably more of the differences."},{"who":"","t":"Notice what this means. The coat itself did nothing. What mattered was the meaning people gave it. A doctor’s coat carries ideas of care and precision, and the volunteers seemed to borrow some of those qualities when they put it on. The researchers called this enclothed cognition."},{"who":"","t":"Now, I’d like to be careful here. Later attempts to repeat the experiment haven’t always produced the same result, and some psychologists think the effect is much smaller than the first study suggested. That’s normal in science, and it’s a good reason not to build too much on one experiment."},{"who":"","t":"Still, many of you will recognise the idea from your own lives. People who work from home often say they get more done when they dress as if they were going to the office, even though nobody can see them. Footballers put on their kit before a match partly to get into the right frame of mind."},{"who":"","t":"So, for your essay this week, I’d like you to think about uniforms. If clothes can change how we behave, should schools and hospitals use uniforms to encourage certain kinds of behaviour? Or is that asking clothes to do too much?"}],"items":[{"id":"L26","n":26,"q":"What is the lecture mainly about?","opts":["How to make a good first impression at a job interview","The history of uniforms in schools","The effect clothes have on the people who wear them","Why painters wear white coats"],"a":2,"exp":"The speaker moves away from how others see us and focuses on the effect our clothes have on ourselves.","ev":[{"p":0,"t":"psychologists have become more interested in the effect our clothes have on ourselves"}]},{"id":"L27","n":27,"q":"In the experiment, what were the volunteers asked to do?","opts":["Find small differences between pictures","Paint a picture","Describe what a doctor does in a normal working day","Choose a coat to wear"],"a":0,"exp":"The task needed close attention: spotting small differences between pairs of pictures.","ev":[{"p":1,"t":"spotting small differences between pairs of pictures"}]},{"id":"L28","n":28,"q":"According to the speaker, what mattered most in the results?","opts":["The colour of the coat","The quality and weight of the material used for the coat","How long the volunteers wore the coat","What the volunteers believed the coat was"],"a":3,"exp":"Both groups wore the same coat, so the difference came from the meaning they gave it: a doctor’s coat or a painter’s.","ev":[{"p":2,"t":"What mattered was the meaning people gave it."}]},{"id":"L29","n":29,"q":"Why does the speaker mention later attempts to repeat the experiment?","opts":["To prove that the first study was wrong","To warn students not to rely too much on one study","To show that the effect is stronger than expected","To explain how the original experiment was designed and carried out"],"a":1,"exp":"Later results were mixed, which the speaker presents as a reason not to build too much on a single experiment. The speaker never says the first study was wrong.","ev":[{"p":3,"t":"it’s a good reason not to build too much on one experiment"}]},{"id":"L30","n":30,"q":"What does the speaker ask the students to do?","opts":["Wear a uniform to the next lecture","Repeat the experiment in small groups","Dress as if they were going to an office while studying at home","Write about whether uniforms can change behaviour"],"a":3,"exp":"The essay this week is about uniforms: whether schools and hospitals should use them to encourage certain behaviour.","ev":[{"p":5,"t":"So, for your essay this week, I’d like you to think about uniforms."}]}]},{"intro":"Questions 31 to 35 refer to a radio talk about renting clothes.","script":[{"who":"","t":"Hello, and welcome back to Money Matters. This week I want to talk about a business that barely existed ten years ago and is now growing fast: renting clothes."},{"who":"","t":"The idea is simple. Instead of buying a dress for a wedding, you pay a fee to borrow one for a few days, then send it back. At first, rental companies only offered expensive evening wear, the kind of outfit most people need once or twice a year. Now some of them rent everyday clothes too. For a monthly fee you choose a few items, wear them for as long as you like, and swap them when you get bored."},{"who":"","t":"Who uses these services? Mostly women between twenty-five and forty who live in cities, according to the companies themselves. Many say they started renting to save money, but the reason they keep going is different. They like having something new to wear without feeling guilty about clothes piling up in the wardrobe."},{"who":"","t":"I tried it myself last month, for a friend’s wedding. I rented a designer suit that would have cost me over a thousand dollars to buy. The rental was ninety dollars. It arrived cleaned and pressed, it fitted well, and I sent it back the next morning in the bag they provided. I have to say, it was far easier than I expected."},{"who":"","t":"But there are problems. Clothes have to be cleaned after every rental, and they travel back and forth by van, so the savings for the environment may be smaller than the companies claim. And if you rent every week, it can end up costing more than buying a few well-made things and keeping them for years."},{"who":"","t":"So my advice is this. For a one-off event, renting makes a lot of sense. For everyday clothes, do the sums first. Next week we’ll look at the second-hand market, which some people think is a better answer to the same problem."}],"items":[{"id":"L31","n":31,"q":"What is the talk mainly about?","opts":["The growth of businesses that rent out clothes","How to choose the right suit for a friend’s wedding","Why designer clothes are expensive","The second-hand clothes market"],"a":0,"exp":"The speaker introduces clothes rental as a fast-growing business and looks at how it works, who uses it and its problems. The second-hand market is next week’s topic.","ev":[{"p":0,"t":"This week I want to talk about a business that barely existed ten years ago and is now growing fast: renting clothes."}]},{"id":"L32","n":32,"q":"According to the speaker, what did rental companies offer at first?","opts":["Everyday clothes for work","Monthly subscriptions","Expensive evening wear","Second-hand suits"],"a":2,"exp":"At first they rented only expensive evening wear. Everyday clothes and monthly fees came later.","ev":[{"p":1,"t":"At first, rental companies only offered expensive evening wear"}]},{"id":"L33","n":33,"q":"Why do many customers continue to rent clothes?","opts":["It saves them a lot of money","They can wear new things without feeling guilty","Their friends do the same","It is much better for the environment than buying"],"a":1,"exp":"Saving money is why they start; they keep renting because they enjoy new clothes without feeling guilty about a full wardrobe.","ev":[{"p":2,"t":"They like having something new to wear without feeling guilty about clothes piling up in the wardrobe."}]},{"id":"L34","n":34,"q":"How much did the speaker pay to rent the suit?","opts":["$1,000","$19","$900","$90"],"a":3,"exp":"The suit would have cost over a thousand dollars to buy, but the rental was ninety dollars.","ev":[{"p":3,"t":"The rental was ninety dollars."}]},{"id":"L35","n":35,"q":"What is the speaker’s opinion of renting clothes?","opts":["It is always cheaper than buying, even for everyday clothes","It suits one-off events better than everyday wear","It is bad for the environment","It is only for people who live in cities"],"a":1,"exp":"Renting makes sense for a one-off event, but for everyday clothes the speaker tells listeners to do the sums first.","ev":[{"p":5,"t":"For a one-off event, renting makes a lot of sense. For everyday clothes, do the sums first."}]}]}]}],"writing":{"t1":{"id":"W1","title":"Task 1 · Email","time":"You should spend about 20 minutes on this task.","situation":"You have received an email from your friend Ben, a nurse from New Zealand, who is coming to your hospital for a two-week training course in December. Read part of his email:","email":["... I can’t wait to see Hanoi! My sister says I have to bring back some clothes, because they’re so much cheaper there. The trouble is, I’ve no idea where to start. Where do people your age buy their clothes? A colleague told me I could get a suit made by a tailor in a couple of days. Is that a good idea, or would I be better off buying one in a shop? And what should I do if someone offers me a designer bag at a market for a very low price? ...","Cheers,","Ben"],"instruction":"Write an email of reply to Ben, and","points":["tell him where people you know buy their clothes,","give your opinion on having a suit made by a tailor, and","advise him about cheap designer goods at markets."],"rules":"You should write at least 120 words. DO NOT include your name or addresses. Your response will be evaluated in terms of Task Fulfillment, Organization, Vocabulary, and Grammar.","minWords":120,"sample":["Hi Ben,","Great news about December! You’re right that clothes are cheap here, although it depends where you go.","Most of my friends buy their clothes online these days, mainly because we work long shifts and rarely have time to go shopping for clothes. If you want to see the real thing, though, the small shops in the Old Quarter are a lot more fun than the big shopping centres, and you can try things on before you pay.","As for the suit, I’d definitely go for it. A tailor-made suit costs far less here than a ready-made one at home, and it will fit you properly. If I were you, I’d choose a plain dark colour and allow three days so there’s time for a second fitting.","Don’t buy the designer bags. They’re knock-offs, most of them are badly made, and selling them is illegal. Your sister would be much happier with a silk scarf.","Let me know your dates and I’ll take you shopping.","Best wishes,"],"sampleNote":"≈ 165 words · all three points covered · informal register · advice language (If I were you, I’d definitely go for it, Don’t buy) · topic collocations: buy their clothes online, go shopping for clothes, try things on, tailor-made suit, fit you properly, knock-offs, badly made, silk scarf.","checks":["Opens with a greeting and closes with a sign-off (Hi Ben … Best wishes)","Point 1: where people you know buy their clothes","Point 2: your opinion on having a suit made by a tailor","Point 3: advice about cheap designer goods at markets","Informal, friendly tone; advice language (If I were you / Why not / You could)","At least 5 topic collocations from the unit"],"q":{"min":120,"paras":3,"colloc":5,"link":2},"marks":10,"auto":["hits:greet+sign",null,null,null,"hits:func","colloc:5"],"re":{"greet":["^(hi|hello|dear)\\b","im"],"sign":["(best wishes|all the best|kind regards|regards|see you|take care|cheers|love)\\s*,?\\s*$","im"],"sign2":["\\n\\s*(best wishes|all the best|kind regards|regards|see you soon|take care|cheers)","i"],"func":["if i were you|why not|you could|you should|i'd recommend|don't worry","i"]}},"t2":{"id":"W2","title":"Task 2 · Essay","time":"You should spend about 40 minutes on this task. Read the following topic:","topic":"Some people think that the way a person dresses tells us a great deal about their personality. Others believe that we should never judge people by their appearance.","instruction":"Write an essay to discuss both views and give your own opinion. Give reasons for your answer and include any relevant examples from your knowledge or experience.","rules":"You should write at least 250 words. Your response will be evaluated in terms of Task Fulfillment, Organization, Vocabulary, and Grammar.","minWords":250,"sample":["Most of us form an opinion of a stranger within seconds, and much of that opinion is based on what they are wearing. Some people argue that this is reasonable, because the way we dress reveals our personality. Others believe that judging people by their appearance is unfair. In my view, what someone wears tells us something about them, but far less than we like to think.","On the one hand, the way people dress is often a deliberate choice. A colleague who always turns up in a well-ironed shirt probably takes a lot of trouble over other things too, and a teenager who dyes her hair blue is clearly telling the world that she has no wish to fit in. For many people an outfit is a way to express their personality, so it would be strange to ignore it completely.","On the other hand, appearance can easily mislead us. Many people cannot afford to dress well, and others simply do not care about fashion. Some of the best doctors I have worked with looked scruffy after a night on call, while the smartest person in a room is sometimes the least honest. Clothes also depend on the dress code of a workplace, so a uniform tells us about an employer rather than about the person wearing it.","I believe the sensible answer lies somewhere in between. It is natural to notice what someone is wearing, and a first impression is not always wrong. However, it should only be the start of our judgement, and we need to be ready to change it once we know the person better.","For these reasons, although what people wear can give us a few clues, I think we should be slow to judge anyone by their appearance. Getting to know someone takes much longer than looking at their shoes."],"sampleNote":"≈ 300 words · both views presented and own opinion stated in the introduction · one body paragraph for each view · topic collocations: judging people by their appearance, takes a lot of trouble, fit in, express their personality, looked scruffy, dress code, first impression.","checks":["Introduction names both views and says which one you support","Body paragraph 1: the first view + reason + example","Body paragraph 2: the second view + reason + example","Your own opinion stated clearly (In my view … / I believe …)","Conclusion balances both views and restates your opinion","At least 8 topic collocations; 'clothes' not repeated more than 5 times"],"q":{"min":250,"paras":4,"colloc":8,"link":4},"marks":20,"auto":["hits:views","paras:3","paras:4","hits:position","paras:4","colloc_topic:8"],"re":{"views":["\\b(some people|others|on the one hand|on the other hand|while some)\\b","i"],"position":["\\b(i (strongly |completely |partly |fully )?(agree|disagree|believe|think)|in my (view|opinion))\\b","i"]}},"criteria":[["Task Fulfillment","All bullet points / both sides of the question addressed; ideas developed with reasons and examples; word count met."],["Organization","Clear opening and closing (email) or introduction – body – conclusion (essay); paragraphs with one main idea each; linking words used accurately."],["Vocabulary","Topic vocabulary from the unit used accurately (collocations such as dress for the occasion, stand out, value for money, create a good impression); few spelling errors."],["Grammar","Range of simple and complex sentences; comparatives and superlatives with adverbs of degree (far, much, by far), not as … as and phrasal verbs used with few errors."]],"colloc":["dress up","dressed up","dress for the occasion","dress code","smart-casual","well-dressed","well-made","badly made","look smart","casual clothes","formal clothes","open-necked","short-sleeved","loose-fitting","tight-fitting","second-hand","handmade","tailor-made","a pair of","try on","tried on","try things on","take back","took back","put together","stand out","fit in with","keep up with","slip on","wear out","splash out","save up","cut down on","go for","go with","suit you","fit you","get away with","go shopping","buy clothes online","buy their clothes online","a real bargain","value for money","spend a fortune","designer label","market stalls","counterfeit","knock-off","genuine product","the real thing","illegal activity","damage the brand","fast fashion","body image","self-esteem","eating disorder","underweight models","unrealistic standards","peer pressure","catwalk","fashion house","fashion industry","fashion-conscious","into fashion","follow the latest trends","put comfort first","express their personality","express your personality","a matter of personal taste","by their appearance","care about your appearance","make an effort","a lot of trouble","fit in","dress well","care about fashion","present a professional image","create a good impression","first impression","stand out in a crowd","old-fashioned","trendy","dress sense","scruffy","elegant","outrageous","presentable","have a negative impact on","raise awareness of","weigh up the options","I'd recommend","if I were you","why not","the best way","you could always","don't worry","let me know","looking forward"],"linkers":["firstly","secondly","finally","in addition","what's more","however","although","even though","admittedly","on the other hand","for example","for instance","as a result","therefore","in my view","in my opinion","i believe","i agree","i disagree","to some extent","for these reasons","on balance"],"topicWord":{"word":"clothes","re":"\\bclothes\\b","label":"“clothes”","max":5}},"speaking":{"topic":"TOPIC: FASHION AND APPEARANCE","prepBlurb":"In the exam you draw a topic and get 5–7 minutes to prepare, before the interview starts. Read the card for Part 2 and think about what you will say. Part 1 asks general questions about clothes, shopping and dressing for special occasions; Part 3 asks your opinion on fashion, appearance and the clothing industry.","p1":{"id":"S1","title":"Part 1 · Interview","min":3,"marks":3,"sets":[["Let’s talk about clothes and shopping.",["What kind of clothes do you usually wear at the weekend?","Is there a colour or style that you would never wear? Why?","How often do you go shopping for clothes, and who do you go with?"]],["Let’s talk about special occasions.",["What do people in Vietnam usually wear to a wedding?","Do you enjoy dressing up? Why or why not?","Have you ever borrowed or hired clothes for an event?"]]],"note":"Answers of two or three clauses with a reason; clothes vocabulary used precisely (loose-fitting, open-necked, smart-casual); preferences expressed naturally (I’d rather…, I prefer … to …)."},"p2":{"id":"S2","title":"Part 2 · Long turn","min":5,"marks":5,"task":"Describe an occasion when you had to dress up.","points":["what the occasion was and when it took place","what you wore and how you chose it","how other people there were dressed"],"explain":"and explain how you felt about the way you looked.","prompts":["Did anyone comment on your outfit?","Would you wear the same thing again?"],"note":"Speaks for the full time with a clear order (the occasion – what I wore – the other guests – how I felt); past tenses and phrasal verbs (dress up, go for, go with, get away with); at least two comparative structures with an adverb of degree.","sample":["I’d like to talk about my cousin’s wedding in Hai Phong two years ago. It was in a large hotel, and it was the first family wedding I had been to since I started working at the hospital.","Choosing what to wear took me almost a week. At first I wanted to buy a new suit, but I didn’t want to spend a fortune on something I might wear once. In the end I went for my old dark grey suit and had it taken in by a tailor, because I’d lost weight. I bought a new silk tie to go with it, and that was my only real expense.","Most of the men were in suits too, although a few of the younger ones got away with just a shirt and trousers. Nearly all the women wore ao dai in bright colours, and my aunt’s was easily the most elegant outfit in the room.","To be honest, I felt far more confident than I expected. The suit fitted perfectly, and several relatives said I looked much smarter than I usually do. I suppose that was a compliment. It taught me that a well-made old suit can be better than a new one."],"instr":"You have one minute to look at the card again, then talk for up to four minutes without a long pause. Cover every point and finish with how you felt about the way you looked."},"p3":{"id":"S3","title":"Part 3 · Two-way discussion","min":4,"marks":2,"qs":["Should employers be allowed to tell their staff what to wear? Why or why not?","Is it worth paying more for clothes with a designer label?","How does social media influence the way young people dress?","What can ordinary people do to reduce the harm caused by fast fashion?"],"note":"Gives a clear view with a reason and an example; weighs the other side (Admittedly… / On the other hand…); uses unit collocations (dress code, value for money, keep up with the latest fashions, unrealistic standards).","sample":[["Employers and dress codes","Yes, within limits. Staff who meet the public present the company’s image, and in hospitals the rules on sleeves and jewellery protect patients. But every rule should have a clear reason; a code that bans every personal touch makes staff feel like machines."],["Designer labels","Sometimes. A well-made item that lasts ten years can be better value for money than five cheap copies. Often, though, the extra price pays for the name and the advertising rather than the quality. Buying a fake is never the answer."],["Social media and young people","It speeds up trends, so teenagers feel they must keep up with the latest fashions and never appear twice in one outfit. Filters and edited photos also set unrealistic standards for body image. On the positive side, small designers can reach buyers directly."],["Reducing the harm of fast fashion","Buy less and choose well-made items; repair clothes instead of throwing them away; buy second-hand or rent for a one-off event. Governments could make brands responsible for what happens to the clothes they sell."]]},"prepMin":5,"checks":{"S1":["Every answer had 2–3 clauses, never one word","Named clothes precisely (a plain cotton shirt, loose-fitting trousers…)","Gave a reason in most answers (mainly because…, that's why…)","Used at least one preference structure (I'd rather…, I prefer … to …)"],"S2":["Spoke for the full time with no pause longer than 3 seconds","Covered all three points on the card and said how you felt","Used past tenses and at least 2 phrasal verbs (dress up, go for, go with…)","Used at least 2 comparative structures with an adverb of degree (far more…, easily the most…)","Linked the parts clearly (At first…, In the end…, To be honest…)"],"S3":["Gave an opinion and a reason for each question","Added an example from your own life or work","Answered the other side (Admittedly… / On the other hand…)","Used unit collocations (dress code, value for money, peer pressure, fast fashion)"]}},"plan":{"reading":{"label":"Reading","minutes":60,"score":40,"parts":[["R1",12],["R2",14],["R3",15],["R4",17]],"tip":"About 1.5 minutes per question. Read the questions first, then the passage. Keep the last 2 minutes to check your answers."},"writing":{"label":"Writing","minutes":60,"score":30,"parts":[["W1",20],["W2",40]],"tip":"Task 1: 3 minutes to plan, 14 to write, 3 to check. Task 2: 5 to plan, 30 to write, 5 to check."},"listening":{"label":"Listening","minutes":35,"score":35,"parts":[["L1",7],["L2",8],["L3",11]],"tip":"Each recording plays once. Read the questions during the pauses; answer while you listen, then use the pause after each part to check."},"speaking":{"label":"Speaking","minutes":17,"score":10,"prep":5,"parts":[["S0",5],["S1",3],["S2",5],["S3",4]],"tip":"5 minutes to prepare (not counted in the exam). Part 1: 30 seconds per answer. Part 2: 1 minute to plan, then talk without stopping. Part 3: a reason and an example for every opinion."}}};
+
+/* ====================== SETUP ====================== */
+const SKILLS = ['reading', 'writing', 'listening', 'speaking'];
+const PLAN = TEST.plan;
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const norm = s => String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").replace(/[-–—]/g, ' ').replace(/[.,!?;:"]+$/g, '').replace(/\s+/g, ' ').trim();
+const pad = n => String(n).padStart(2, '0');
+const mmss = s => { s = Math.max(0, Math.round(s)); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); };
+const fmtDate = x => { const d = new Date(x); return isNaN(d) ? '—' : pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const uuid = () => 'xxxxxxxxyxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+const words = t => (String(t || '').trim().match(/[A-Za-zÀ-ỹ0-9’'-]+/g) || []).length;
+const store = { get(k, d) { try { const v = JSON.parse(localStorage.getItem(CONFIG.KEY + ':' + k)); return v === null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(CONFIG.KEY + ':' + k, JSON.stringify(v)); } catch (e) {} }, del(k) { try { localStorage.removeItem(CONFIG.KEY + ':' + k); } catch (e) {} } };
+
+/* part registry */
+const PARTS = [];   // { id, skill, title, min, kind }
+const ITEMS = [];   // objective items with .part and .skill
+const PART_ITEMS = {};
+TEST.reading.forEach((p, i) => { PARTS.push({ id: p.id, skill: 'reading', title: 'Passage ' + (i + 1) + ' · ' + p.title, kind: 'reading', src: p }); PART_ITEMS[p.id] = p.items; p.items.forEach(it => { it.part = p.id; it.skill = 'reading'; ITEMS.push(it); }); });
+PARTS.push({ id: 'W1', skill: 'writing', title: TEST.writing.t1.title, kind: 'writing', src: TEST.writing.t1 });
+PARTS.push({ id: 'W2', skill: 'writing', title: TEST.writing.t2.title, kind: 'writing', src: TEST.writing.t2 });
+TEST.listening.forEach(p => { PARTS.push({ id: p.id, skill: 'listening', title: p.title, kind: 'listening', src: p }); PART_ITEMS[p.id] = []; p.blocks.forEach(b => b.items.forEach(it => { it.part = p.id; it.skill = 'listening'; ITEMS.push(it); PART_ITEMS[p.id].push(it); })); });
+PARTS.push({ id: 'S0', skill: 'speaking', title: 'Preparation', kind: 'prep', src: TEST.speaking });
+PARTS.push({ id: 'S1', skill: 'speaking', title: TEST.speaking.p1.title, kind: 'speak', src: TEST.speaking.p1 });
+PARTS.push({ id: 'S2', skill: 'speaking', title: TEST.speaking.p2.title, kind: 'speak', src: TEST.speaking.p2 });
+PARTS.push({ id: 'S3', skill: 'speaking', title: TEST.speaking.p3.title, kind: 'speak', src: TEST.speaking.p3 });
+const PART = Object.fromEntries(PARTS.map(p => [p.id, p]));
+const ITEM = Object.fromEntries(ITEMS.map(it => [it.id, it]));
+PARTS.forEach(p => { const row = PLAN[p.skill].parts.find(x => x[0] === p.id); p.min = row ? row[1] : 0; });
+const partsOf = skill => PARTS.filter(p => p.skill === skill);
+const takenParts = skill => { const sel = S.parts && S.parts[skill]; return partsOf(skill).filter(p => !sel || sel.includes(p.id)); };
+const takenItems = () => ITEMS.filter(it => S.skills.includes(it.skill) && takenParts(it.skill).some(p => p.id === it.part));
+const partsTakenIds = (r, skill) => { const i = (r.skills || []).indexOf(skill); if (i < 0) return []; return (r.partsTaken || '').split('|')[i]?.split(',').filter(Boolean) || []; };
+const objMax = () => takenItems().length;
+const skillMinutes = skill => { const pl = PLAN[skill], tp = takenParts(skill); return tp.length === partsOf(skill).length ? pl.minutes : tp.reduce((s, p) => s + p.min, 0); };
+
+const DEFAULT_SET = { open: true, passMark: CONFIG.PASS_MARK, showRanking: true, message: '' };
+let SET = Object.assign({}, DEFAULT_SET, store.get('settings', {}));
+const fresh = () => ({ status: 'idle', name: '', sid: '', mode: 'exam', skills: SKILLS.slice(), parts: {}, si: 0, phase: 'intro', secStart: 0, secDur: 0, pi: 0, answers: {}, writing: { W1: '', W2: '' }, ticks: {}, partTime: {}, secTime: {}, secAuto: {}, audio: {}, audioPos: {}, hl: {}, flags: {}, layout: 'side', hlOn: true, result: null, clientId: uuid(), pending: null, lastTick: 0 });
+let S = Object.assign(fresh(), store.get('state') || {});
+function save() { store.set('state', S); }
+let A = null; try { A = JSON.parse(sessionStorage.getItem(CONFIG.KEY + ':auth')); } catch (e) {}
+const isStaff = () => !!A, isAdmin = () => !!A && A.role === 'admin';
+const curSkill = () => S.skills[S.si];
+const curParts = () => takenParts(curSkill());
+const curPart = () => curParts()[S.pi];
+const keyLetter = it => 'ABCD'[it.a];
+const isRight = (it, given) => given !== '' && given === keyLetter(it);
+const RECS = {};   // in-memory recordings { S1: { url, blob } }
+
+/* ====================== API ====================== */
+async function api(action, payload) {
+  payload = payload || {};
+  if (!CONFIG.API_URL) return localApi(action, payload);
+  const auth = A ? { user: A.name, password: A.password } : {};
+  const tid = encodeURIComponent(CONFIG.TEST_ID || '');
+  if (action === 'list' || action === 'settings') { const res = await fetch(CONFIG.API_URL + '?action=' + action + '&test=' + tid + '&_=' + Date.now(), { redirect: 'follow' }); return res.json(); }
+  for (let i = 0; i < 3; i++) {
+    const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ action, test: CONFIG.TEST_ID || '' }, payload, auth)), redirect: 'follow' });
+    const j = await res.json(); if (!(j && j.error === 'busy')) return j;
+    await new Promise(r => setTimeout(r, 5000 + Math.random() * 15000));
+  }
+  return { ok: false, error: 'busy' };
+}
+function localApi(action, p) {
+  const rows = store.get('local', []);
+  const admin = () => { const u = CONFIG.LOCAL_USERS.find(u => u.name === (A && A.name) && u.password === (A && A.password)); return u && u.role === 'admin'; };
+  switch (action) {
+    case 'list': case 'list_full': return { ok: true, rows, settings: SET };
+    case 'settings': return { ok: true, settings: SET };
+    case 'submit': if (!rows.some(x => x.clientId === p.clientId && x.submittedAt === p.submittedAt)) { rows.push(p); store.set('local', rows); } return { ok: true };
+    case 'login': { const u = CONFIG.LOCAL_USERS.find(u => norm(u.name) === norm(p.user) && u.password === p.password); return u ? { ok: true, name: u.name, role: u.role, settings: SET } : { ok: false, error: 'wrong name or password' }; }
+    case 'save_settings': if (!admin()) return { ok: false, error: 'admin only' }; SET = Object.assign({}, SET, p.settings); store.set('settings', SET); return { ok: true, settings: SET };
+    case 'delete': if (!admin()) return { ok: false, error: 'admin only' }; store.set('local', rows.filter(x => !(x.clientId === p.clientId && x.submittedAt === p.submittedAt))); return { ok: true };
+    case 'clear': if (!admin()) return { ok: false, error: 'admin only' }; store.set('local', []); return { ok: true };
+  }
+  return { ok: false, error: 'unknown action' };
+}
+
+/* ====================== TABS ====================== */
+function showTab(name) {
+  $$('nav.tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === name));
+  ['test', 'results', 'report', 'teacher'].forEach(t => { $('#tab-' + t).hidden = t !== name; });
+  if (name === 'report') loadReport();
+  if (name === 'teacher') renderTeacher();
+  window.scrollTo({ top: 0 });
+}
+$$('nav.tabs button').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
+document.addEventListener('click', e => { const a = e.target.closest('[data-go]'); if (a) { e.preventDefault(); showTab(a.dataset.go); } });
+
+/* ====================== SETTINGS ====================== */
+function applySettings() {
+  const closed = !SET.open; $('#btn-start').disabled = closed;
+  const note = $('#closed-note'); const msg = (closed ? 'The test is currently closed. ' : '') + (SET.message || '');
+  note.hidden = !msg.trim(); note.textContent = msg.trim();
+  $('#rank-card').hidden = !(SET.showRanking || isStaff());
+}
+async function refreshSettings() { try { const j = await api('settings'); if (j.ok && j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); } } catch (e) {} }
+
+/* ====================== START PAGE ====================== */
+$('#plan-body').innerHTML = SKILLS.map(sk => {
+  const pl = PLAN[sk];
+  const desc = { reading: '4 passages, 10 questions each', writing: 'an email and an essay', listening: '8 announcements, 3 conversations, 3 talks', speaking: '5 min preparation, then interview, long turn, discussion' }[sk];
+  const rows = pl.parts.map(([id, min]) => { const p = PART[id]; const what = p.kind === 'reading' ? '10 questions · about 1.5 min each' : p.kind === 'listening' ? `audio ${p.src.audioMin} min + time to check` : p.kind === 'prep' ? 'read the topic card, make notes' : p.kind === 'writing' ? `at least ${p.src.minWords} words` : p.id === 'S1' ? '6 questions · about 30 s each' : p.id === 'S2' ? '1 min to plan · talk without stopping' : '4 questions · reason + example each'; return `<tr><td class="part">${esc(p.title)}</td><td>${what}</td><td class="num">${min} min</td><td class="num"></td></tr>`; }).join('');
+  return `<tr class="sk"><td>${pl.label}</td><td>${desc}</td><td class="num">${pl.minutes} min</td><td class="num">${pl.score}</td></tr>${rows}`;
+}).join('') + `<tr class="sk"><td>Total</td><td>the full test, with breaks between skills</td><td class="num">${SKILLS.reduce((s, k) => s + PLAN[k].minutes, 0)} min</td><td class="num">115</td></tr>`;
+const SKILL_BLURB = { reading: ['Reading · 60 min', '4 passages · 40 questions · 40 marks'], writing: ['Writing · 60 min', 'Email 120+ words · Essay 250+ words · 30 marks'], listening: ['Listening · 35 min', '8 announcements · 3 conversations · 3 talks · 35 marks'], speaking: ['Speaking · 12 min + 5 prep', 'Interview · Long turn · Discussion · 10 marks'] };
+$('#skill-pick').innerHTML = SKILLS.map(sk => `<div class="skill" data-sk="${sk}"><label class="head"><input type="checkbox" value="${sk}" checked><span><b>${SKILL_BLURB[sk][0]}</b><small>${SKILL_BLURB[sk][1]}</small></span></label><div class="pchips">${partsOf(sk).map(p => `<button type="button" class="on" data-part="${p.id}" title="${esc(p.title)}">${p.id} · ${p.min}′</button>`).join('')}</div></div>`).join('');
+function pickState() {
+  const out = { skills: [], parts: {} };
+  $$('#skill-pick .skill').forEach(card => { const sk = card.dataset.sk; const on = card.querySelector('input').checked; const ps = $$('.pchips button.on', card).map(b => b.dataset.part); if (on && ps.length) { out.skills.push(sk); out.parts[sk] = ps; } });
+  return out;
+}
+function pickSummary() {
+  const st = pickState(); const el = $('#pick-summary');
+  if (!st.skills.length) { el.textContent = 'Nothing selected yet.'; return; }
+  const saved = { skills: S.skills, parts: S.parts }; S.skills = st.skills; S.parts = st.parts;
+  const mins = st.skills.reduce((s, sk) => s + skillMinutes(sk), 0), items = objMax();
+  el.innerHTML = `Selected: <b>${st.skills.map(sk => PLAN[sk].label + ' (' + st.parts[sk].join(', ') + ')').join(' · ')}</b> — about <b>${mins} min</b>${items ? `, ${items} objective questions` : ''}.`;
+  S.skills = saved.skills; S.parts = saved.parts;
+}
+$('#skill-pick').addEventListener('click', e => {
+  const b = e.target.closest('[data-part]'); if (b) { b.classList.toggle('on'); const card = b.closest('.skill'); const any = $$('.pchips button.on', card).length > 0; card.querySelector('input').checked = any; card.classList.toggle('off', !any); pickSummary(); }
+});
+$('#skill-pick').addEventListener('change', e => { const i = e.target; if (!i.matches('input[type=checkbox]')) return; const card = i.closest('.skill'); $$('.pchips button', card).forEach(b => b.classList.toggle('on', i.checked)); card.classList.toggle('off', !i.checked); pickSummary(); });
+pickSummary();
+$$('#mode-pick input').forEach(r => r.addEventListener('change', () => $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked))));
+$('#btn-start').addEventListener('click', async () => {
+  const name = $('#f-name').value.trim(), sid = $('#f-sid').value.trim();
+  if (name.length < 2) { $('#f-name').focus(); $('#f-name').style.borderColor = 'var(--bad)'; return; }
+  const pick = pickState();
+  if (!pick.skills.length) { alert('Choose at least one part.'); return; }
+  await refreshSettings(); if (!SET.open) return;
+  S = Object.assign(fresh(), { status: 'running', name, sid, mode: $('#mode-pick input:checked').value, skills: pick.skills, parts: pick.parts, clientId: S.clientId });
+  save(); renderQuiz();
+});
+
+/* ====================== QUIZ SHELL ====================== */
+function renderQuiz() {
+  $('#start-card').hidden = true; $('#done-card').hidden = true; $('#reset-note').hidden = true; $('#quiz').hidden = false;
+  $('#who').textContent = S.name + (S.sid ? ' · ' + S.sid : '') + (S.mode === 'practice' ? ' · practice' : '');
+  renderSkillNav();
+  if (S.phase === 'intro') renderIntro(); else renderSection();
+}
+function renderSkillNav() {
+  $('#sk-nav').innerHTML = S.skills.map((sk, i) => `<span class="${i < S.si ? 'done' : i === S.si ? 'cur' : ''}">${PLAN[sk].label}${i < S.si ? ' ✓' : ''}</span>`).join('');
+}
+function renderIntro() {
+  clearInterval(tick);
+  const sk = curSkill(), pl = PLAN[sk];
+  $('#section-body').hidden = true; $('#testbar').hidden = true;
+  const box = $('#section-intro'); box.hidden = false;
+  const extra = sk === 'listening' ? '<li>Put on headphones. Each recording plays <b>once</b>' + (S.mode === 'practice' ? ' (practice mode: you can replay it)' : '') + '. Read the questions during the pauses.</li>'
+    : sk === 'speaking' ? '<li>Allow the microphone when the browser asks. Recordings stay in your browser and are not uploaded.</li><li>You get 5 minutes to read the topic card and make notes before the clock of the test starts.</li>'
+    : sk === 'writing' ? '<li>Type your two texts in the boxes. They are saved as you type and sent to the teacher when you submit.</li>' : '<li>Read the questions first, then the passage. Answer every question; there is no penalty for a wrong answer.</li>';
+  const tp = takenParts(sk), full = tp.length === partsOf(sk).length, total = skillMinutes(sk);
+  const mins = full && pl.prep ? `${pl.prep} min preparation + ${pl.minutes - pl.prep} minutes` : `${total} minutes${full ? '' : ' (' + tp.length + ' of ' + partsOf(sk).length + ' parts)'}`;
+  box.innerHTML = `<div class="card"><div class="eyebrow" style="color:var(--orange-ink)">Section ${S.si + 1} of ${S.skills.length}</div><h2>${pl.label} · ${mins} · ${pl.score} marks</h2>
+    <p class="sub">${esc(pl.tip)}</p>
+    <table class="plan"><thead><tr><th>Part</th><th class="num">Suggested</th></tr></thead><tbody>${tp.map(p => `<tr><td>${esc(p.title)}</td><td class="num">${p.min} min</td></tr>`).join('')}</tbody></table>
+    <ul class="rules">${extra}<li>The clock starts when you press the button. ${S.mode === 'exam' ? 'When it reaches zero the section closes and your answers are kept.' : 'In practice mode it only warns you.'}</li></ul>
+    <p style="margin:18px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="btn-begin">Start ${pl.label} · ${total}:00</button><button class="btn ghost" id="btn-exit-intro">← Back to the start page</button></p></div>`;
+  $('#btn-begin').addEventListener('click', () => { S.phase = 'run'; S.secStart = Date.now(); S.secDur = total * 60; S.pi = 0; S.lastTick = Date.now(); save(); renderSection(); });
+  $('#btn-exit-intro').addEventListener('click', exitAttempt);
+}
+function renderSection() {
+  $('#section-intro').hidden = true; $('#section-body').hidden = false; $('#testbar').hidden = false;
+  $('#timer-lbl').textContent = PLAN[curSkill()].label;
+  renderPartsNav(); renderPart(); renderPalette(); startTimer();
+}
+function renderPartsNav() {
+  const parts = curParts();
+  $('#parts-nav').innerHTML = parts.map((p, i) => `<button data-pi="${i}" class="${i === S.pi ? 'cur' : ''}${(S.partTime[p.id] || 0) > p.min * 60 ? ' over' : ''}">${p.id}<span class="pt" data-pt="${p.id}">${mmss(S.partTime[p.id] || 0)}/${p.min}′</span></button>`).join('');
+  $$('#parts-nav button').forEach(b => b.addEventListener('click', () => gotoPart(+b.dataset.pi)));
+  $('#btn-prev-part').hidden = S.pi === 0; $('#btn-next-part').hidden = S.pi >= parts.length - 1;
+  $('#finish-note').textContent = curSkill() === 'reading' || curSkill() === 'listening' ? unansweredNote() : curSkill() === 'writing' ? `Task 1: ${words(S.writing.W1)} words · Task 2: ${words(S.writing.W2)} words` : 'Record each part, then finish the section.';
+}
+function unansweredNote() { const its = takenItems().filter(it => it.skill === curSkill()); const left = its.filter(it => !(S.answers[it.id])).length; return left ? `${left} of ${its.length} questions unanswered in this section.` : 'All questions in this section answered.'; }
+function gotoPart(i) { stopRec(); S.pi = i; S.lastTick = Date.now(); save(); renderPartsNav(); renderPart(); renderPalette(); window.scrollTo({ top: 0 }); }
+$('#btn-prev-part').addEventListener('click', () => gotoPart(S.pi - 1));
+$('#btn-next-part').addEventListener('click', () => gotoPart(S.pi + 1));
+
+/* ====================== PART RENDERERS ====================== */
+function partHead(p, sub) {
+  return `<div class="part-head"><div class="row"><div class="eyebrow">${PLAN[p.skill].label} · ${esc(p.id)}${sub ? ' · ' + esc(sub) : ''}</div><span class="ptimer" id="ptimer"><small>Suggested ${p.min} min</small><span id="ptimer-v">${mmss(S.partTime[p.id] || 0)}</span></span></div><h2>${esc(p.title)}</h2></div>`;
+}
+function mcq(it, twoCol) {
+  const given = S.answers[it.id] || '';
+  return `<div class="item" data-item="${it.id}"><div class="qn">${it.n}</div><div><p class="q">${esc(it.q)} <button class="flagbtn${S.flags[it.id] ? ' on' : ''}" data-flag="${it.id}" title="Mark for review">⚑</button></p><div class="opts${twoCol ? ' two-col' : ''}">${it.opts.map((o, i) => `<label class="opt${given === 'ABCD'[i] ? ' sel' : ''}"><input type="radio" name="q-${it.id}" value="${'ABCD'[i]}"${given === 'ABCD'[i] ? ' checked' : ''}><span class="letter">${'ABCD'[i]}</span><span>${esc(o)}</span></label>`).join('')}</div></div></div>`;
+}
+function passageHtml(p, marks) {
+  return `<div class="passage"><h4>${esc(p.title)}</h4>${p.paras.map((t, i) => `<p><span class="pn">${i + 1}</span>${marks ? markText(t, marks[i] || []) : esc(t)}</p>`).join('')}</div>`;
+}
+/* ---- reading panel with the student's own highlighter ---- */
+function userMarks(text, spans) {
+  if (!spans || !spans.length) return esc(text);
+  let out = '', pos = 0;
+  spans.slice().sort((a, b) => a.s - b.s).forEach(sp => { if (sp.s < pos) return; out += esc(text.slice(pos, sp.s)) + `<mark class="uhl" data-s="${sp.s}" data-e="${sp.e}">${esc(text.slice(sp.s, sp.e))}</mark>`; pos = sp.e; });
+  return out + esc(text.slice(pos));
+}
+function readingPanel(p) {
+  const H = S.hl[p.id] || [];
+  return `<div class="pwrap"><div class="ptools"><button class="tb${S.hlOn ? ' on' : ''}" id="btn-hl" title="Select text in the passage to highlight it; click a highlight to remove it">🖍 Highlighter ${S.hlOn ? 'on' : 'off'}</button><button class="tb" id="btn-hl-clear">Clear highlights</button><span>Select words to mark them · click a mark to remove it</span></div>
+    <div class="passage${S.hlOn ? ' hl-on' : ''}" id="passage"><h4>${esc(p.src.title)}</h4>${p.src.paras.map((t, i) => `<p><span class="pn">${i + 1}</span><span class="pt" data-p="${i}">${userMarks(t, H.filter(h => h.p === i))}</span></p>`).join('')}</div></div>`;
+}
+function ptOffset(pt, node, offset) { const r = document.createRange(); r.setStart(pt, 0); r.setEnd(node, offset); return r.toString().length; }
+function addHighlight(partId, p, s, e) {
+  const list = (S.hl[partId] = S.hl[partId] || []);
+  const merged = { p, s, e };
+  for (let i = list.length - 1; i >= 0; i--) { const h = list[i]; if (h.p === p && h.s <= merged.e && h.e >= merged.s) { merged.s = Math.min(merged.s, h.s); merged.e = Math.max(merged.e, h.e); list.splice(i, 1); } }
+  list.push(merged); save();
+}
+function repaintPara(partId, i) { const pt = $(`#passage .pt[data-p="${i}"]`); if (!pt) return; const text = PART[partId].src.paras[i]; pt.innerHTML = userMarks(text, (S.hl[partId] || []).filter(h => h.p === i)); }
+function onPassageMouseUp() {
+  const p = curPart(); if (!p || p.kind !== 'reading' || !S.hlOn) return;
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return;
+  const range = sel.getRangeAt(0); const pas = $('#passage'); if (!pas || !pas.contains(range.commonAncestorContainer)) return;
+  const touched = [];
+  $$('#passage .pt').forEach(pt => {
+    if (!range.intersectsNode(pt)) return;
+    const i = +pt.dataset.p, len = pt.textContent.length;
+    const s = pt.contains(range.startContainer) ? ptOffset(pt, range.startContainer, range.startOffset) : 0;
+    const e = pt.contains(range.endContainer) ? ptOffset(pt, range.endContainer, range.endOffset) : len;
+    if (e - s >= 1) { addHighlight(p.id, i, s, e); touched.push(i); }
+  });
+  sel.removeAllRanges(); touched.forEach(i => repaintPara(p.id, i));
+}
+function onPassageClick(e) {
+  const m = e.target.closest('mark.uhl'); if (!m) return; const p = curPart(); if (!p) return;
+  const i = +m.closest('.pt').dataset.p, s = +m.dataset.s, en = +m.dataset.e;
+  S.hl[p.id] = (S.hl[p.id] || []).filter(h => !(h.p === i && h.s === s && h.e === en)); save(); repaintPara(p.id, i);
+}
+function renderPart() {
+  const p = curPart(); const host = $('#part-host');
+  if (p.kind === 'reading') {
+    const short = p.src.items.every(it => it.opts.every(o => o.length <= 26));
+    host.innerHTML = `<section class="card part">${partHead(p, '10 questions')}<div class="split two${S.layout === 'stack' ? ' stack' : ''}" id="split">${readingPanel(p)}<div><p class="instr" style="padding:14px 20px 0;margin:0;color:var(--ink-2);font-size:14px">Questions ${p.src.items[0].n}–${p.src.items[9].n}: choose the best answer A, B, C or D.</p><div class="items">${p.src.items.map(it => mcq(it, short)).join('')}</div></div></div></section>`;
+    $('#btn-hl').addEventListener('click', () => { S.hlOn = !S.hlOn; save(); $('#btn-hl').classList.toggle('on', S.hlOn); $('#btn-hl').textContent = '🖍 Highlighter ' + (S.hlOn ? 'on' : 'off'); $('#passage').classList.toggle('hl-on', S.hlOn); });
+    $('#btn-hl-clear').addEventListener('click', () => { S.hl[p.id] = []; save(); p.src.paras.forEach((_, i) => repaintPara(p.id, i)); });
+    $('#passage').addEventListener('mouseup', () => setTimeout(onPassageMouseUp, 10));
+    $('#passage').addEventListener('touchend', () => setTimeout(onPassageMouseUp, 150));
+    $('#passage').addEventListener('click', onPassageClick);
+  } else if (p.kind === 'listening') {
+    const L = p.src;
+    host.innerHTML = `<section class="card part">${partHead(p, PART_ITEMS[p.id].length + ' questions')}
+      <div class="audio-box" id="audio-box"></div>
+      <p class="instr" style="padding:12px 20px 0;margin:0;color:var(--ink-2);font-size:14px">${esc(L.instr)}</p>
+      ${L.example ? `<div style="padding:8px 20px 0"><details class="fold"><summary>Example (also on the recording)</summary><div class="in" style="font-size:14px;color:var(--ink-2)">${esc(L.example)}</div></details></div>` : ''}
+      ${L.blocks.map(b => `<div class="block-intro">${esc(b.intro)}</div><div class="items">${b.items.map(it => mcq(it, it.opts.every(o => o.length <= 26))).join('')}</div>`).join('')}</section>`;
+    renderAudio(p);
+  } else if (p.kind === 'writing') {
+    const W = p.src; const txt = S.writing[p.id] || '';
+    host.innerHTML = `<section class="card part">${partHead(p, 'at least ' + W.minWords + ' words')}<div style="padding:16px 20px 20px">
+      <p class="sub" style="font-style:italic">${esc(W.time)}</p>
+      ${W.situation ? `<p>${esc(W.situation)}</p><div class="prompt quote">${W.email.map(t => `<p>${esc(t)}</p>`).join('')}</div><p>${esc(W.instruction)}</p><ul style="margin:4px 0 10px">${W.points.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : `<div class="prompt"><p><b>${esc(W.topic)}</b></p></div><p>${esc(W.instruction)}</p>`}
+      <p class="sub">${esc(W.rules)}</p>
+      <textarea class="ta" id="ta-${p.id}" placeholder="Type your ${p.id === 'W1' ? 'email' : 'essay'} here…" spellcheck="true">${esc(txt)}</textarea>
+      <div class="wc"><span>Words: <b id="wc-${p.id}">0</b> / ${W.minWords} minimum</span><span id="wsave-${p.id}">saved</span></div></div></section>`;
+    const ta = $('#ta-' + p.id); const upd = () => { const n = words(ta.value); const b = $('#wc-' + p.id); b.textContent = n; b.className = n >= W.minWords ? 'ok' : 'low'; };
+    upd(); let deb = null;
+    ta.addEventListener('input', () => { upd(); $('#wsave-' + p.id).textContent = 'typing…'; clearTimeout(deb); deb = setTimeout(() => { S.writing[p.id] = ta.value; save(); $('#wsave-' + p.id).textContent = 'saved'; renderPartsNav(); renderPalette(); }, 400); });
+  } else if (p.kind === 'prep') {
+    const sp = TEST.speaking;
+    host.innerHTML = `<section class="card part">${partHead(p, 'read the card, make notes')}<div style="padding:16px 20px 20px">
+      <p class="sub">${esc(sp.prepBlurb)}</p>
+      <div class="cue"><b>${esc(sp.topic)}</b><div style="font:700 12px var(--font-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--orange-ink);margin:4px 0 6px">Part 2 · Long turn</div><p style="margin:0 0 6px"><b style="display:inline">${esc(sp.p2.task)}</b></p>You should say:<ul>${sp.p2.points.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${esc(sp.p2.explain)}</div>
+      <div class="rec-row" style="margin-top:14px"><textarea class="ta" id="ta-notes" style="min-height:120px" placeholder="Your notes (kept on this device)…">${esc(S.writing.notes || '')}</textarea></div>
+      <p style="margin:6px 0 0"><button class="btn purple" id="btn-skip-prep">Start Part 1 now</button></p></div></section>`;
+    $('#ta-notes').addEventListener('input', e => { S.writing.notes = e.target.value; save(); });
+    $('#btn-skip-prep').addEventListener('click', () => gotoPart(1));
+  } else if (p.kind === 'speak') {
+    const X = p.src; let body = '';
+    if (p.id === 'S1') body = `<p class="sub">The examiner asks these questions one at a time. Read each one aloud, then answer in two or three sentences (about 30 seconds each).</p><ul class="qlist">${X.sets.map(([lead, qs]) => qs.map((q, i) => `<li>${i === 0 ? `<span class="lead">${esc(lead)}</span>` : ''}${esc(q)}</li>`).join('')).join('')}</ul>`;
+    else if (p.id === 'S2') body = `<p class="sub">${esc(X.instr)}</p><div class="cue"><b>${esc(X.task)}</b>You should say:<ul>${X.points.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${esc(X.explain)}</div>${S.writing.notes ? `<details class="fold"><summary>My notes</summary><div class="in usertext">${esc(S.writing.notes)}</div></details>` : ''}<details class="fold"><summary>If you run out of things to say</summary><div class="in"><ul style="margin:0;padding-left:18px">${X.prompts.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div></details>`;
+    else body = `<p class="sub">The examiner asks two or three of these and challenges your first answer. Give an opinion, a reason and an example for each; then answer the challenge (Admittedly… / On the other hand…).</p><ol class="qlist" style="list-style:none">${X.qs.map((q, i) => `<li><span class="lead">Question ${i + 1}</span>${esc(q)}</li>`).join('')}</ol>`;
+    host.innerHTML = `<section class="card part">${partHead(p, X.min + ' minutes')}<div style="padding:16px 20px 20px">${body}
+      <div class="rec-row"><button class="rec" id="btn-rec">⏺ Record</button><span class="big-timer" id="rec-timer">${mmss(0)}</span><span class="rec-st" id="rec-st">${RECS[p.id] ? 'Recording kept for this part.' : 'Press Record, answer aloud, press Stop.'}</span></div>
+      <div id="rec-player">${RECS[p.id] ? `<audio controls src="${RECS[p.id].url}"></audio>` : ''}</div>
+      <div class="notes">What the examiner listens for: ${esc(X.note)}</div></div></section>`;
+    $('#btn-rec').addEventListener('click', () => toggleRec(p.id));
+  }
+}
+$('#part-host').addEventListener('change', onAnswer);
+function onAnswer(e) {
+  const el = e.target; if (!el || !el.matches('input[type=radio][name^="q-"]')) return;
+  const id = el.name.slice(2); S.answers[id] = el.value; $$(`input[name="${el.name}"]`).forEach(r => r.closest('.opt').classList.toggle('sel', r.checked));
+  save(); renderPartsNav(); renderPalette();
+}
+$('#part-host').addEventListener('click', e => { const b = e.target.closest('[data-flag]'); if (!b) return; const id = b.dataset.flag; S.flags[id] = !S.flags[id]; save(); b.classList.toggle('on', !!S.flags[id]); renderPalette(); });
+$('#btn-layout').addEventListener('click', () => { S.layout = S.layout === 'stack' ? 'side' : 'stack'; save(); const sp = $('#split'); if (sp) sp.classList.toggle('stack', S.layout === 'stack'); });
+/* ====================== QUESTION PALETTE ====================== */
+function renderPalette() {
+  const pal = $('#palette'); if (!pal || S.phase !== 'run') return;
+  const sk = curSkill(), parts = curParts(); const p = curPart();
+  if (sk === 'reading' || sk === 'listening') {
+    const its = takenItems().filter(it => it.skill === sk); const done = its.filter(it => S.answers[it.id]).length, flagged = its.filter(it => S.flags[it.id]).length;
+    pal.innerHTML = `<h4>Questions · ${done}/${its.length} answered${flagged ? ` · ${flagged} flagged` : ''}</h4>` + parts.map((pp, i) => `<div class="pgrp"><div class="lab${i === S.pi ? ' cur' : ''}${(S.partTime[pp.id] || 0) > pp.min * 60 ? ' over' : ''}" data-pi="${i}"><span>${esc(pp.id)} · ${esc(pp.title.replace(/^(Passage \d+|Part \d+) · /, ''))}</span><span class="pt" data-ppt="${pp.id}">${mmss(S.partTime[pp.id] || 0)}/${pp.min}′</span></div><div class="nums">${PART_ITEMS[pp.id].map(it => `<button data-q="${it.id}" data-pi="${i}" class="${S.answers[it.id] ? 'done' : ''}${S.flags[it.id] ? ' flag' : ''}">${it.n}</button>`).join('')}</div></div>`).join('') + `<div class="legend"><span><i class="d"></i>answered</span><span><i></i>not yet</span><span><i class="f"></i>flagged</span></div>`;
+  } else if (sk === 'writing') {
+    pal.innerHTML = `<h4>Tasks</h4>` + parts.map((pp, i) => `<div class="prow${i === S.pi ? ' cur' : ''}" data-pi="${i}"><span>${esc(pp.title)}</span><b>${words(S.writing[pp.id])} w</b></div>`).join('') + `<div class="legend"><span>Task 1 ≥ 120 words · Task 2 ≥ 250 words</span></div>`;
+  } else {
+    pal.innerHTML = `<h4>Parts</h4>` + parts.map((pp, i) => `<div class="prow${i === S.pi ? ' cur' : ''}" data-pi="${i}"><span>${esc(pp.title)}</span><b>${pp.id === 'S0' ? (S.writing.notes ? 'notes' : '—') : RECS[pp.id] ? '● rec' : '—'}</b></div>`).join('') + `<div class="legend"><span>● = a recording is kept for this part</span></div>`;
+  }
+  pal.onclick = e => {
+    const q = e.target.closest('[data-q]');
+    if (q) { const i = +q.dataset.pi; const go = () => { const el = $(`[data-item="${q.dataset.q}"]`); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.style.outline = '2px solid var(--orange)'; setTimeout(() => el.style.outline = '', 1500); } }; if (i !== S.pi) { gotoPart(i); setTimeout(go, 80); } else go(); return; }
+    const r = e.target.closest('[data-pi]'); if (r) { const i = +r.dataset.pi; if (i !== S.pi) gotoPart(i); }
+  };
+}
+
+/* ====================== AUDIO ====================== */
+let AU = null;
+function renderAudio(p) {
+  const box = $('#audio-box'); const st = S.audio[p.id] || 'idle';
+  if (AU) { try { AU.pause(); } catch (e) {} AU = null; }
+  if (S.mode === 'practice') {
+    box.innerHTML = `<div style="grid-column:1/-1"><div class="st"><b>Practice mode:</b> play, pause or replay as often as you like.</div><audio controls preload="auto" src="${p.src.audio}"></audio></div>`; return;
+  }
+  const once = st === 'ended';
+  box.innerHTML = `<button class="play" id="btn-play" ${once ? 'disabled' : ''} aria-label="Play">${once ? '✓' : '▶'}</button><div><div class="st" id="au-st">${once ? '<b>The recording has finished.</b> Check your answers, then go to the next part.' : st === 'playing' ? '<b>Continuing the recording…</b> press play to resume where it stopped.' : `<b>Press play once.</b> The recording lasts about ${p.src.audioMin} minutes and cannot be paused or replayed.`}</div><div class="track"><div class="fill" id="au-fill" style="width:${once ? 100 : 0}%"></div></div></div>`;
+  AU = new Audio(p.src.audio); AU.preload = 'auto';
+  const resume = S.audioPos[p.id] || 0;
+  AU.addEventListener('timeupdate', () => { if (!AU.duration) return; $('#au-fill').style.width = (AU.currentTime / AU.duration * 100) + '%'; $('#au-st').innerHTML = `<b>Playing…</b> ${mmss(AU.currentTime)} / ${mmss(AU.duration)}`; if (Math.floor(AU.currentTime) % 2 === 0) { S.audioPos[p.id] = AU.currentTime; save(); } });
+  AU.addEventListener('ended', () => { S.audio[p.id] = 'ended'; S.audioPos[p.id] = 0; save(); $('#btn-play').disabled = true; $('#btn-play').textContent = '✓'; $('#au-st').innerHTML = '<b>The recording has finished.</b> Check your answers, then go to the next part.'; $('#au-fill').style.width = '100%'; });
+  $('#btn-play').addEventListener('click', () => {
+    const b = $('#btn-play'); b.disabled = true; b.textContent = '♪';
+    if (resume > 1 && st === 'playing') { try { AU.currentTime = resume; } catch (e) {} }
+    S.audio[p.id] = 'playing'; save();
+    AU.play().catch(() => { b.disabled = false; b.textContent = '▶'; $('#au-st').innerHTML = '<b>Could not start the audio.</b> Check the sound and press play again.'; });
+  });
+}
+
+/* ====================== RECORDING ====================== */
+let REC = null, recTick = null, recStart = 0;
+async function toggleRec(pid) {
+  const b = $('#btn-rec'); if (REC) { stopRec(); return; }
+  if (!navigator.mediaDevices || !window.MediaRecorder) { $('#rec-st').textContent = 'Recording is not supported in this browser. Record on your phone instead.'; return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const chunks = []; REC = new MediaRecorder(stream); REC.pid = pid; REC.stream = stream;
+    REC.ondataavailable = e => chunks.push(e.data);
+    REC.onstop = () => { const blob = new Blob(chunks, { type: REC.mimeType || 'audio/webm' }); RECS[pid] = { url: URL.createObjectURL(blob), blob, sec: Math.round((Date.now() - recStart) / 1000) }; stream.getTracks().forEach(t => t.stop()); REC = null; const pl = $('#rec-player'); if (pl) pl.innerHTML = `<audio controls src="${RECS[pid].url}"></audio>`; const st = $('#rec-st'); if (st) st.textContent = 'Recorded ' + mmss(RECS[pid].sec) + '. Listen back, or record again to replace it.'; if (b) { b.classList.remove('on'); b.textContent = '⏺ Record again'; } clearInterval(recTick); renderPalette(); };
+    REC.start(); recStart = Date.now(); b.classList.add('on'); b.textContent = '⏹ Stop'; $('#rec-st').textContent = 'Recording… speak now.';
+    const lim = (curPart().src.min || 3) * 60;
+    recTick = setInterval(() => { const s = (Date.now() - recStart) / 1000; const t = $('#rec-timer'); if (t) { t.textContent = mmss(s); t.classList.toggle('over', s > lim); } }, 500);
+  } catch (e) { $('#rec-st').textContent = 'Microphone not available: ' + (e.message || 'permission denied') + '. You can still practise aloud.'; }
+}
+function stopRec() { if (REC && REC.state !== 'inactive') { try { REC.stop(); } catch (e) {} } clearInterval(recTick); }
+
+/* ====================== TIMER ====================== */
+let tick = null;
+function startTimer() {
+  clearInterval(tick); S.lastTick = Date.now();
+  const run = () => {
+    if (S.status !== 'running' || S.phase !== 'run') return;
+    const now = Date.now(), p = curPart();
+    if (!p) return;
+    if (document.visibilityState === 'visible') { const d = Math.min(5, (now - (S.lastTick || now)) / 1000); S.partTime[p.id] = (S.partTime[p.id] || 0) + d; }
+    S.lastTick = now;
+    const elapsed = (now - S.secStart) / 1000, left = S.secDur - elapsed, t = $('#timer');
+    const exam = S.mode === 'exam';
+    t.firstChild.textContent = exam ? mmss(Math.max(0, left)) : mmss(elapsed);
+    t.className = 'time' + (exam ? (left <= 60 ? ' danger' : left <= 300 ? ' warn' : '') : (left < 0 ? ' warn' : ''));
+    $('#timer-lbl').textContent = PLAN[curSkill()].label + (exam ? ' · left' : left < 0 ? ' · over the ' + Math.round(S.secDur / 60) + ' min' : ' · elapsed');
+    $('#prog-fill').style.width = Math.min(100, elapsed / S.secDur * 100) + '%';
+    $('#mid-right').textContent = `${p.id} · ${mmss(S.partTime[p.id] || 0)} of ${p.min} min`;
+    const pv = $('#ptimer-v'); if (pv) { pv.textContent = mmss(S.partTime[p.id] || 0); $('#ptimer').classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
+    const pt = $(`[data-pt="${p.id}"]`); if (pt) { pt.textContent = `${mmss(S.partTime[p.id] || 0)}/${p.min}′`; pt.parentElement.classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
+    const ppt = $(`[data-ppt="${p.id}"]`); if (ppt) { ppt.textContent = `${mmss(S.partTime[p.id] || 0)}/${p.min}′`; ppt.parentElement.classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
+    if (Math.floor(elapsed) % 5 === 0) save();
+    if (exam && left <= 0) { clearInterval(tick); finishSection(true); }
+  };
+  run(); tick = setInterval(run, 1000);
+}
+
+/* ====================== FINISH SECTION / SUBMIT ====================== */
+function ask(msg, okLabel) {
+  return new Promise(res => {
+    const m = $('#modal'); $('#modal-msg').textContent = msg; $('#modal-ok').textContent = okLabel || 'Submit'; m.hidden = false;
+    const done = v => { m.hidden = true; $('#modal-ok').onclick = $('#modal-cancel').onclick = null; res(v); };
+    $('#modal-ok').onclick = () => done(true); $('#modal-cancel').onclick = () => done(false); $('#modal-ok').focus();
+  });
+}
+$('#btn-finish').addEventListener('click', () => finishSection(false));
+$('#btn-finish-top').addEventListener('click', () => finishSection(false));
+async function finishSection(auto) {
+  if (S.status !== 'running' || S.phase !== 'run') return;
+  const sk = curSkill(), last = S.si >= S.skills.length - 1;
+  if (!auto) {
+    const note = (sk === 'reading' || sk === 'listening') ? unansweredNote() + ' ' : sk === 'writing' ? `Task 1: ${words(S.writing.W1)} words, Task 2: ${words(S.writing.W2)} words. ` : '';
+    const ok = await ask(`${note}${last ? 'Finish and submit the whole test?' : 'Finish ' + PLAN[sk].label + ' and move on? You cannot come back to it.'}`, last ? 'Submit' : 'Finish');
+    if (!ok || S.status !== 'running') return;
+  }
+  clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; }
+  const el = Math.round((Date.now() - S.secStart) / 1000); S.secTime[sk] = S.mode === 'exam' ? Math.min(S.secDur, el) : el; S.secAuto[sk] = !!auto;
+  S.si++; S.phase = 'intro'; S.pi = 0; save();
+  if (S.si < S.skills.length) { renderSkillNav(); renderIntro(); window.scrollTo({ top: 0 }); } else submitAll();
+}
+function grade() {
+  const rows = takenItems().map(it => { const a = S.answers[it.id] || ''; return { id: it.id, a, ok: isRight(it, a) }; });
+  const okById = Object.fromEntries(rows.map(r => [r.id, r.ok]));
+  const cnt = sk => ITEMS.filter(it => it.skill === sk && okById[it.id]).length;
+  const total = objMax(), correct = rows.filter(r => r.ok).length;
+  return { rows, correct, total, reading: S.skills.includes('reading') ? cnt('reading') : null, listening: S.skills.includes('listening') ? cnt('listening') : null, score10: total ? Math.round(correct / total * 100) / 10 : 0 };
+}
+function submitAll() {
+  const g = grade(), now = Date.now();
+  S.result = { name: S.name, sid: S.sid, mode: S.mode, skills: S.skills, parts: S.parts, partsTaken: S.skills.map(sk => takenParts(sk).map(p => p.id).join(',')).join('|'), rmax: takenParts('reading').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), lmax: takenParts('listening').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), score10: g.score10, correct: g.correct, total: g.total, reading: g.reading, listening: g.listening,
+    timeSec: Object.values(S.secTime).reduce((s, x) => s + x, 0), startedAt: new Date(S.secStart).toISOString(), submittedAt: new Date(now).toISOString(), clientId: S.clientId,
+    auto: Object.values(S.secAuto).some(Boolean), secAuto: S.secAuto, answers: g.rows, writing: { W1: S.writing.W1 || '', W2: S.writing.W2 || '' }, wwords: { W1: words(S.writing.W1), W2: words(S.writing.W2) }, secTime: S.secTime, partTime: Object.fromEntries(Object.entries(S.partTime).map(([k, v]) => [k, Math.round(v)])) };
+  S.status = 'done'; S.pending = S.result; save();
+  renderResults(); showTab('results'); lockTest(); send();
+}
+function exitAttempt() {
+  ask('Leave this attempt and go back to the start page? Answers and clocks of this attempt will be discarded.', 'Leave').then(ok => { if (!ok) return; clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; } S = Object.assign(fresh(), { name: S.name, sid: S.sid, clientId: S.clientId }); save(); $('#quiz').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; pickSummary(); window.scrollTo({ top: 0 }); });
+}
+$('#btn-exit').addEventListener('click', exitAttempt);
+$('#btn-again').addEventListener('click', () => { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; pickSummary(); showTab('test'); });
+function lockTest() { $('#quiz').hidden = true; $('#start-card').hidden = true; $('#reset-note').hidden = true; $('#done-card').hidden = false; $('#tab-btn-results').hidden = false; }
+function resetForRetake() { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#quiz').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#reset-note').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; }
+async function send() {
+  const st = $('#r-status'); const r = S.pending; if (!r) return;
+  st.className = 'status'; st.innerHTML = '<span class="dot"></span><span>Saving to the class sheet…</span>';
+  try {
+    const j = await api('submit', r); if (!j.ok) throw new Error(j.error || 'rejected');
+    S.pending = null; save(); st.className = 'status ok';
+    st.innerHTML = '<span class="dot"></span><span>' + (CONFIG.API_URL ? 'Saved to the class sheet. See the <a href="#" data-go="report">class report</a>.' : 'Saved on this device. The class sheet is not connected yet.') + '</span>';
+  } catch (e) {
+    st.className = 'status err'; st.innerHTML = '<span class="dot"></span><span>Could not reach the class sheet — your result is kept on this device and will be sent when you reopen this page. </span><button class="btn ghost sm" id="btn-retry">Retry now</button>';
+    $('#btn-retry').addEventListener('click', send);
+  }
+}
+
+/* ====================== RESULTS ====================== */
+function markText(text, spans) {
+  // spans: [{s, e, labels:[..]}] non-overlapping, sorted
+  if (!spans.length) return esc(text);
+  let out = '', pos = 0;
+  spans.forEach(sp => { out += esc(text.slice(pos, sp.s)) + `<mark class="hl" data-q="${sp.labels.join(' ')}">${esc(text.slice(sp.s, sp.e))}<sup style="font:700 10px var(--font-mono);color:var(--orange-ink);margin-left:2px">${sp.labels.map(l => l.replace(/^[RL]/, 'Q')).join(',')}</sup></mark>`; pos = sp.e; });
+  return out + esc(text.slice(pos));
+}
+function buildMarks(texts, items) {
+  const per = texts.map(() => []);
+  items.forEach(it => it.ev.forEach(ev => { const t = texts[ev.p]; const s = t.indexOf(ev.t); if (s < 0) return; per[ev.p].push({ s, e: s + ev.t.length, labels: [it.id] }); }));
+  return per.map(list => { list.sort((a, b) => a.s - b.s); const out = []; list.forEach(x => { const last = out[out.length - 1]; if (last && x.s < last.e) { last.e = Math.max(last.e, x.e); if (!last.labels.includes(x.labels[0])) last.labels.push(x.labels[0]); } else out.push({ s: x.s, e: x.e, labels: x.labels.slice() }); }); return out; });
+}
+function reviewItem(it, a, prefix) {
+  prefix = prefix || '';
+  const given = a.a === '' ? '<i>no answer</i>' : esc(a.a + '. ' + it.opts['ABCD'.indexOf(a.a)]);
+  return `<div class="item ${a.ok ? 'ok' : 'wrong'}" id="rv-${prefix}${it.id}"><div class="mark ${a.ok ? 'ok' : 'no'}">${a.ok ? '✓' : '✗'}</div><div>
+    <p class="q"><span class="chip mu" style="margin-right:6px">${it.n}</span>${esc(it.q)}</p>
+    <div class="ans"><span class="you ${a.ok ? 'ok' : ''}">Your answer: ${given}</span>${a.ok ? '' : `<span class="key">Correct: ${keyLetter(it)}. ${esc(it.opts[it.a])}</span>`}</div>
+    <div class="exp">${esc(it.exp)}</div>
+    ${it.ev.length ? `<div class="ev"><span>In the text:</span> ${it.ev.map(e => `<q>${esc(e.t)}</q>`).join(' ')} <button data-loc="${it.id}" data-prefix="${prefix}">Show in text</button></div>` : ''}</div></div>`;
+}
+function buildReview(r, prefix) {
+  prefix = prefix || '';
+  const okById = Object.fromEntries(r.answers.map(a => [a.id, a]));
+  const objParts = PARTS.filter(p => (p.kind === 'reading' || p.kind === 'listening') && (r.skills || []).includes(p.skill) && partsTakenIds(r, p.skill).includes(p.id));
+  return objParts.map(p => {
+    const its = PART_ITEMS[p.id];
+    let textBlock;
+    if (p.kind === 'reading') { const marks = buildMarks(p.src.paras, its); textBlock = passageHtml(p.src, marks); }
+    else { textBlock = '<div class="script" style="padding:12px 16px">' + p.src.blocks.map(b => { const texts = b.script.map(l => l.t); const marks = buildMarks(texts, b.items); return `<p style="color:var(--orange-ink);font:700 12px var(--font-cond);letter-spacing:.08em;text-transform:uppercase;margin-top:12px">${esc(b.intro)}</p>` + b.script.map((l, i) => `<p>${l.who ? `<b>${esc(l.who)}:</b> ` : ''}${markText(l.t, marks[i])}</p>`).join(''); }).join('') + '</div>'; }
+    return `<h3>${esc(p.title)}</h3><details class="fold" id="fold-${prefix}${p.id}"><summary>${p.kind === 'reading' ? 'Read the passage with the evidence highlighted' : 'Read the script with the evidence highlighted'}</summary><div class="in" style="padding:0">${textBlock}</div></details>` + its.map(it => reviewItem(it, okById[it.id], prefix)).join('');
+  }).join('') || '<div class="empty">No objective sections taken.</div>';
+}
+function renderResults() {
+  const r = S.result; if (!r) return;
+  const took = r.skills;
+  $('#r-score').innerHTML = `${r.correct}<small> / ${r.total} objective</small>`;
+  const facts = [];
+  if (took.includes('reading')) facts.push(['Reading', `${r.reading} / ${r.rmax || 40}`, mmss(r.secTime.reading || 0) + ' used']);
+  if (took.includes('listening')) facts.push(['Listening', `${r.listening} / ${r.lmax || 35}`, mmss(r.secTime.listening || 0) + ' used']);
+  if (took.includes('writing')) facts.push(['Writing', `${r.wwords.W1} + ${r.wwords.W2} w`, 'teacher marks /30']);
+  if (took.includes('speaking')) facts.push(['Speaking', `${['S1', 'S2', 'S3'].filter(k => RECS[k]).length} / 3 rec.`, 'teacher marks /10']);
+  facts.push(['Objective /10', r.score10.toFixed(1), `${r.correct} of ${r.total}`], ['Submitted', fmtDate(r.submittedAt), r.auto ? 'a section timed out' : r.mode + ' mode']);
+  $('#r-facts').innerHTML = facts.map(f => `<div class="fact"><div class="l">${f[0]}</div><div class="v">${f[1]}</div><div class="s">${f[2]}</div></div>`).join('');
+  // time table
+  let rows = '';
+  took.forEach(sk => {
+    const pl = PLAN[sk], used = r.secTime[sk] || 0, tp = takenParts(sk), lim = skillMinutes(sk);
+    rows += `<tr><td><b>${pl.label}</b>${tp.length < partsOf(sk).length ? ` <span class="chip mu">${tp.length} of ${partsOf(sk).length} parts</span>` : ''}</td><td class="num">${lim}:00</td><td class="num ${used > lim * 60 ? 'over' : 'under'}">${mmss(used)}</td><td>${r.secAuto && r.secAuto[sk] ? 'time ran out' : used > lim * 60 ? 'over' : 'within the limit'}</td></tr>`;
+    tp.forEach(p => { const id = p.id, m = p.min, t = r.partTime[id] || 0; rows += `<tr><td style="padding-left:22px;color:var(--ink-2)">${esc(PART[id].title)}</td><td class="num">${m}:00</td><td class="num ${t > m * 60 ? 'over' : 'under'}">${mmss(t)}</td><td>${t > m * 60 ? 'over by ' + mmss(t - m * 60) : t === 0 ? '—' : 'ok'}</td></tr>`; });
+  });
+  $('#r-time').innerHTML = `<thead><tr><th>Section / part</th><th class="num">Plan</th><th class="num">You</th><th>Status</th></tr></thead><tbody>${rows}</tbody>`;
+  const okById = Object.fromEntries(r.answers.map(a => [a.id, a]));
+  const objParts = PARTS.filter(p => (p.kind === 'reading' || p.kind === 'listening') && took.includes(p.skill) && takenParts(p.skill).some(x => x.id === p.id));
+  $('#r-parts').innerHTML = objParts.map(p => { const its = PART_ITEMS[p.id]; const c = its.filter(it => okById[it.id] && okById[it.id].ok).length; return bar(p.title, c / its.length * 100, `${c}/${its.length}`); }).join('') || '<div class="empty">No objective sections taken.</div>';
+  // review with evidence
+  $('#r-review').innerHTML = buildReview(r, '');
+  $$('.filter .toggle').forEach(b => b.onclick = () => { $$('.filter .toggle').forEach(x => x.classList.toggle('on', x === b)); const w = b.dataset.f === 'wrong'; $$('#r-review .item.ok').forEach(el => el.hidden = w); });
+  $('#r-review').onclick = e => { const b = e.target.closest('[data-loc]'); if (!b) return; locate(b.dataset.loc, ''); };
+  renderWritingResults(); renderSpeakingResults();
+}
+function locate(id, prefix) {
+  prefix = prefix || '';
+  const it = ITEM[id]; const fold = $('#fold-' + prefix + it.part); if (!fold) return; fold.open = true;
+  const marks = $$(`#fold-${prefix}${it.part} mark.hl`).filter(m => m.dataset.q.split(' ').includes(id));
+  if (!marks.length) return;
+  marks.forEach(m => { m.classList.remove('flash'); void m.offsetWidth; m.classList.add('flash'); });
+  marks[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function bar(label, pct, val, low) { return `<div class="bar"><div class="n" title="${esc(label)}">${esc(label)}</div><div class="t"><div class="f${(low !== undefined ? low : pct < 50) ? ' low' : ''}" style="width:${pct.toFixed(1)}%"></div></div><div class="v">${val}</div></div>`; }
+
+/* ---- writing results: structure check + checklist + sample ---- */
+function analyse(text, W) {
+  const t = String(text || ''); const low = t.toLowerCase(); const n = words(t);
+  const paras = t.split(/\n\s*\n|\n/).map(x => x.trim()).filter(x => x.length > 0).length;
+  const col = TEST.writing.colloc.filter(c => low.includes(c.toLowerCase().trim()));
+  const link = TEST.writing.linkers.filter(c => low.includes(c));
+  const TW = TEST.writing.topicWord; const topicN = (low.match(new RegExp(TW.re, 'g')) || []).length;
+  const rx = (s, f) => new RegExp(s, f);
+  const hits = {}; Object.entries(W.re || {}).forEach(([k, v]) => { hits[k] = rx(v[0], v[1]).test(k === 'sign' ? t.trim() : t); });
+  if (W.re && W.re.sign2) hits.sign = hits.sign || hits.sign2;
+  return { n, paras, col, link, topicN, hits, minOk: n >= W.minWords };
+}
+function autoCheck(a, an) {
+  if (a === null) return null;
+  const [k, v] = a.split(':');
+  if (k === 'hits') return v.split('+').every(x => an.hits[x]);
+  if (k === 'paras') return an.paras >= +v;
+  if (k === 'colloc') return an.col.length >= +v;
+  if (k === 'colloc_topic') return an.col.length >= +v && an.topicN <= TEST.writing.topicWord.max;
+  return null;
+}
+function renderWritingResults() {
+  const host = $('#r-writing'); const r = S.result;
+  if (!r.skills.includes('writing')) { host.innerHTML = ''; return; }
+  const crit = `<h3>Marking criteria</h3><div class="tbl-wrap"><table class="tm"><thead><tr><th>Criterion</th><th>What the examiner looks for</th></tr></thead><tbody>${TEST.writing.criteria.map(c => `<tr><td><b>${esc(c[0])}</b></td><td>${esc(c[1])}</td></tr>`).join('')}</tbody></table></div>`;
+  host.innerHTML = ['t1', 't2'].filter(k => takenParts('writing').some(p => p.id === TEST.writing[k].id)).map(k => {
+    const W = TEST.writing[k], id = W.id, txt = S.writing[id] || '', an = analyse(txt, W);
+    const auto = W.auto.map(a => autoCheck(a, an)), Q = W.q;
+    const stats = [[`${an.n} words`, an.minOk], [`${an.paras} paragraph${an.paras === 1 ? '' : 's'}`, an.paras >= Q.paras], [`${an.col.length} unit phrases`, an.col.length >= Q.colloc], [`${an.link.length} linking words`, an.link.length >= Q.link]];
+    if (id === 'W2') stats.push([`${TEST.writing.topicWord.label} × ${an.topicN}`, an.topicN <= TEST.writing.topicWord.max]);
+    return `<div class="card"><h2>${esc(W.title)}</h2><p class="sub">Structure check from your text (counts only, not a grammar check). Tick the boxes you can defend; the teacher gives the mark out of ${W.marks}.</p>
+      <div class="stat-row">${stats.map(s => `<span class="stat ${s[1] ? 'ok' : 'no'}">${esc(s[0])}</span>`).join('')}</div>
+      ${an.col.length ? `<p style="font-size:13px;color:var(--ink-2);margin:0 0 10px">Unit phrases found: ${an.col.map(c => `<span class="chip mu">${esc(c.trim())}</span>`).join(' ')}</p>` : ''}
+      <ul class="checks">${W.checks.map((c, i) => { const a = auto[i]; const key = id + ':' + i; const on = S.ticks[key] !== undefined ? S.ticks[key] : (a === true); return `<li class="${a === true ? 'auto-ok' : a === false ? 'auto-no' : ''}"><input type="checkbox" data-tick="${key}" ${on ? 'checked' : ''}><span>${esc(c)}${a === true ? ' <span class="chip gd">found</span>' : a === false ? ' <span class="chip or">check</span>' : ''}</span></li>`; }).join('')}</ul>
+      <h3>Your text</h3><div class="usertext">${txt.trim() ? esc(txt) : '<i>(empty)</i>'}</div>
+      <details class="fold"><summary>Sample answer</summary><div class="in"><div class="sample">${W.sample.map(t => `<p>${esc(t)}</p>`).join('')}<p class="n">${esc(W.sampleNote)}</p></div></div></details>
+      ${k === 't2' ? crit : ''}</div>`;
+  }).join('');
+  host.onchange = e => { const c = e.target.closest('[data-tick]'); if (!c) return; S.ticks[c.dataset.tick] = c.checked; save(); };
+}
+function renderSpeakingResults() {
+  const host = $('#r-speaking'); const r = S.result;
+  if (!r.skills.includes('speaking')) { host.innerHTML = ''; return; }
+  const sp = TEST.speaking;
+  const partBox = (id, X, body) => `<div class="card"><h2>${esc(X.title)} · ${X.marks} marks</h2>
+    ${RECS[id] ? `<audio controls src="${RECS[id].url}" style="width:100%;margin:6px 0 10px"></audio><p class="sub">Your recording (${mmss(RECS[id].sec)}). It stays in this browser tab only; download it from the player menu if you want to keep it.</p>` : '<p class="sub">No recording kept for this part' + (S.recLost ? ' (recordings are lost when the page is reloaded)' : '') + '. Listen back on your phone if you recorded there.</p>'}
+    <ul class="checks">${sp.checks[id].map((c, i) => { const key = id + ':' + i; return `<li><input type="checkbox" data-tick="${key}" ${S.ticks[key] ? 'checked' : ''}><span>${esc(c)}</span></li>`; }).join('')}</ul>
+    <div class="notes" style="margin-top:10px">Examiner's notes: ${esc(X.note)}</div>${body || ''}</div>`;
+  const tk = takenParts('speaking').map(p => p.id);
+  host.innerHTML = (tk.includes('S1') ? partBox('S1', sp.p1, `<details class="fold"><summary>The questions again</summary><div class="in"><ul class="qlist">${sp.p1.sets.map(([lead, qs]) => qs.map((q, i) => `<li>${i === 0 ? `<span class="lead">${esc(lead)}</span>` : ''}${esc(q)}</li>`).join('')).join('')}</ul></div></details>`) : '')
+    + (tk.includes('S2') ? partBox('S2', sp.p2, `<details class="fold"><summary>Sample answer (about 2 minutes)</summary><div class="in"><div class="sample">${sp.p2.sample.map(t => `<p>${esc(t)}</p>`).join('')}</div></div></details>`) : '')
+    + (tk.includes('S3') ? partBox('S3', sp.p3, `<details class="fold"><summary>Possible lines of argument</summary><div class="in"><div class="tbl-wrap"><table class="tm"><thead><tr><th>Question</th><th>Points a good candidate might make</th></tr></thead><tbody>${sp.p3.sample.map(s => `<tr><td><b>${esc(s[0])}</b></td><td>${esc(s[1])}</td></tr>`).join('')}</tbody></table></div></div></details>`) : '');
+  host.onchange = e => { const c = e.target.closest('[data-tick]'); if (!c) return; S.ticks[c.dataset.tick] = c.checked; save(); };
+}
+
+/* ====================== REPORT ====================== */
+let rpTimer = null, RANK = [], RAW = [], sortKey = 'rank', sortDir = 1;
+async function loadReport() {
+  clearInterval(rpTimer); const st = $('#rp-status'); st.textContent = 'Loading…';
+  try {
+    const j = await api(isStaff() ? 'list_full' : 'list'); if (!j.ok) throw new Error(j.error || 'error');
+    if (j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); }
+    const rows = j.rows || []; RAW = rows;
+    $('#rp-note').hidden = !!CONFIG.API_URL; if (!CONFIG.API_URL) $('#rp-note').textContent = 'The class sheet is not connected yet: this report shows only submissions saved on this device.';
+    renderReport(rows); st.textContent = `${rows.length} submission${rows.length === 1 ? '' : 's'} · updated ${new Date().toLocaleTimeString('en-GB')}`;
+  } catch (e) { st.textContent = 'Could not load the class sheet. Check your connection and refresh.'; }
+  rpTimer = setInterval(() => { if (!$('#tab-report').hidden && document.visibilityState === 'visible') loadReport(); }, 45000);
+}
+$('#btn-refresh').addEventListener('click', loadReport);
+function cleanRows(rows) { return rows.map(r => ({ ...r, score10: +r.score10 || 0, correct: +r.correct || 0, total: +r.total || 0, reading: r.reading === null || r.reading === undefined || r.reading === '' ? null : +r.reading, listening: r.listening === null || r.listening === undefined || r.listening === '' ? null : +r.listening, timeSec: +r.timeSec || 0, rmax: +r.rmax || 40, lmax: +r.lmax || 35, partsTaken: r.partsTaken || '', answers: Array.isArray(r.answers) ? r.answers : [], writing: r.writing && typeof r.writing === 'object' ? r.writing : { W1: '', W2: '' }, wwords: r.wwords || {} })).filter(r => r.name); }
+function dedupe(rows) { const clean = cleanRows(rows).sort((a, b) => new Date(a.submittedAt) - new Date(b.submittedAt)); const seen = new Map(); clean.forEach(r => { const k = norm(r.name) + '|' + norm(r.sid); if (seen.has(k)) seen.get(k).attempts++; else seen.set(k, { ...r, attempts: 1 }); }); return Array.from(seen.values()); }
+function renderReport(rows) {
+  const R = dedupe(rows);
+  R.sort((a, b) => b.score10 - a.score10 || a.timeSec - b.timeSec || new Date(a.submittedAt) - new Date(b.submittedAt));
+  R.forEach((r, i) => r.rank = i + 1); RANK = R;
+  const n = R.length, scores = R.map(r => r.score10).sort((a, b) => a - b), PM = +SET.passMark;
+  const mean = n ? scores.reduce((s, x) => s + x, 0) / n : 0, median = n ? (n % 2 ? scores[(n - 1) / 2] : (scores[n / 2 - 1] + scores[n / 2]) / 2) : 0;
+  const pass = n ? R.filter(r => r.score10 >= PM).length : 0;
+  const rd = R.filter(r => r.reading !== null), ls = R.filter(r => r.listening !== null);
+  $('#rp-kpis').innerHTML = [
+    ['Students', n, rows.length > n ? (rows.length - n) + ' repeat attempt' + (rows.length - n > 1 ? 's' : '') + ' hidden' : 'first attempts'],
+    ['Average /10', n ? mean.toFixed(1) : '—', n ? `median ${median.toFixed(1)}` : ''],
+    ['Reading /40', rd.length ? (rd.reduce((s, r) => s + r.reading, 0) / rd.length).toFixed(1) : '—', rd.length + ' took it'],
+    ['Listening /35', ls.length ? (ls.reduce((s, r) => s + r.listening, 0) / ls.length).toFixed(1) : '—', ls.length + ' took it'],
+    ['Reached ' + PM.toFixed(1), n ? Math.round(pass / n * 100) + '%' : '—', `${pass} of ${n}`]
+  ].map(k => `<div class="kpi"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+  const bins = [0, 0, 0, 0, 0]; R.forEach(r => bins[Math.min(4, Math.floor(r.score10 / 2))]++);
+  const mx = Math.max(1, ...bins);
+  $('#rp-dist').innerHTML = bins.map((b, i) => `<div class="col" data-tip="${b} student${b === 1 ? '' : 's'} scored ${['0–1.9', '2–3.9', '4–5.9', '6–7.9', '8–10'][i]}"><span class="lab">${b || ''}</span><div class="c" style="height:${(b / mx * 80).toFixed(1)}%"></div></div>`).join('');
+  const stat = {}; ITEMS.forEach(it => stat[it.id] = { n: 0, ok: 0, wrong: {} });
+  R.forEach(r => r.answers.forEach(a => { const s = stat[a.id]; if (!s) return; s.n++; if (a.ok) s.ok++; else { const k = a.a === '' ? '(no answer)' : a.a; s.wrong[k] = (s.wrong[k] || 0) + 1; } }));
+  const acc = ids => { let t = 0, ok = 0; ids.forEach(id => { t += stat[id].n; ok += stat[id].ok; }); return t ? ok / t * 100 : 0; };
+  $('#rp-partsacc').innerHTML = PARTS.filter(p => PART_ITEMS[p.id]).map(p => { const pc = acc(PART_ITEMS[p.id].map(it => it.id)); return bar(p.title, pc, n ? Math.round(pc) + '%' : '—', pc < 60); }).join('');
+  renderRank();
+  const list = ITEMS.map(it => { const s = stat[it.id]; const wrongN = s.n - s.ok; const top = Object.entries(s.wrong).sort((a, b) => b[1] - a[1])[0]; return { it, n: s.n, wrongN, rate: s.n ? wrongN / s.n : 0, top }; }).filter(x => x.wrongN > 0).sort((a, b) => b.rate - a.rate || b.wrongN - a.wrongN).slice(0, 12);
+  $('#rp-mistakes').innerHTML = !n ? '<div class="empty">No submissions yet.</div>' : !list.length ? '<div class="empty">No mistakes recorded so far.</div>' :
+    `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>Question</th><th class="num">Wrong</th><th>Most common wrong answer</th><th>Correct</th><th>Explanation</th></tr></thead><tbody>` +
+    list.map(x => { const it = x.it; const w = x.top ? (/^[A-D]$/.test(x.top[0]) ? x.top[0] + '. ' + it.opts['ABCD'.indexOf(x.top[0])] : x.top[0]) : '—';
+      return `<tr><td class="rank">${it.id}</td><td>${esc(it.q).slice(0, 140)}</td><td class="num"><b>${Math.round(x.rate * 100)}%</b><div style="font-size:11px;color:var(--muted)">${x.wrongN}/${x.n}</div></td><td><span class="wrongans">${esc(w)}</span>${x.top ? `<div style="font-size:11px;color:var(--muted)">${x.top[1]} student${x.top[1] > 1 ? 's' : ''}</div>` : ''}</td><td><span class="keyans">${keyLetter(it)}. ${esc(it.opts[it.a])}</span></td><td style="font-size:13px;color:var(--ink-2)">${esc(it.exp)}</td></tr>`; }).join('') + '</tbody></table></div>';
+  applyLock();
+}
+function renderRank() {
+  const tb = $('#rp-rank tbody'); if (!RANK.length) { tb.innerHTML = '<tr><td colspan="8" class="empty">No submissions yet.</td></tr>'; return; }
+  const rows = RANK.slice().sort((a, b) => { let x = a[sortKey], y = b[sortKey]; if (sortKey === 'submittedAt') { x = new Date(x); y = new Date(y); } if (x === null) x = -1; if (y === null) y = -1; if (typeof x === 'string') { x = x.toLowerCase(); y = String(y).toLowerCase(); } return (x > y ? 1 : x < y ? -1 : 0) * sortDir || a.rank - b.rank; });
+  const medal = r => r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : '';
+  tb.innerHTML = rows.map(r => `<tr class="${r.rank <= 3 ? 'top' : ''}"><td class="num"><span class="rank">${r.rank}</span> <span class="medal">${medal(r)}</span></td><td>${esc(r.name)}${r.attempts > 1 ? `<span class="att">×${r.attempts}</span>` : ''}</td><td>${esc(r.sid || '')}</td><td class="num"><b>${r.score10.toFixed(1)}</b></td><td class="num" title="${esc(r.partsTaken || '')}">${r.reading === null ? '—' : r.reading + '/' + (r.rmax || 40)}</td><td class="num">${r.listening === null ? '—' : r.listening + '/' + (r.lmax || 35)}</td><td class="num">${mmss(r.timeSec)}</td><td>${fmtDate(r.submittedAt)}</td></tr>`).join('');
+  $$('#rp-rank th').forEach(th => th.classList.toggle('sorted', th.dataset.k === sortKey));
+}
+$$('#rp-rank th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = (k === 'score10' || k === 'reading' || k === 'listening') ? -1 : 1; } renderRank(); }));
+function downloadCsv(rows, fname) {
+  const head = ['Rank', 'Name', 'Class/ID', 'Objective /10', 'Reading', 'Listening', 'W1 words', 'W2 words', 'Time (s)', 'Submitted', 'Mode', 'Parts', 'Attempts', 'Writing T1', 'Writing T2'].concat(ITEMS.map(it => it.id));
+  const lines = [head].concat(rows.map(r => { const m = Object.fromEntries(r.answers.map(a => [a.id, a])); return [r.rank || '', r.name, r.sid || '', (+r.score10).toFixed(1), r.reading === null ? '' : r.reading, r.listening === null ? '' : r.listening, (r.wwords || {}).W1 || '', (r.wwords || {}).W2 || '', r.timeSec, r.submittedAt, r.mode || '', r.partsTaken || '', r.attempts || 1, (r.writing || {}).W1 || '', (r.writing || {}).W2 || ''].concat(ITEMS.map(it => m[it.id] ? (m[it.id].ok ? '1' : '0') : '')); }));
+  const csv = '﻿' + lines.map(l => l.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = fname; a.click();
+}
+$('#btn-csv').addEventListener('click', () => downloadCsv(RANK, CONFIG.CSV_PREFIX + '-ranking.csv'));
+function applyLock() { const u = S.status === 'done' || isStaff(); $('#rp-lock').hidden = u; $('#rp-mistakes').hidden = !u; $('#rank-card').hidden = !(SET.showRanking || isStaff()); }
+const tip = $('#tip');
+document.addEventListener('mousemove', e => { const c = e.target.closest('[data-tip]'); if (!c) { tip.classList.remove('show'); return; } tip.textContent = c.dataset.tip; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.classList.add('show'); });
+
+/* ====================== TEACHER / ADMIN ====================== */
+function setAuth(a) { A = a; try { a ? sessionStorage.setItem(CONFIG.KEY + ':auth', JSON.stringify(a)) : sessionStorage.removeItem(CONFIG.KEY + ':auth'); } catch (e) {} }
+function rememberedLogin() { try { return JSON.parse(localStorage.getItem(CONFIG.KEY + ':remember')); } catch (e) { return null; } }
+function setRemembered(user, password) { try { if (user && password) localStorage.setItem(CONFIG.KEY + ':remember', JSON.stringify({ user, password })); else localStorage.removeItem(CONFIG.KEY + ':remember'); } catch (e) {} }
+$('#btn-pw-toggle').addEventListener('click', () => { const inp = $('#l-pass'); const show = inp.type === 'password'; inp.type = show ? 'text' : 'password'; $('#btn-pw-toggle').textContent = show ? 'Hide' : 'Show'; });
+(function () { const r = rememberedLogin(); if (r) { $('#l-name').value = r.user; $('#l-pass').value = r.password; $('#l-remember').checked = true; } })();
+$('#btn-login').addEventListener('click', async () => {
+  const user = $('#l-name').value.trim(), password = $('#l-pass').value; const err = $('#l-err');
+  err.hidden = true; if (!user || !password) { err.hidden = false; err.lastElementChild.textContent = 'Enter your name and password.'; return; }
+  $('#btn-login').disabled = true;
+  try { const j = await api('login', { user, password }); if (!j.ok) throw new Error(j.error || 'Sign-in failed'); setAuth({ name: j.name || user, role: j.role || 'teacher', password }); if (j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); } setRemembered($('#l-remember').checked ? user : null, $('#l-remember').checked ? password : null); renderTeacher(); }
+  catch (e) { err.hidden = false; err.lastElementChild.textContent = 'Sign-in failed: ' + (e.message || 'wrong name or password'); }
+  $('#btn-login').disabled = false;
+});
+$('#l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btn-login').click(); });
+$('#btn-signout').addEventListener('click', () => { setAuth(null); renderTeacher(); applyLock(); });
+$('#l-remember').addEventListener('change', () => { if (!$('#l-remember').checked) setRemembered(null, null); });
+function renderTeacher() {
+  const on = isStaff(); $('#login-card').hidden = on; $('#teacher-panel').hidden = !on; $('#tab-btn-teacher').textContent = on ? (A.role === 'admin' ? 'Admin' : 'Teacher') : 'Teacher';
+  if (!on) { $('#l-name').value = $('#l-name').value || (CONFIG.LOCAL_USERS[0] || {}).name || ''; return; }
+  $('#t-name').textContent = A.name; $('#t-role').textContent = A.role === 'admin' ? 'Administrator · full access' : 'Teacher · view & export';
+  const adm = isAdmin();
+  $$('#admin-settings input, #admin-settings select, #btn-save-settings').forEach(el => el.disabled = !adm);
+  $('#settings-hint').textContent = adm ? 'Changes apply to every student the next time the page loads.' : 'Only the administrator can change settings.';
+  $('#btn-clear-all').hidden = !adm; $('#subs-admin-hint').hidden = !adm;
+  $('#s-open').value = SET.open ? '1' : '0'; $('#s-pass').value = SET.passMark; $('#s-rank').value = SET.showRanking ? '1' : '0'; $('#s-msg').value = SET.message || '';
+  loadSubs();
+}
+$('#btn-save-settings').addEventListener('click', async () => {
+  const st = $('#s-status'); st.hidden = false; st.className = 'status'; st.lastElementChild.textContent = 'Saving…';
+  const settings = { open: $('#s-open').value === '1', passMark: Math.max(0, Math.min(10, +$('#s-pass').value || CONFIG.PASS_MARK)), showRanking: $('#s-rank').value === '1', message: $('#s-msg').value.trim().slice(0, 200) };
+  try { const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error); SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); st.className = 'status ok'; st.lastElementChild.textContent = 'Saved.'; }
+  catch (e) { st.className = 'status err'; st.lastElementChild.textContent = 'Could not save: ' + (e.message || 'error'); }
+});
+async function loadSubs() {
+  const st = $('#subs-status'); st.textContent = 'Loading…';
+  try {
+    const j = await api(isStaff() ? 'list_full' : 'list'); if (!j.ok) throw new Error(j.error);
+    RAW = cleanRows(j.rows || []).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+    const tb = $('#subs-tbl tbody'); const adm = isAdmin();
+    tb.innerHTML = RAW.length ? RAW.map((r, i) => `<tr><td>${fmtDate(r.submittedAt)}${r.auto ? ' <span class="att">time up</span>' : ''}${r.mode === 'practice' ? ' <span class="att">practice</span>' : ''}</td><td>${esc(r.name)}</td><td>${esc(r.sid || '')}</td><td class="num">${r.reading === null ? '—' : r.reading}</td><td class="num">${r.listening === null ? '—' : r.listening}</td><td class="num">${(r.wwords.W1 || 0) + ' + ' + (r.wwords.W2 || 0)}</td><td class="num">${mmss(r.timeSec)}</td><td style="white-space:nowrap"><button class="btn ghost sm" data-view="${i}">Writing</button> ${adm ? `<button class="btn ghost sm" data-review="${i}">Review</button> <button class="btn ghost sm" data-del="${i}">Delete</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="8" class="empty">No submissions yet.</td></tr>';
+    st.textContent = `${RAW.length} attempt${RAW.length === 1 ? '' : 's'}`;
+  } catch (e) { st.textContent = 'Could not load submissions.'; }
+}
+$('#btn-subs-refresh').addEventListener('click', loadSubs);
+$('#btn-subs-csv').addEventListener('click', () => downloadCsv(RAW, CONFIG.CSV_PREFIX + '-all-attempts.csv'));
+$('#subs-tbl').addEventListener('click', async e => {
+  const v = e.target.closest('[data-view]'); if (v) { const r = RAW[+v.dataset.view]; if (!r) return; const w = r.writing || {}; const an1 = analyse(w.W1, TEST.writing.t1), an2 = analyse(w.W2, TEST.writing.t2);
+    $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)}</p>
+      <h3 style="margin:10px 0 6px">Task 1 · Email <span class="chip mu">${an1.n} words · ${an1.paras} par. · ${an1.col.length} unit phrases</span></h3><div class="usertext">${w.W1 ? esc(w.W1) : '<i>(empty)</i>'}</div>
+      <h3 style="margin:14px 0 6px">Task 2 · Essay <span class="chip mu">${an2.n} words · ${an2.paras} par. · ${an2.col.length} unit phrases · ${esc(TEST.writing.topicWord.word)} × ${an2.topicN}</span></h3><div class="usertext">${w.W2 ? esc(w.W2) : '<i>(empty)</i>'}</div>`;
+    $('#view-modal').hidden = false; return; }
+  const rv = e.target.closest('[data-review]'); if (rv) { const r = RAW[+rv.dataset.review]; if (!r || !isAdmin()) return;
+    $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)} · full script with the answer evidence highlighted, admin only</p>` + buildReview(r, 'adm-');
+    $('#view-modal').hidden = false; return; }
+  const b = e.target.closest('[data-del]'); if (!b) return; const r = RAW[+b.dataset.del]; if (!r) return;
+  const ok = await ask(`Delete the attempt by ${r.name} (${r.score10.toFixed(1)}/10, ${fmtDate(r.submittedAt)})? This cannot be undone.`, 'Delete'); if (!ok) return;
+  const j = await api('delete', { clientId: r.clientId, submittedAt: r.submittedAt }); if (!j.ok) { alert('Could not delete: ' + (j.error || 'error')); return; }
+  loadSubs();
+});
+$('#view-body').addEventListener('click', e => { const b = e.target.closest('[data-loc]'); if (!b) return; locate(b.dataset.loc, b.dataset.prefix || ''); });
+$('#view-close').addEventListener('click', () => { $('#view-modal').hidden = true; });
+$('#btn-clear-all').addEventListener('click', async () => {
+  const ok = await ask('Delete ALL results for this test? Every student will be able to take it again. This cannot be undone.', 'Delete all'); if (!ok) return;
+  const j = await api('clear'); if (!j.ok) { alert('Could not delete: ' + (j.error || 'error')); return; }
+  loadSubs();
+});
+
+/* ====================== BOOT ====================== */
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { S.lastTick = Date.now(); if (S.pending && CONFIG.API_URL) send(); } });
+window.addEventListener('beforeunload', () => { if (S.status === 'running') save(); });
+applySettings(); refreshSettings();
+if (S.status === 'running') {
+  if (!S.skills || !S.skills.length) S.skills = SKILLS.slice(); if (!S.parts) S.parts = {};
+  renderQuiz();
+  if (S.phase === 'run' && S.mode === 'exam' && Date.now() - S.secStart >= S.secDur * 1000) finishSection(true);
+} else if (S.status === 'done') {
+  S.recLost = true; renderResults(); lockTest();
+  if (S.pending) send(); else {
+    const st = $('#r-status'); st.className = 'status ok'; st.innerHTML = '<span class="dot"></span><span>' + (CONFIG.API_URL ? 'Saved to the class sheet.' : 'Saved on this device.') + '</span>';
+    api('list').then(j => { if (j.ok && Array.isArray(j.rows) && !j.rows.some(r => r.clientId === S.clientId)) { resetForRetake(); showTab('test'); } }).catch(() => {});
+  }
+} else { $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; }
+if (isStaff()) renderTeacher();
+})();
+</script>
+</body>
+</html>
