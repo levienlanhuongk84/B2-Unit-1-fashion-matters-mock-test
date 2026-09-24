@@ -333,6 +333,39 @@
   .modal-box p { margin: 0 0 16px; font-size: 16px; color: var(--ink); }
   .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
   @media print { nav.tabs, .testbar, .btn, .rec { display: none !important; } }
+  /* v1.1 · class assignments, grading, feedback — kept in one block (regress.mjs strips it when comparing with the v1.0 sample) */
+  .assign-note { margin-top: 10px; }
+  .skills.locked .skill, .modes.locked .mode { cursor: default; }
+  .skills.locked .pchips button { cursor: default; }
+  .parts-nav button.shut { opacity: .45; cursor: not-allowed; text-decoration: line-through; }
+  .as-row { border: 1px solid var(--line); border-radius: 10px; background: var(--surface-3); padding: 12px; margin-bottom: 12px; }
+  .as-head { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 10px; }
+  .as-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  .as-sk { display: flex; flex-direction: column; gap: 6px; }
+  .as-sk > b { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--purple-ink); }
+  .as-cell { display: grid; grid-template-columns: 52px 64px auto; justify-content: start; gap: 6px; align-items: center; font: 700 12px var(--font-mono); color: var(--ink-2); }
+  .as-cell label { display: flex; gap: 6px; align-items: center; cursor: pointer; min-width: 44px; }
+  .as-cell input[type=number] { font: 14px var(--font); padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 8px; width: 64px; }
+  .as-cell input[type=number]:disabled { background: var(--surface-2); color: var(--muted); }
+  .as-cell small { font: 12px var(--font); color: var(--muted); }
+  .grade-row { display: grid; grid-template-columns: 180px 1fr; gap: 10px; align-items: start; margin: 10px 0 4px; }
+  @media (max-width: 600px) { .grade-row { grid-template-columns: 1fr; } }
+  .grade-row textarea.ta { min-height: 88px; font-size: 15px; }
+  .gmarks { display: flex; flex-direction: column; gap: 6px; }
+  .gmark { display: grid; grid-template-columns: 30px 72px auto; gap: 6px; align-items: center; font: 700 12px var(--font-cond); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+  .gmark input { font: 16px var(--font); padding: 7px 8px; border: 1px solid var(--line-strong); border-radius: 8px; width: 72px; }
+  .gmark small { font: 12px var(--font); color: var(--muted); text-transform: none; letter-spacing: 0; white-space: nowrap; }
+  .grade-sum { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin: 14px 0 6px; padding: 12px 14px; border-radius: 10px; background: var(--purple-soft); color: var(--purple-ink); }
+  .grade-sum b { font: 700 26px var(--font); }
+  .grade-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .fb-card { border-left: 4px solid var(--orange); }
+  .fb-item { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; }
+  .fb-item:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .fb-top { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .fb-overall { font: 700 34px/1 var(--font); color: var(--purple-ink); }
+  .fb-overall small { font-size: 15px; color: var(--muted); font-weight: 500; }
+  .fb-item p { margin: 6px 0; overflow-wrap: anywhere; white-space: pre-line; }
+  /* end v1.1 */
 </style>
 </head>
 <body>
@@ -508,9 +541,9 @@
       </div>
       <div class="card" id="admin-subs">
         <h2>Submissions</h2>
-        <p class="sub">Every attempt, newest first. Press <b>Writing</b> to read a student's two texts. <span id="subs-admin-hint">Delete all of a student's attempts to let them take the test again.</span></p>
+        <p class="sub">Every attempt, newest first. Press <b>Grade</b> to read a student's two texts, give marks and feedback, make the Google Doc and release it to the student. <span id="subs-admin-hint">Delete all of a student's attempts to let them take the test again.</span></p>
         <div class="toolbar"><div class="st" id="subs-status"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="btn-subs-refresh">Refresh</button><button class="btn ghost sm" id="btn-subs-csv">Download CSV</button><button class="btn sm" id="btn-clear-all" style="background:var(--bad)">Delete all results</button></div></div>
-        <div class="tbl-wrap"><table class="tbl" id="subs-tbl"><thead><tr><th>Submitted</th><th>Name</th><th>Class / ID</th><th class="num">R /40</th><th class="num">L /35</th><th class="num">W words</th><th class="num">Time</th><th></th></tr></thead><tbody></tbody></table></div>
+        <div class="tbl-wrap"><table class="tbl" id="subs-tbl"><thead><tr><th>Submitted</th><th>Name</th><th>Class / ID</th><th class="num">R /40</th><th class="num">L /35</th><th class="num">W words</th><th class="num">Time</th><th class="num">Marks</th><th></th></tr></thead><tbody></tbody></table></div>
       </div>
     </div>
   </section>
@@ -565,17 +598,21 @@ PARTS.push({ id: 'S3', skill: 'speaking', title: TEST.speaking.p3.title, kind: '
 const PART = Object.fromEntries(PARTS.map(p => [p.id, p]));
 const ITEM = Object.fromEntries(ITEMS.map(it => [it.id, it]));
 PARTS.forEach(p => { const row = PLAN[p.skill].parts.find(x => x[0] === p.id); p.min = row ? row[1] : 0; });
+PARTS.forEach(p => { p.base = p.min; });
+function applyMins(asg) { PARTS.forEach(p => { p.min = asg && asg.parts && asg.parts[p.id] ? asg.parts[p.id] : p.base; }); }
 const partsOf = skill => PARTS.filter(p => p.skill === skill);
 const takenParts = skill => { const sel = S.parts && S.parts[skill]; return partsOf(skill).filter(p => !sel || sel.includes(p.id)); };
 const takenItems = () => ITEMS.filter(it => S.skills.includes(it.skill) && takenParts(it.skill).some(p => p.id === it.part));
 const partsTakenIds = (r, skill) => { const i = (r.skills || []).indexOf(skill); if (i < 0) return []; return (r.partsTaken || '').split('|')[i]?.split(',').filter(Boolean) || []; };
 const objMax = () => takenItems().length;
-const skillMinutes = skill => { const pl = PLAN[skill], tp = takenParts(skill); return tp.length === partsOf(skill).length ? pl.minutes : tp.reduce((s, p) => s + p.min, 0); };
+const skillMinutes = skill => { const pl = PLAN[skill], tp = takenParts(skill); return tp.length === partsOf(skill).length && !S.assign ? pl.minutes : tp.reduce((s, p) => s + p.min, 0); };
 
 const DEFAULT_SET = { open: true, passMark: CONFIG.PASS_MARK, showRanking: true, message: '' };
 let SET = Object.assign({}, DEFAULT_SET, store.get('settings', {}));
-const fresh = () => ({ status: 'idle', name: '', sid: '', mode: 'exam', skills: SKILLS.slice(), parts: {}, si: 0, phase: 'intro', secStart: 0, secDur: 0, pi: 0, answers: {}, writing: { W1: '', W2: '' }, ticks: {}, partTime: {}, secTime: {}, secAuto: {}, audio: {}, audioPos: {}, hl: {}, flags: {}, layout: 'side', hlOn: true, result: null, clientId: uuid(), pending: null, lastTick: 0 });
+const fresh = () => ({ status: 'idle', name: '', sid: '', mode: 'exam', skills: SKILLS.slice(), parts: {}, si: 0, phase: 'intro', secStart: 0, secDur: 0, pi: 0, answers: {}, writing: { W1: '', W2: '' }, ticks: {}, partTime: {}, secTime: {}, secAuto: {}, audio: {}, audioPos: {}, hl: {}, flags: {}, layout: 'side', hlOn: true, result: null, clientId: uuid(), pending: null, lastTick: 0, assign: null, partDone: {} });
 let S = Object.assign(fresh(), store.get('state') || {});
+if (!S.partDone) S.partDone = {};
+if (S.assign && S.status !== 'idle') applyMins(S.assign);
 function save() { store.set('state', S); }
 let A = null; try { A = JSON.parse(sessionStorage.getItem(CONFIG.KEY + ':auth')); } catch (e) {}
 const isStaff = () => !!A, isAdmin = () => !!A && A.role === 'admin';
@@ -592,7 +629,7 @@ async function api(action, payload) {
   if (!CONFIG.API_URL) return localApi(action, payload);
   const auth = A ? { user: A.name, password: A.password } : {};
   const tid = encodeURIComponent(CONFIG.TEST_ID || '');
-  if (action === 'list' || action === 'settings') { const res = await fetch(CONFIG.API_URL + '?action=' + action + '&test=' + tid + '&_=' + Date.now(), { redirect: 'follow' }); return res.json(); }
+  if (action === 'list' || action === 'settings' || action === 'feedback') { const res = await fetch(CONFIG.API_URL + '?action=' + action + '&test=' + tid + (payload.keys ? '&keys=' + encodeURIComponent(payload.keys) : '') + '&_=' + Date.now(), { redirect: 'follow' }); return res.json(); }
   for (let i = 0; i < 3; i++) {
     const res = await fetch(CONFIG.API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ action, test: CONFIG.TEST_ID || '' }, payload, auth)), redirect: 'follow' });
     const j = await res.json(); if (!(j && j.error === 'busy')) return j;
@@ -611,6 +648,17 @@ function localApi(action, p) {
     case 'save_settings': if (!admin()) return { ok: false, error: 'admin only' }; SET = Object.assign({}, SET, p.settings); store.set('settings', SET); return { ok: true, settings: SET };
     case 'delete': if (!admin()) return { ok: false, error: 'admin only' }; store.set('local', rows.filter(x => !(x.clientId === p.clientId && x.submittedAt === p.submittedAt))); return { ok: true };
     case 'clear': if (!admin()) return { ok: false, error: 'admin only' }; store.set('local', []); return { ok: true };
+    case 'grade': case 'make_doc': case 'release': {
+      if (!A) return { ok: false, error: 'wrong name or password' };
+      const r = rows.find(x => x.clientId === p.clientId && x.submittedAt === p.submittedAt); if (!r) return { ok: false, error: 'attempt not found' };
+      const g = r.grading = r.grading || { marks: {}, feedback: {}, overall: null, released: false, docUrl: '', docShared: false };
+      if (action === 'grade') { g.marks = {}; ['W1', 'W2', 'S1', 'S2', 'S3'].forEach(k => { const v = p.marks && p.marks[k]; g.marks[k] = v === null || v === undefined || v === '' || isNaN(+v) ? null : Math.max(0, Math.min(MAXM[k], +v)); }); g.feedback = Object.assign({}, p.feedback); g.overall = overallOf(r, g.marks); g.gradedBy = A.name; g.gradedAt = new Date().toISOString(); }
+      else if (!g.gradedAt) return { ok: false, error: 'save the marks first' };
+      else if (action === 'make_doc') return { ok: false, error: 'Google Docs needs the class sheet (this page is not connected to it)' };
+      else { g.released = !!p.release; g.releasedAt = g.released ? new Date().toISOString() : ''; }
+      store.set('local', rows); return { ok: true, grading: g };
+    }
+    case 'feedback': { const keys = String(p.keys || '').split(',').map(k => k.split('.')); return { ok: true, items: rows.filter(r => keys.some(k => k[0] === r.clientId && k[1] && k[1] === r.token)).map(r => { const g = r.grading || {}; return g.released ? { clientId: r.clientId, submittedAt: r.submittedAt, released: true, marks: g.marks, overall: g.overall, feedback: g.feedback, docUrl: '', reading: r.reading, listening: r.listening, rmax: r.rmax, lmax: r.lmax } : { clientId: r.clientId, submittedAt: r.submittedAt, released: false }; }) }; }
   }
   return { ok: false, error: 'unknown action' };
 }
@@ -633,7 +681,13 @@ function applySettings() {
   note.hidden = !msg.trim(); note.textContent = msg.trim();
   $('#rank-card').hidden = !(SET.showRanking || isStaff());
 }
-async function refreshSettings() { try { const j = await api('settings'); if (j.ok && j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); } } catch (e) {} }
+async function refreshSettings(tries) {
+  for (let i = 0; i < (tries || 1); i++) {
+    try { const j = await api('settings'); if (j.ok && j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); syncAssignUI(); return true; } } catch (e) {}
+    if (i < (tries || 1) - 1) await new Promise(r => setTimeout(r, 1500 * (i + 1) + Math.random() * 2000));
+  }
+  return false;
+}
 
 /* ====================== START PAGE ====================== */
 $('#plan-body').innerHTML = SKILLS.map(sk => {
@@ -662,15 +716,51 @@ $('#skill-pick').addEventListener('click', e => {
 });
 $('#skill-pick').addEventListener('change', e => { const i = e.target; if (!i.matches('input[type=checkbox]')) return; const card = i.closest('.skill'); $$('.pchips button', card).forEach(b => b.classList.toggle('on', i.checked)); card.classList.toggle('off', !i.checked); pickSummary(); });
 pickSummary();
+const normCode = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+function assignmentFor(sid) {
+  const as = SET.assign || {}, rows = Array.isArray(as.rows) ? as.rows : [], n = normCode(sid); let best = null;
+  rows.forEach(r => { const c = normCode(r.code); if (c && n.startsWith(c) && (!best || c.length > normCode(best.code).length)) best = r; });
+  return best || (as.others === 'closed' ? 'closed' : null);
+}
+function assignedPick(asg) { const out = { skills: [], parts: {} }; SKILLS.forEach(sk => { const ps = partsOf(sk).filter(p => asg.parts[p.id]).map(p => p.id); if (ps.length) { out.skills.push(sk); out.parts[sk] = ps; } }); return out; }
+function assignNote() { let el = $('#assign-note'); if (!el) { el = document.createElement('div'); el.id = 'assign-note'; el.className = 'note-box assign-note'; $('#pick-summary').after(el); } return el; }
+function syncAssignUI() {
+  if (S.status !== 'idle') return;   // a running or finished attempt keeps the minutes it started with
+  const asg = assignmentFor($('#f-sid').value), pick = $('#skill-pick'), was = pick.classList.contains('locked');
+  const lock = !!asg && asg !== 'closed';
+  applyMins(lock ? asg : null);
+  $$('#skill-pick .pchips button').forEach(b => { const p = PART[b.dataset.part]; b.textContent = p.id + ' · ' + p.min + '′'; b.disabled = lock; });
+  $$('#skill-pick input, #mode-pick input').forEach(i => { i.disabled = lock; });
+  pick.classList.toggle('locked', lock); $('#mode-pick').classList.toggle('locked', lock);
+  if (lock) {
+    $$('#skill-pick .skill').forEach(card => { let any = false; $$('.pchips button', card).forEach(b => { const on = !!asg.parts[b.dataset.part]; b.classList.toggle('on', on); any = any || on; }); card.querySelector('input').checked = any; card.classList.toggle('off', !any); });
+    const ex = $('#mode-pick input[value="exam"]'); ex.checked = true; $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked));
+    const ps = PARTS.filter(p => asg.parts[p.id]), tot = ps.reduce((s, p) => s + p.min, 0);
+    const el = assignNote(); el.hidden = false; el.innerHTML = `Your teacher has set this test for class <b>${esc(asg.code)}</b>: ${ps.map(p => esc(p.id) + ' ' + p.min + '′').join(' · ')} (${tot} min in all). Exam mode; each part closes when its own time is up.`;
+  } else {
+    if (was) { $$('#skill-pick .skill').forEach(card => { $$('.pchips button', card).forEach(b => b.classList.add('on')); card.querySelector('input').checked = true; card.classList.remove('off'); }); }
+    const el = $('#assign-note');
+    if (asg === 'closed') { const n = assignNote(); n.hidden = false; n.textContent = 'This test is open only to the classes your teacher has set. Check your Class / ID (for example ' + (((SET.assign || {}).rows || [])[0] || {}).code + '-01).'.replace('undefined-01', 'your class code'); }
+    else if (el) { el.hidden = true; el.textContent = ''; }
+  }
+  const saved = S.assign; if (S.status === 'idle') S.assign = lock ? asg : null; pickSummary(); if (S.status === 'idle') S.assign = saved;
+}
+$('#f-sid').addEventListener('input', syncAssignUI);
 $$('#mode-pick input').forEach(r => r.addEventListener('change', () => $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked))));
 $('#btn-start').addEventListener('click', async () => {
   const name = $('#f-name').value.trim(), sid = $('#f-sid').value.trim();
   if (name.length < 2) { $('#f-name').focus(); $('#f-name').style.borderColor = 'var(--bad)'; return; }
-  const pick = pickState();
+  const btn = $('#btn-start'), label = btn.textContent; btn.disabled = true; btn.textContent = 'Checking the test settings…';
+  const fresh_ = await refreshSettings(CONFIG.API_URL ? 4 : 1);
+  btn.textContent = label; applySettings();
+  if (!fresh_) { const el = assignNote(); el.hidden = false; el.textContent = 'Could not load the test settings from the class sheet. Check your connection and press Start again.'; return; }
+  if (!SET.open) return;
+  const asg = assignmentFor(sid);
+  if (asg === 'closed') { syncAssignUI(); return; }
+  const pick = asg ? assignedPick(asg) : pickState();
   if (!pick.skills.length) { alert('Choose at least one part.'); return; }
-  await refreshSettings(); if (!SET.open) return;
-  S = Object.assign(fresh(), { status: 'running', name, sid, mode: $('#mode-pick input:checked').value, skills: pick.skills, parts: pick.parts, clientId: S.clientId });
-  save(); renderQuiz();
+  S = Object.assign(fresh(), { status: 'running', name, sid, mode: asg ? 'exam' : $('#mode-pick input:checked').value, skills: pick.skills, parts: pick.parts, clientId: S.clientId, assign: asg ? { code: asg.code, parts: asg.parts } : null });
+  applyMins(S.assign); save(); renderQuiz();
 });
 
 /* ====================== QUIZ SHELL ====================== */
@@ -692,11 +782,11 @@ function renderIntro() {
     : sk === 'speaking' ? '<li>Allow the microphone when the browser asks. Recordings stay in your browser and are not uploaded.</li><li>You get 5 minutes to read the topic card and make notes before the clock of the test starts.</li>'
     : sk === 'writing' ? '<li>Type your two texts in the boxes. They are saved as you type and sent to the teacher when you submit.</li>' : '<li>Read the questions first, then the passage. Answer every question; there is no penalty for a wrong answer.</li>';
   const tp = takenParts(sk), full = tp.length === partsOf(sk).length, total = skillMinutes(sk);
-  const mins = full && pl.prep ? `${pl.prep} min preparation + ${pl.minutes - pl.prep} minutes` : `${total} minutes${full ? '' : ' (' + tp.length + ' of ' + partsOf(sk).length + ' parts)'}`;
+  const mins = full && pl.prep && !S.assign ? `${pl.prep} min preparation + ${pl.minutes - pl.prep} minutes` : `${total} minutes${full ? '' : ' (' + tp.length + ' of ' + partsOf(sk).length + ' parts)'}`;
   box.innerHTML = `<div class="card"><div class="eyebrow" style="color:var(--orange-ink)">Section ${S.si + 1} of ${S.skills.length}</div><h2>${pl.label} · ${mins} · ${pl.score} marks</h2>
     <p class="sub">${esc(pl.tip)}</p>
     <table class="plan"><thead><tr><th>Part</th><th class="num">Suggested</th></tr></thead><tbody>${tp.map(p => `<tr><td>${esc(p.title)}</td><td class="num">${p.min} min</td></tr>`).join('')}</tbody></table>
-    <ul class="rules">${extra}<li>The clock starts when you press the button. ${S.mode === 'exam' ? 'When it reaches zero the section closes and your answers are kept.' : 'In practice mode it only warns you.'}</li></ul>
+    <ul class="rules">${extra}<li>The clock starts when you press the button. ${S.mode === 'exam' ? 'When it reaches zero the section closes and your answers are kept.' : 'In practice mode it only warns you.'}</li>${S.assign ? '<li>Your teacher has set a time for each part: when a part\'s time is up it closes and the next part opens.</li>' : ''}</ul>
     <p style="margin:18px 0 0;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="btn-begin">Start ${pl.label} · ${total}:00</button><button class="btn ghost" id="btn-exit-intro">← Back to the start page</button></p></div>`;
   $('#btn-begin').addEventListener('click', () => { S.phase = 'run'; S.secStart = Date.now(); S.secDur = total * 60; S.pi = 0; S.lastTick = Date.now(); save(); renderSection(); });
   $('#btn-exit-intro').addEventListener('click', exitAttempt);
@@ -708,13 +798,14 @@ function renderSection() {
 }
 function renderPartsNav() {
   const parts = curParts();
-  $('#parts-nav').innerHTML = parts.map((p, i) => `<button data-pi="${i}" class="${i === S.pi ? 'cur' : ''}${(S.partTime[p.id] || 0) > p.min * 60 ? ' over' : ''}">${p.id}<span class="pt" data-pt="${p.id}">${mmss(S.partTime[p.id] || 0)}/${p.min}′</span></button>`).join('');
+  $('#parts-nav').innerHTML = parts.map((p, i) => `<button data-pi="${i}" class="${i === S.pi ? 'cur' : ''}${(S.partTime[p.id] || 0) > p.min * 60 ? ' over' : ''}${S.partDone[p.id] ? ' shut' : ''}"${S.partDone[p.id] && i !== S.pi ? ' title="Time is up for this part"' : ''}>${p.id}<span class="pt" data-pt="${p.id}">${mmss(S.partTime[p.id] || 0)}/${p.min}′</span></button>`).join('');
   $$('#parts-nav button').forEach(b => b.addEventListener('click', () => gotoPart(+b.dataset.pi)));
   $('#btn-prev-part').hidden = S.pi === 0; $('#btn-next-part').hidden = S.pi >= parts.length - 1;
   $('#finish-note').textContent = curSkill() === 'reading' || curSkill() === 'listening' ? unansweredNote() : curSkill() === 'writing' ? `Task 1: ${words(S.writing.W1)} words · Task 2: ${words(S.writing.W2)} words` : 'Record each part, then finish the section.';
 }
 function unansweredNote() { const its = takenItems().filter(it => it.skill === curSkill()); const left = its.filter(it => !(S.answers[it.id])).length; return left ? `${left} of ${its.length} questions unanswered in this section.` : 'All questions in this section answered.'; }
-function gotoPart(i) { stopRec(); S.pi = i; S.lastTick = Date.now(); save(); renderPartsNav(); renderPart(); renderPalette(); window.scrollTo({ top: 0 }); }
+function partShut(i) { const p = curParts()[i]; return !!(p && S.assign && S.mode === 'exam' && S.partDone[p.id]); }
+function gotoPart(i) { if (partShut(i) && i !== S.pi) return; stopRec(); S.pi = i; S.lastTick = Date.now(); save(); renderPartsNav(); renderPart(); renderPalette(); window.scrollTo({ top: 0 }); }
 $('#btn-prev-part').addEventListener('click', () => gotoPart(S.pi - 1));
 $('#btn-next-part').addEventListener('click', () => gotoPart(S.pi + 1));
 
@@ -905,9 +996,19 @@ function startTimer() {
     const pt = $(`[data-pt="${p.id}"]`); if (pt) { pt.textContent = `${mmss(S.partTime[p.id] || 0)}/${p.min}′`; pt.parentElement.classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
     const ppt = $(`[data-ppt="${p.id}"]`); if (ppt) { ppt.textContent = `${mmss(S.partTime[p.id] || 0)}/${p.min}′`; ppt.parentElement.classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
     if (Math.floor(elapsed) % 5 === 0) save();
-    if (exam && left <= 0) { clearInterval(tick); finishSection(true); }
+    if (exam && left <= 0) { clearInterval(tick); finishSection(true); return; }
+    if (exam && S.assign && !S.partDone[p.id] && (S.partTime[p.id] || 0) >= p.min * 60) closePart(p);
   };
   run(); tick = setInterval(run, 1000);
+}
+
+function closePart(p) {   // class assignment, exam mode: a part closes when its own time is up
+  S.partDone[p.id] = true; stopRec(); if (AU && p.kind === 'listening') { try { AU.pause(); } catch (e) {} }
+  const parts = curParts(), order = parts.map((x, i) => i).filter(i => i > S.pi).concat(parts.map((x, i) => i).filter(i => i < S.pi));
+  const next = order.find(i => !S.partDone[parts[i].id]); save();
+  if (next === undefined) { clearInterval(tick); finishSection(true); return; }
+  gotoPart(next);
+  const n = $('#finish-note'); if (n) n.textContent = 'Time is up for ' + p.id + ': it is now closed. ' + n.textContent;
 }
 
 /* ====================== FINISH SECTION / SUBMIT ====================== */
@@ -945,16 +1046,18 @@ function submitAll() {
   S.result = { name: S.name, sid: S.sid, mode: S.mode, skills: S.skills, parts: S.parts, partsTaken: S.skills.map(sk => takenParts(sk).map(p => p.id).join(',')).join('|'), rmax: takenParts('reading').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), lmax: takenParts('listening').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), score10: g.score10, correct: g.correct, total: g.total, reading: g.reading, listening: g.listening,
     timeSec: Object.values(S.secTime).reduce((s, x) => s + x, 0), startedAt: new Date(S.secStart).toISOString(), submittedAt: new Date(now).toISOString(), clientId: S.clientId,
     auto: Object.values(S.secAuto).some(Boolean), secAuto: S.secAuto, answers: g.rows, writing: { W1: S.writing.W1 || '', W2: S.writing.W2 || '' }, wwords: { W1: words(S.writing.W1), W2: words(S.writing.W2) }, secTime: S.secTime, partTime: Object.fromEntries(Object.entries(S.partTime).map(([k, v]) => [k, Math.round(v)])) };
+  S.result.token = uuid() + uuid(); if (S.assign) S.result.assign = S.assign.code;
+  const mine = store.get('mine', []); mine.push({ clientId: S.result.clientId, submittedAt: S.result.submittedAt, token: S.result.token }); store.set('mine', mine.slice(-20));
   S.status = 'done'; S.pending = S.result; save();
   renderResults(); showTab('results'); lockTest(); send();
 }
 function exitAttempt() {
-  ask('Leave this attempt and go back to the start page? Answers and clocks of this attempt will be discarded.', 'Leave').then(ok => { if (!ok) return; clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; } S = Object.assign(fresh(), { name: S.name, sid: S.sid, clientId: S.clientId }); save(); $('#quiz').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; pickSummary(); window.scrollTo({ top: 0 }); });
+  ask('Leave this attempt and go back to the start page? Answers and clocks of this attempt will be discarded.', 'Leave').then(ok => { if (!ok) return; clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; } S = Object.assign(fresh(), { name: S.name, sid: S.sid, clientId: S.clientId }); save(); $('#quiz').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); window.scrollTo({ top: 0 }); });
 }
 $('#btn-exit').addEventListener('click', exitAttempt);
-$('#btn-again').addEventListener('click', () => { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; pickSummary(); showTab('test'); });
+$('#btn-again').addEventListener('click', () => { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); showTab('test'); });
 function lockTest() { $('#quiz').hidden = true; $('#start-card').hidden = true; $('#reset-note').hidden = true; $('#done-card').hidden = false; $('#tab-btn-results').hidden = false; }
-function resetForRetake() { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#quiz').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#reset-note').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; }
+function resetForRetake() { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); applyMins(null); $('#done-card').hidden = true; $('#quiz').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#reset-note').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); }
 async function send() {
   const st = $('#r-status'); const r = S.pending; if (!r) return;
   st.className = 'status'; st.innerHTML = '<span class="dot"></span><span>Saving to the class sheet…</span>';
@@ -966,6 +1069,22 @@ async function send() {
     st.className = 'status err'; st.innerHTML = '<span class="dot"></span><span>Could not reach the class sheet — your result is kept on this device and will be sent when you reopen this page. </span><button class="btn ghost sm" id="btn-retry">Retry now</button>';
     $('#btn-retry').addEventListener('click', send);
   }
+}
+
+/* ====================== TEACHER FEEDBACK (student side) ====================== */
+async function loadFeedback() {
+  const mine = store.get('mine', []); if (!mine.length) return;
+  try { const j = await api('feedback', { keys: mine.slice(-10).map(m => m.clientId + '.' + m.token).join(',') }); if (j && j.ok) renderFeedback((j.items || []).filter(x => x.released).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))); } catch (e) {}
+}
+function renderFeedback(items) {
+  const lab = { W1: 'Task 1 · Email', W2: 'Task 2 · Essay', S: 'Speaking', general: 'General comment' };
+  const html = `<h2>Teacher's marks and feedback</h2>` + items.map(x => { const mk = x.marks || {}, fb = x.feedback || {};
+    const chips = [x.reading !== null && x.reading !== undefined && x.reading !== '' ? `Reading ${x.reading}/${x.rmax || 40}` : '', x.listening !== null && x.listening !== undefined && x.listening !== '' ? `Listening ${x.listening}/${x.lmax || 35}` : ''].concat(['W1', 'W2', 'S1', 'S2', 'S3'].filter(k => mk[k] !== null && mk[k] !== undefined).map(k => `${k} ${mk[k]}/${MAXM[k]}`)).filter(Boolean);
+    return `<div class="fb-item"><div class="fb-top"><span class="fb-overall">${x.overall === null || x.overall === undefined ? '—' : (+x.overall).toFixed(1)}<small> / 10 overall</small></span><span class="sub" style="margin:0">Test submitted ${fmtDate(x.submittedAt)}</span></div>
+      <div class="stat-row">${chips.map(c => `<span class="stat ok">${esc(c)}</span>`).join('')}</div>
+      ${['general', 'W1', 'W2', 'S'].filter(k => fb[k]).map(k => `<p><b>${lab[k]}:</b> ${esc(fb[k])}</p>`).join('')}
+      ${x.docUrl ? `<p style="margin-top:10px"><a class="btn ghost sm" href="${esc(x.docUrl)}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Open my feedback in Google Docs</a></p>` : ''}</div>`; }).join('');
+  ['#tab-test', '#tab-results'].forEach(t => { let c = $(t + ' > .fb-card'); if (!items.length) { if (c) c.remove(); return; } if (!c) { c = document.createElement('div'); c.className = 'card fb-card'; $(t).prepend(c); } c.innerHTML = html; });
 }
 
 /* ====================== RESULTS ====================== */
@@ -1150,8 +1269,9 @@ function renderRank() {
 }
 $$('#rp-rank th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = (k === 'score10' || k === 'reading' || k === 'listening') ? -1 : 1; } renderRank(); }));
 function downloadCsv(rows, fname) {
-  const head = ['Rank', 'Name', 'Class/ID', 'Objective /10', 'Reading', 'Listening', 'W1 words', 'W2 words', 'Time (s)', 'Submitted', 'Mode', 'Parts', 'Attempts', 'Writing T1', 'Writing T2'].concat(ITEMS.map(it => it.id));
-  const lines = [head].concat(rows.map(r => { const m = Object.fromEntries(r.answers.map(a => [a.id, a])); return [r.rank || '', r.name, r.sid || '', (+r.score10).toFixed(1), r.reading === null ? '' : r.reading, r.listening === null ? '' : r.listening, (r.wwords || {}).W1 || '', (r.wwords || {}).W2 || '', r.timeSec, r.submittedAt, r.mode || '', r.partsTaken || '', r.attempts || 1, (r.writing || {}).W1 || '', (r.writing || {}).W2 || ''].concat(ITEMS.map(it => m[it.id] ? (m[it.id].ok ? '1' : '0') : '')); }));
+  const head = ['Rank', 'Name', 'Class/ID', 'Objective /10', 'Reading', 'Listening', 'W1 words', 'W2 words', 'Time (s)', 'Submitted', 'Mode', 'Parts', 'Attempts', 'Writing T1', 'Writing T2', 'W1 mark /10', 'W2 mark /20', 'S1 /3', 'S2 /5', 'S3 /2', 'Overall /10', 'Released', 'Feedback T1', 'Feedback T2', 'Feedback Speaking', 'General comment', 'Google Doc'].concat(ITEMS.map(it => it.id));
+  const lines = [head].concat(rows.map(r => { const m = Object.fromEntries(r.answers.map(a => [a.id, a])), g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, v = x => x === null || x === undefined ? '' : x; return [r.rank || '', r.name, r.sid || '', (+r.score10).toFixed(1), r.reading === null ? '' : r.reading, r.listening === null ? '' : r.listening, (r.wwords || {}).W1 || '', (r.wwords || {}).W2 || '', r.timeSec, r.submittedAt, r.mode || '', r.partsTaken || '', r.attempts || 1, (r.writing || {}).W1 || '', (r.writing || {}).W2 || '',
+    v(mk.W1), v(mk.W2), v(mk.S1), v(mk.S2), v(mk.S3), v(g.overall), g.released ? 'yes' : '', fb.W1 || '', fb.W2 || '', fb.S || '', fb.general || '', g.docUrl || ''].concat(ITEMS.map(it => m[it.id] ? (m[it.id].ok ? '1' : '0') : '')); }));
   const csv = '﻿' + lines.map(l => l.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = fname; a.click();
 }
@@ -1186,32 +1306,138 @@ function renderTeacher() {
   $('#settings-hint').textContent = adm ? 'Changes apply to every student the next time the page loads.' : 'Only the administrator can change settings.';
   $('#btn-clear-all').hidden = !adm; $('#subs-admin-hint').hidden = !adm;
   $('#s-open').value = SET.open ? '1' : '0'; $('#s-pass').value = SET.passMark; $('#s-rank').value = SET.showRanking ? '1' : '0'; $('#s-msg').value = SET.message || '';
+  const who = A.name + '|' + A.role; if (ensureAssignCard() || $('#admin-assign').dataset.who !== who) { $('#admin-assign').dataset.who = who; fillAssign(); }
   loadSubs();
 }
-$('#btn-save-settings').addEventListener('click', async () => {
-  const st = $('#s-status'); st.hidden = false; st.className = 'status'; st.lastElementChild.textContent = 'Saving…';
-  const settings = { open: $('#s-open').value === '1', passMark: Math.max(0, Math.min(10, +$('#s-pass').value || CONFIG.PASS_MARK)), showRanking: $('#s-rank').value === '1', message: $('#s-msg').value.trim().slice(0, 200) };
-  try { const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error); SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); st.className = 'status ok'; st.lastElementChild.textContent = 'Saved.'; }
+async function saveSettings(st) {
+  st.hidden = false; st.className = 'status'; st.lastElementChild.textContent = 'Saving…';
+  const settings = { open: $('#s-open').value === '1', passMark: Math.max(0, Math.min(10, +$('#s-pass').value || CONFIG.PASS_MARK)), showRanking: $('#s-rank').value === '1', message: $('#s-msg').value.trim().slice(0, 200), assign: $('#as-rows') ? collectAssign() : (SET.assign || { rows: [], others: 'full' }) };
+  try { const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error); SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); fillAssign(); syncAssignUI(); st.className = 'status ok'; st.lastElementChild.textContent = 'Saved.'; }
   catch (e) { st.className = 'status err'; st.lastElementChild.textContent = 'Could not save: ' + (e.message || 'error'); }
-});
+}
+$('#btn-save-settings').addEventListener('click', () => saveSettings($('#s-status')));
+function ensureAssignCard() {
+  if ($('#admin-assign')) return false;
+  const card = document.createElement('div'); card.className = 'card'; card.id = 'admin-assign';
+  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. With no class listed, every student chooses freely.</p>
+    <div id="as-rows"></div>
+    <div class="field" style="max-width:460px"><label for="as-others">Students whose Class / ID matches no code</label><select id="as-others" class="sel"><option value="full">Full choice — they pick skills and parts themselves</option><option value="closed">Closed — they cannot start</option></select></div>
+    <div class="toolbar" style="margin:0"><button class="btn ghost sm" id="as-add">+ Add a class</button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="status" id="as-status" hidden><span class="dot"></span><span></span></div><button class="btn" id="as-save">Save assignments</button></div></div>`;
+  $('#admin-settings').after(card);
+  $('#as-add').addEventListener('click', () => addAssignRow({ code: '', parts: {} }));
+  $('#as-save').addEventListener('click', () => saveSettings($('#as-status')));
+  $('#as-rows').addEventListener('click', e => { const d = e.target.closest('[data-as-del]'); if (d) d.closest('.as-row').remove(); });
+  $('#as-rows').addEventListener('change', e => { const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); });
+  return true;
+}
+function addAssignRow(r) {
+  const row = document.createElement('div'); row.className = 'as-row';
+  row.innerHTML = `<div class="as-head"><div class="field" style="margin:0;flex:1;min-width:160px"><label>Class code</label><input class="as-code" maxlength="30" placeholder="e.g. CH35" value="${esc(r.code || '')}"></div><button class="btn ghost sm" data-as-del>Remove</button></div>
+    <div class="as-grid">${SKILLS.map(sk => `<div class="as-sk"><b>${PLAN[sk].label}</b>${partsOf(sk).map(p => { const on = !!(r.parts && r.parts[p.id]); return `<div class="as-cell"><label><input type="checkbox" data-p="${p.id}"${on ? ' checked' : ''}><span>${p.id}</span></label><input type="number" min="1" max="180" step="1" value="${on ? r.parts[p.id] : p.base}"${on ? '' : ' disabled'} aria-label="${p.id} minutes"><small>min</small></div>`; }).join('')}</div>`).join('')}</div>`;
+  $('#as-rows').appendChild(row);
+  if (!isAdmin()) $$('input, button', row).forEach(el => { el.disabled = true; });
+}
+function collectAssign() {
+  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const m = Math.round(+c.closest('.as-cell').querySelector('input[type=number]').value); if (m >= 1) parts[c.dataset.p] = Math.min(180, m); }); return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
+  return { rows, others: $('#as-others') ? $('#as-others').value : 'full' };
+}
+function fillAssign() {
+  if (!$('#as-rows')) return; const as = SET.assign || {};
+  $('#as-rows').innerHTML = ''; (as.rows || []).forEach(addAssignRow);
+  $('#as-others').value = as.others === 'closed' ? 'closed' : 'full';
+  const adm = isAdmin(); $('#as-others').disabled = !adm; $('#as-add').hidden = !adm; $('#as-save').hidden = !adm;
+}
 async function loadSubs() {
   const st = $('#subs-status'); st.textContent = 'Loading…';
   try {
     const j = await api(isStaff() ? 'list_full' : 'list'); if (!j.ok) throw new Error(j.error);
     RAW = cleanRows(j.rows || []).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
-    const tb = $('#subs-tbl tbody'); const adm = isAdmin();
-    tb.innerHTML = RAW.length ? RAW.map((r, i) => `<tr><td>${fmtDate(r.submittedAt)}${r.auto ? ' <span class="att">time up</span>' : ''}${r.mode === 'practice' ? ' <span class="att">practice</span>' : ''}</td><td>${esc(r.name)}</td><td>${esc(r.sid || '')}</td><td class="num">${r.reading === null ? '—' : r.reading}</td><td class="num">${r.listening === null ? '—' : r.listening}</td><td class="num">${(r.wwords.W1 || 0) + ' + ' + (r.wwords.W2 || 0)}</td><td class="num">${mmss(r.timeSec)}</td><td style="white-space:nowrap"><button class="btn ghost sm" data-view="${i}">Writing</button> ${adm ? `<button class="btn ghost sm" data-review="${i}">Review</button> <button class="btn ghost sm" data-del="${i}">Delete</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="8" class="empty">No submissions yet.</td></tr>';
+    renderSubs();
     st.textContent = `${RAW.length} attempt${RAW.length === 1 ? '' : 's'}`;
   } catch (e) { st.textContent = 'Could not load submissions.'; }
+}
+function marksCell(r) { const g = r.grading; if (!g || !g.gradedAt) return '—'; return `<b>${g.overall === null || g.overall === undefined || g.overall === '' ? '…' : (+g.overall).toFixed(1)}</b> <span class="chip ${g.released ? 'gd' : 'mu'}">${g.released ? 'sent' : 'draft'}</span>`; }
+function renderSubs() {
+  const tb = $('#subs-tbl tbody'); const adm = isAdmin();
+  tb.innerHTML = RAW.length ? RAW.map((r, i) => `<tr><td>${fmtDate(r.submittedAt)}${r.auto ? ' <span class="att">time up</span>' : ''}${r.mode === 'practice' ? ' <span class="att">practice</span>' : ''}</td><td>${esc(r.name)}</td><td>${esc(r.sid || '')}</td><td class="num">${r.reading === null ? '—' : r.reading}</td><td class="num">${r.listening === null ? '—' : r.listening}</td><td class="num">${(r.wwords.W1 || 0) + ' + ' + (r.wwords.W2 || 0)}</td><td class="num">${mmss(r.timeSec)}</td><td class="num" style="white-space:nowrap">${marksCell(r)}</td><td style="white-space:nowrap"><button class="btn ghost sm" data-view="${i}">Grade</button> ${adm ? `<button class="btn ghost sm" data-review="${i}">Review</button> <button class="btn ghost sm" data-del="${i}">Delete</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="9" class="empty">No submissions yet.</td></tr>';
+}
+const MAXM = { W1: 10, W2: 20, S1: 3, S2: 5, S3: 2 };
+function overallOf(r, marks) {       // same rule as the backend: each skill taken on /10, averaged, rounded to 0.5
+  const s = [];
+  for (const sk of r.skills || []) {
+    const ps = partsTakenIds(r, sk);
+    if (sk === 'reading') s.push((+r.reading || 0) / (r.rmax || 40) * 10);
+    else if (sk === 'listening') s.push((+r.listening || 0) / (r.lmax || 35) * 10);
+    else { const ids = (sk === 'writing' ? ['W1', 'W2'] : ['S1', 'S2', 'S3']).filter(x => ps.includes(x)); if (!ids.length) continue; let got = 0, mx = 0;
+      for (const id of ids) { const m = marks[id]; if (m === null || m === undefined || m === '' || isNaN(+m)) return null; got += +m; mx += MAXM[id]; } s.push(got / mx * 10); }
+  }
+  return s.length ? Math.round(s.reduce((a, b) => a + b, 0) / s.length * 2) / 2 : null;
+}
+let GR = null;
+function gradeForm() { const marks = {}, feedback = {}; ['W1', 'W2', 'S1', 'S2', 'S3'].forEach(k => { const el = $('#g-' + k); marks[k] = el && el.value !== '' ? +el.value : null; }); ['W1', 'W2', 'S', 'general'].forEach(k => { const el = $('#gf-' + k); feedback[k] = el ? el.value.trim() : (((GR.grading || {}).feedback || {})[k] || ''); }); return { clientId: GR.clientId, submittedAt: GR.submittedAt, marks, feedback }; }
+function gradeStatus(msg, kind) { const st = $('#g-status'); if (!st) return; st.hidden = !msg; st.className = 'status' + (kind ? ' ' + kind : ''); st.lastElementChild.textContent = msg || ''; }
+function gradeButtons() { const g = GR.grading || {}; $('#g-doc').textContent = g.docUrl ? 'Update the Google Doc' : 'Create the Google Doc'; $('#g-open').hidden = !g.docUrl; if (g.docUrl) $('#g-open').href = g.docUrl; $('#g-release').textContent = g.released ? 'Withdraw from the student' : 'Release to the student'; $('#g-state').textContent = !g.gradedAt ? 'Not marked yet' : g.released ? 'Released ' + fmtDate(g.releasedAt) + (g.docUrl && !g.docShared ? ' · Doc not shared' : '') : 'Saved, not released'; }
+function openGrade(i) {
+  const r = RAW[i]; if (!r) return; GR = r; const g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, w = r.writing || {};
+  const wt = partsTakenIds(r, 'writing'), spk = partsTakenIds(r, 'speaking').filter(x => x !== 'S0');
+  const num = id => `<label class="gmark"><span>${id}</span><input type="number" id="g-${id}" min="0" max="${MAXM[id]}" step="0.25" value="${mk[id] === null || mk[id] === undefined ? '' : mk[id]}"><small>/ ${MAXM[id]}</small></label>`;
+  const task = (id, W, an, extra) => `<h3 style="margin:14px 0 6px">${esc(W.title)} <span class="chip mu">${an.n} words · ${an.paras} par. · ${an.col.length} unit phrases${extra || ''}</span></h3><div class="usertext">${w[id] ? esc(w[id]) : '<i>(empty)</i>'}</div><div class="grade-row"><div class="gmarks">${num(id)}</div><textarea class="ta" id="gf-${id}" placeholder="Feedback on ${esc(W.title.replace(/^Task \d · /, '').toLowerCase())}…">${esc(fb[id] || '')}</textarea></div>`;
+  const an1 = analyse(w.W1, TEST.writing.t1), an2 = analyse(w.W2, TEST.writing.t2);
+  $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)} · <span id="g-state"></span></p>
+    ${wt.includes('W1') ? task('W1', TEST.writing.t1, an1) : ''}${wt.includes('W2') ? task('W2', TEST.writing.t2, an2, ` · ${esc(TEST.writing.topicWord.word)} × ${an2.topicN}`) : ''}
+    ${spk.length ? `<h3 style="margin:14px 0 6px">Speaking <span class="chip mu">mark from the interview; recordings stay on the student's device</span></h3><div class="grade-row"><div class="gmarks">${spk.map(num).join('')}</div><textarea class="ta" id="gf-S" placeholder="Feedback on speaking…">${esc(fb.S || '')}</textarea></div>` : ''}
+    ${!wt.length && !spk.length ? '<p class="sub">This attempt has no Writing or Speaking: the overall mark comes from Reading and Listening only.</p>' : ''}
+    <h3 style="margin:14px 0 6px">General comment</h3><textarea class="ta" id="gf-general" style="min-height:70px" placeholder="Shown first to the student…">${esc(fb.general || '')}</textarea>
+    <div class="grade-sum"><span>Overall</span><b id="g-overall">—</b><span>/ 10 · VSTEP rule: each skill taken on /10, averaged, rounded to 0.5</span></div>
+    <div class="status" id="g-status" hidden><span class="dot"></span><span></span></div>
+    <div class="grade-actions"><button class="btn" id="g-save">Save marks</button><button class="btn purple" id="g-doc">Create the Google Doc</button><a class="btn ghost" id="g-open" target="_blank" rel="noopener" style="text-decoration:none" hidden>Open the Doc</a><button class="btn ghost" id="g-release">Release to the student</button></div>
+    <p class="sub" style="margin:8px 0 0;font-size:13px">Students see nothing until you release: then the student sees the marks, your comments and the Doc (view only) the next time they open this link on the device they used.</p>`;
+  const upd = () => { const o = overallOf(r, gradeForm().marks); $('#g-overall').textContent = o === null ? '—' : o.toFixed(1); };
+  $('#view-body').oninput = upd; upd(); gradeButtons();
+  $('#g-save').onclick = () => gradeSave(); $('#g-doc').onclick = gradeDoc; $('#g-release').onclick = gradeRelease;
+  $('#view-modal').hidden = false;
+}
+async function gradeSave(quiet) {
+  gradeStatus('Saving…'); try { const j = await api('grade', gradeForm()); if (!j.ok) throw new Error(j.error); GR.grading = j.grading; renderSubs(); gradeButtons(); if (!quiet) gradeStatus('Marks saved. ' + (GR.grading.released ? 'The student already sees the new version.' : 'Not released yet.'), 'ok'); return true; }
+  catch (e) { gradeStatus('Could not save: ' + (e.message || 'error'), 'err'); return false; }
+}
+function docBlocks(r) {
+  const g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, w = r.writing || {}, v = x => x === null || x === undefined ? '—' : x;
+  const wt = partsTakenIds(r, 'writing'), spk = partsTakenIds(r, 'speaking').filter(x => x !== 'S0'), rows = [['Part', 'Score']];
+  if (r.reading !== null) rows.push(['Reading', r.reading + ' / ' + r.rmax]);
+  if (r.listening !== null) rows.push(['Listening', r.listening + ' / ' + r.lmax]);
+  wt.forEach(id => rows.push([TEST.writing[id === 'W1' ? 't1' : 't2'].title, v(mk[id]) + ' / ' + MAXM[id]]));
+  spk.forEach(id => rows.push(['Speaking ' + TEST.speaking['p' + id[1]].title, v(mk[id]) + ' / ' + MAXM[id]]));
+  rows.push(['Overall (/10)', g.overall === null || g.overall === undefined ? '—' : (+g.overall).toFixed(1)]);
+  const B = [{ type: 'h1', text: document.title }, { type: 'p', text: 'Student: ' + r.name + (r.sid ? ' · ' + r.sid : '') + '\nSubmitted: ' + fmtDate(r.submittedAt) + ' · Marked by ' + (g.gradedBy || (A && A.name) || '') }, { type: 'table', rows }];
+  if (fb.general) B.push({ type: 'h2', text: 'General comment' }, { type: 'p', text: fb.general });
+  wt.forEach(id => { const W = TEST.writing[id === 'W1' ? 't1' : 't2'];
+    B.push({ type: 'h2', text: W.title + ' · ' + v(mk[id]) + ' / ' + MAXM[id] }, { type: 'note', text: id === 'W1' ? [W.situation, W.email.join('\n'), W.instruction, W.points.join('\n')].join('\n') : W.topic + '\n' + W.instruction },
+      { type: 'h3', text: 'Your text (' + words(w[id]) + ' words)' }, { type: 'quote', text: w[id] || '(empty)' }, { type: 'h3', text: 'Teacher feedback' }, { type: 'p', text: fb[id] || '—' }); });
+  if (spk.length) B.push({ type: 'h2', text: 'Speaking · ' + spk.map(id => id + ' ' + v(mk[id]) + '/' + MAXM[id]).join(' · ') }, { type: 'p', text: fb.S || '—' });
+  return B;
+}
+async function gradeDoc() {
+  if (!(await gradeSave(true))) return;
+  gradeStatus('Writing the Google Doc…');
+  const title = GR.name + (GR.sid ? ' – ' + GR.sid : '') + ' – ' + document.title, base = { clientId: GR.clientId, submittedAt: GR.submittedAt, title, blocks: docBlocks(GR) };
+  try { let j = await api('make_doc', base); if (!j.ok) throw new Error(j.error);
+    if (j.existed) { if (!(await ask('Update the Google Doc from the marks and comments on this page? Anything typed directly into the Doc will be replaced (comments on the replaced text are lost).', 'Update the Doc'))) { gradeStatus(''); return; } j = await api('make_doc', Object.assign({ overwrite: true }, base)); if (!j.ok) throw new Error(j.error); }
+    GR.grading = j.grading; renderSubs(); gradeButtons(); gradeStatus('The Google Doc is ready. Open it to check, comment or edit before you release it.', 'ok'); }
+  catch (e) { gradeStatus('Could not make the Doc: ' + (e.message || 'error'), 'err'); }
+}
+async function gradeRelease() {
+  const on = !(GR.grading || {}).released;
+  if (on && !(await gradeSave(true))) return;
+  if (!(await ask(on ? `Release the marks and feedback to ${GR.name}? They will see them the next time they open this link on the device they used.` : `Withdraw the marks and feedback from ${GR.name}? The Doc goes back to private.`, on ? 'Release' : 'Withdraw'))) return;
+  gradeStatus(on ? 'Releasing…' : 'Withdrawing…');
+  try { const j = await api('release', { clientId: GR.clientId, submittedAt: GR.submittedAt, release: on }); if (!j.ok) throw new Error(j.error); GR.grading = j.grading; renderSubs(); gradeButtons(); gradeStatus(on ? 'Released. ' + (j.warning || '') : 'Withdrawn: the student no longer sees it.', j.warning ? 'err' : 'ok'); }
+  catch (e) { gradeStatus('Could not change: ' + (e.message || 'error'), 'err'); }
 }
 $('#btn-subs-refresh').addEventListener('click', loadSubs);
 $('#btn-subs-csv').addEventListener('click', () => downloadCsv(RAW, CONFIG.CSV_PREFIX + '-all-attempts.csv'));
 $('#subs-tbl').addEventListener('click', async e => {
-  const v = e.target.closest('[data-view]'); if (v) { const r = RAW[+v.dataset.view]; if (!r) return; const w = r.writing || {}; const an1 = analyse(w.W1, TEST.writing.t1), an2 = analyse(w.W2, TEST.writing.t2);
-    $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)}</p>
-      <h3 style="margin:10px 0 6px">Task 1 · Email <span class="chip mu">${an1.n} words · ${an1.paras} par. · ${an1.col.length} unit phrases</span></h3><div class="usertext">${w.W1 ? esc(w.W1) : '<i>(empty)</i>'}</div>
-      <h3 style="margin:14px 0 6px">Task 2 · Essay <span class="chip mu">${an2.n} words · ${an2.paras} par. · ${an2.col.length} unit phrases · ${esc(TEST.writing.topicWord.word)} × ${an2.topicN}</span></h3><div class="usertext">${w.W2 ? esc(w.W2) : '<i>(empty)</i>'}</div>`;
-    $('#view-modal').hidden = false; return; }
+  const v = e.target.closest('[data-view]'); if (v) { openGrade(+v.dataset.view); return; }
   const rv = e.target.closest('[data-review]'); if (rv) { const r = RAW[+rv.dataset.review]; if (!r || !isAdmin()) return;
     $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)} · full script with the answer evidence highlighted, admin only</p>` + buildReview(r, 'adm-');
     $('#view-modal').hidden = false; return; }
@@ -1221,7 +1447,7 @@ $('#subs-tbl').addEventListener('click', async e => {
   loadSubs();
 });
 $('#view-body').addEventListener('click', e => { const b = e.target.closest('[data-loc]'); if (!b) return; locate(b.dataset.loc, b.dataset.prefix || ''); });
-$('#view-close').addEventListener('click', () => { $('#view-modal').hidden = true; });
+$('#view-close').addEventListener('click', () => { $('#view-modal').hidden = true; $('#view-body').oninput = null; GR = null; });
 $('#btn-clear-all').addEventListener('click', async () => {
   const ok = await ask('Delete ALL results for this test? Every student will be able to take it again. This cannot be undone.', 'Delete all'); if (!ok) return;
   const j = await api('clear'); if (!j.ok) { alert('Could not delete: ' + (j.error || 'error')); return; }
@@ -1231,7 +1457,7 @@ $('#btn-clear-all').addEventListener('click', async () => {
 /* ====================== BOOT ====================== */
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { S.lastTick = Date.now(); if (S.pending && CONFIG.API_URL) send(); } });
 window.addEventListener('beforeunload', () => { if (S.status === 'running') save(); });
-applySettings(); refreshSettings();
+applySettings(); syncAssignUI(); refreshSettings(3);
 if (S.status === 'running') {
   if (!S.skills || !S.skills.length) S.skills = SKILLS.slice(); if (!S.parts) S.parts = {};
   renderQuiz();
@@ -1244,6 +1470,7 @@ if (S.status === 'running') {
   }
 } else { $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; }
 if (isStaff()) renderTeacher();
+loadFeedback();
 })();
 </script>
 </body>
