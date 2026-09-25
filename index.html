@@ -579,6 +579,7 @@ const norm = s => String(s || '').toLowerCase().replace(/[’‘`´]/g, "'").rep
 const pad = n => String(n).padStart(2, '0');
 const mmss = s => { s = Math.max(0, Math.round(s)); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); };
 const fmtDate = x => { const d = new Date(x); return isNaN(d) ? '—' : pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const rnd = n => { try { return Array.from(crypto.getRandomValues(new Uint8Array(n)), b => b.toString(16).padStart(2, '0')).join(''); } catch (e) { return Array.from({ length: n * 2 }, () => (Math.random() * 16 | 0).toString(16)).join(''); } };
 const uuid = () => 'xxxxxxxxyxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
 const words = t => (String(t || '').trim().match(/[A-Za-zÀ-ỹ0-9’'-]+/g) || []).length;
 const store = { get(k, d) { try { const v = JSON.parse(localStorage.getItem(CONFIG.KEY + ':' + k)); return v === null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(CONFIG.KEY + ':' + k, JSON.stringify(v)); } catch (e) {} }, del(k) { try { localStorage.removeItem(CONFIG.KEY + ':' + k); } catch (e) {} } };
@@ -609,7 +610,7 @@ const skillMinutes = skill => { const pl = PLAN[skill], tp = takenParts(skill); 
 
 const DEFAULT_SET = { open: true, passMark: CONFIG.PASS_MARK, showRanking: true, message: '' };
 let SET = Object.assign({}, DEFAULT_SET, store.get('settings', {}));
-const fresh = () => ({ status: 'idle', name: '', sid: '', mode: 'exam', skills: SKILLS.slice(), parts: {}, si: 0, phase: 'intro', secStart: 0, secDur: 0, pi: 0, answers: {}, writing: { W1: '', W2: '' }, ticks: {}, partTime: {}, secTime: {}, secAuto: {}, audio: {}, audioPos: {}, hl: {}, flags: {}, layout: 'side', hlOn: true, result: null, clientId: uuid(), pending: null, lastTick: 0, assign: null, partDone: {} });
+const fresh = () => ({ status: 'idle', name: '', sid: '', mode: 'exam', skills: SKILLS.slice(), parts: {}, si: 0, phase: 'intro', secStart: 0, secDur: 0, pi: 0, answers: {}, writing: { W1: '', W2: '' }, ticks: {}, partTime: {}, secTime: {}, secAuto: {}, audio: {}, audioPos: {}, hl: {}, flags: {}, layout: 'side', hlOn: true, result: null, clientId: 'c' + uuid(), pending: null, lastTick: 0, assign: null, partDone: {} });
 let S = Object.assign(fresh(), store.get('state') || {});
 if (!S.partDone) S.partDone = {};
 if (S.assign && S.status !== 'idle') applyMins(S.assign);
@@ -683,7 +684,7 @@ function applySettings() {
 }
 async function refreshSettings(tries) {
   for (let i = 0; i < (tries || 1); i++) {
-    try { const j = await api('settings'); if (j.ok && j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); syncAssignUI(); return true; } } catch (e) {}
+    try { const j = await api('settings'); if (j.ok && j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); lastSet = Date.now(); applySettings(); syncAssignUI(); return true; } } catch (e) {}
     if (i < (tries || 1) - 1) await new Promise(r => setTimeout(r, 1500 * (i + 1) + Math.random() * 2000));
   }
   return false;
@@ -719,7 +720,11 @@ pickSummary();
 const normCode = s => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 function assignmentFor(sid) {
   const as = SET.assign || {}, rows = Array.isArray(as.rows) ? as.rows : [], n = normCode(sid); let best = null;
-  rows.forEach(r => { const c = normCode(r.code); if (c && n.startsWith(c) && (!best || c.length > normCode(best.code).length)) best = r; });
+  const raw = String(sid || '').toLowerCase().trim();
+  rows.forEach(r => { const c = normCode(r.code); if (!c || !n.startsWith(c)) return;
+    let i = 0, k = 0; while (k < c.length && i < raw.length) { if (/[a-z0-9]/.test(raw[i])) k++; i++; }   // position in the typed text just after the code
+    const next = raw[i] || '', last = c[c.length - 1], sameKind = next && ((/\d/.test(next) && /\d/.test(last)) || (/[a-z]/.test(next) && /[a-z]/.test(last)));
+    if (!sameKind && (!best || c.length > normCode(best.code).length)) best = r; });
   return best || (as.others === 'closed' ? 'closed' : null);
 }
 function assignedPick(asg) { const out = { skills: [], parts: {} }; SKILLS.forEach(sk => { const ps = partsOf(sk).filter(p => asg.parts[p.id]).map(p => p.id); if (ps.length) { out.skills.push(sk); out.parts[sk] = ps; } }); return out; }
@@ -740,12 +745,13 @@ function syncAssignUI() {
   } else {
     if (was) { $$('#skill-pick .skill').forEach(card => { $$('.pchips button', card).forEach(b => b.classList.add('on')); card.querySelector('input').checked = true; card.classList.remove('off'); }); }
     const el = $('#assign-note');
-    if (asg === 'closed') { const n = assignNote(); n.hidden = false; n.textContent = 'This test is open only to the classes your teacher has set. Check your Class / ID (for example ' + (((SET.assign || {}).rows || [])[0] || {}).code + '-01).'.replace('undefined-01', 'your class code'); }
+    if (asg === 'closed') { const n = assignNote(); n.hidden = false; const eg = ((((SET.assign || {}).rows || [])[0] || {}).code); n.textContent = 'This test is open only to the classes your teacher has set. Check your Class / ID' + (eg ? ' (for example ' + eg + '-01).' : '.'); }
     else if (el) { el.hidden = true; el.textContent = ''; }
   }
   const saved = S.assign; if (S.status === 'idle') S.assign = lock ? asg : null; pickSummary(); if (S.status === 'idle') S.assign = saved;
 }
-$('#f-sid').addEventListener('input', syncAssignUI);
+let lastSet = 0, sidDeb = null;   // a page opened before the teacher saved an assignment re-reads the settings when a class code is typed
+$('#f-sid').addEventListener('input', () => { syncAssignUI(); clearTimeout(sidDeb); sidDeb = setTimeout(() => { if (CONFIG.API_URL && Date.now() - lastSet > 5000) refreshSettings(1); }, 700); });
 $$('#mode-pick input').forEach(r => r.addEventListener('change', () => $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked))));
 $('#btn-start').addEventListener('click', async () => {
   const name = $('#f-name').value.trim(), sid = $('#f-sid').value.trim();
@@ -805,7 +811,7 @@ function renderPartsNav() {
 }
 function unansweredNote() { const its = takenItems().filter(it => it.skill === curSkill()); const left = its.filter(it => !(S.answers[it.id])).length; return left ? `${left} of ${its.length} questions unanswered in this section.` : 'All questions in this section answered.'; }
 function partShut(i) { const p = curParts()[i]; return !!(p && S.assign && S.mode === 'exam' && S.partDone[p.id]); }
-function gotoPart(i) { if (partShut(i) && i !== S.pi) return; stopRec(); S.pi = i; S.lastTick = Date.now(); save(); renderPartsNav(); renderPart(); renderPalette(); window.scrollTo({ top: 0 }); }
+function gotoPart(i) { if (!curParts()[i]) return; if (partShut(i) && i !== S.pi) { const n = $('#finish-note'); if (n) n.textContent = 'Time is up for ' + curParts()[i].id + ': it is closed.'; return; } stopRec(); S.pi = i; S.lastTick = Date.now(); save(); renderPartsNav(); renderPart(); renderPalette(); window.scrollTo({ top: 0 }); }
 $('#btn-prev-part').addEventListener('click', () => gotoPart(S.pi - 1));
 $('#btn-next-part').addEventListener('click', () => gotoPart(S.pi + 1));
 
@@ -894,9 +900,9 @@ function renderPart() {
       <p class="sub">${esc(sp.prepBlurb)}</p>
       <div class="cue"><b>${esc(sp.topic)}</b><div style="font:700 12px var(--font-cond);letter-spacing:.08em;text-transform:uppercase;color:var(--orange-ink);margin:4px 0 6px">Part 2 · Long turn</div><p style="margin:0 0 6px"><b style="display:inline">${esc(sp.p2.task)}</b></p>You should say:<ul>${sp.p2.points.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${esc(sp.p2.explain)}</div>
       <div class="rec-row" style="margin-top:14px"><textarea class="ta" id="ta-notes" style="min-height:120px" placeholder="Your notes (kept on this device)…">${esc(S.writing.notes || '')}</textarea></div>
-      <p style="margin:6px 0 0"><button class="btn purple" id="btn-skip-prep">Start Part 1 now</button></p></div></section>`;
+      ${curParts().length > 1 ? '<p style="margin:6px 0 0"><button class="btn purple" id="btn-skip-prep">Start Part 1 now</button></p>' : ''}</div></section>`;
     $('#ta-notes').addEventListener('input', e => { S.writing.notes = e.target.value; save(); });
-    $('#btn-skip-prep').addEventListener('click', () => gotoPart(1));
+    if ($('#btn-skip-prep')) $('#btn-skip-prep').addEventListener('click', () => gotoPart(1));
   } else if (p.kind === 'speak') {
     const X = p.src; let body = '';
     if (p.id === 'S1') body = `<p class="sub">The examiner asks these questions one at a time. Read each one aloud, then answer in two or three sentences (about 30 seconds each).</p><ul class="qlist">${X.sets.map(([lead, qs]) => qs.map((q, i) => `<li>${i === 0 ? `<span class="lead">${esc(lead)}</span>` : ''}${esc(q)}</li>`).join('')).join('')}</ul>`;
@@ -997,7 +1003,7 @@ function startTimer() {
     const ppt = $(`[data-ppt="${p.id}"]`); if (ppt) { ppt.textContent = `${mmss(S.partTime[p.id] || 0)}/${p.min}′`; ppt.parentElement.classList.toggle('over', (S.partTime[p.id] || 0) > p.min * 60); }
     if (Math.floor(elapsed) % 5 === 0) save();
     if (exam && left <= 0) { clearInterval(tick); finishSection(true); return; }
-    if (exam && S.assign && !S.partDone[p.id] && (S.partTime[p.id] || 0) >= p.min * 60) closePart(p);
+    if (exam && S.assign && !S.partDone[p.id] && (S.partTime[p.id] || 0) >= p.min * 60 && !(p.kind === 'listening' && AU && !AU.paused && !AU.ended)) closePart(p);
   };
   run(); tick = setInterval(run, 1000);
 }
@@ -1046,8 +1052,8 @@ function submitAll() {
   S.result = { name: S.name, sid: S.sid, mode: S.mode, skills: S.skills, parts: S.parts, partsTaken: S.skills.map(sk => takenParts(sk).map(p => p.id).join(',')).join('|'), rmax: takenParts('reading').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), lmax: takenParts('listening').reduce((s, p) => s + (PART_ITEMS[p.id] || []).length, 0), score10: g.score10, correct: g.correct, total: g.total, reading: g.reading, listening: g.listening,
     timeSec: Object.values(S.secTime).reduce((s, x) => s + x, 0), startedAt: new Date(S.secStart).toISOString(), submittedAt: new Date(now).toISOString(), clientId: S.clientId,
     auto: Object.values(S.secAuto).some(Boolean), secAuto: S.secAuto, answers: g.rows, writing: { W1: S.writing.W1 || '', W2: S.writing.W2 || '' }, wwords: { W1: words(S.writing.W1), W2: words(S.writing.W2) }, secTime: S.secTime, partTime: Object.fromEntries(Object.entries(S.partTime).map(([k, v]) => [k, Math.round(v)])) };
-  S.result.token = uuid() + uuid(); if (S.assign) S.result.assign = S.assign.code;
-  const mine = store.get('mine', []); mine.push({ clientId: S.result.clientId, submittedAt: S.result.submittedAt, token: S.result.token }); store.set('mine', mine.slice(-20));
+  S.result.token = rnd(16); if (S.assign) S.result.assign = S.assign.code;
+  const mine = store.get('mine', []); mine.push({ clientId: S.result.clientId, submittedAt: S.result.submittedAt, token: S.result.token, name: S.name }); store.set('mine', mine.slice(-20));
   S.status = 'done'; S.pending = S.result; save();
   renderResults(); showTab('results'); lockTest(); send();
 }
@@ -1072,19 +1078,37 @@ async function send() {
 }
 
 /* ====================== TEACHER FEEDBACK (student side) ====================== */
-async function loadFeedback() {
-  const mine = store.get('mine', []); if (!mine.length) return;
-  try { const j = await api('feedback', { keys: mine.slice(-10).map(m => m.clientId + '.' + m.token).join(',') }); if (j && j.ok) renderFeedback((j.items || []).filter(x => x.released).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))); } catch (e) {}
+// Shared computers: marks are shown only after the student TYPES the name they took the test with (never from a
+// pre-filled or stored name). On load the page only says that released marks exist on this device.
+let FB_WHO = '';
+async function fetchReleased(list) { const j = await api('feedback', { keys: list.slice(-10).map(m => m.clientId + '.' + m.token).join(',') }); return j && j.ok ? (j.items || []).filter(x => x.released).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)) : []; }
+async function loadFeedback(typed) {
+  const who = norm(typed || ''), mine = store.get('mine', []).filter(m => who && norm(m.name || '') === who);
+  if (!mine.length) { if (typed !== undefined && FB_WHO) { FB_WHO = ''; renderFeedback([]); gateFeedback(); } return false; }
+  try { const items = await fetchReleased(mine); if (items.length) { FB_WHO = who; renderFeedback(items); const g = $('#tab-test > .fb-gate'); if (g) g.remove(); return true; } } catch (e) {}
+  return false;
 }
+async function gateFeedback() {   // on load: a short notice with a name box, no marks
+  const mine = store.get('mine', []); if (!mine.length) return;
+  let n = 0; try { n = (await fetchReleased(mine)).length; } catch (e) {}
+  const t = $('#tab-test'); let c = $('#tab-test > .fb-gate'); if (!n || FB_WHO) { if (c) c.remove(); return; }
+  if (!c) { c = document.createElement('div'); c.className = 'card fb-card fb-gate'; t.prepend(c); }
+  c.innerHTML = `<h2>Your teacher has released marks and feedback</h2><p class="sub">For ${n} attempt${n > 1 ? 's' : ''} taken on this device. Type your full name exactly as you entered it for the test to open them.</p><div class="two"><div class="field"><label for="fb-name">Full name</label><input id="fb-name" maxlength="80" autocomplete="off"></div><div class="field" style="align-self:end"><button class="btn" id="btn-fb-open">Open my feedback</button></div></div><div class="status err" id="fb-miss" hidden><span class="dot"></span><span>No released feedback on this device for that name.</span></div>`;
+}
+let fbDeb = null; $('#f-name').addEventListener('input', () => { clearTimeout(fbDeb); fbDeb = setTimeout(() => loadFeedback($('#f-name').value), 700); });
+document.addEventListener('click', async e => {
+  if (e.target.closest('#btn-fb-open')) { const ok = await loadFeedback($('#fb-name').value); if (!ok) { const m = $('#fb-miss'); if (m) m.hidden = false; } else { const g = $('#tab-test > .fb-gate'); if (g) g.remove(); } return; }
+  if (e.target.closest('#btn-fb-forget')) { store.set('mine', store.get('mine', []).filter(m => norm(m.name || '') !== FB_WHO)); FB_WHO = ''; renderFeedback([]); gateFeedback(); }
+});
 function renderFeedback(items) {
   const lab = { W1: 'Task 1 · Email', W2: 'Task 2 · Essay', S: 'Speaking', general: 'General comment' };
-  const html = `<h2>Teacher's marks and feedback</h2>` + items.map(x => { const mk = x.marks || {}, fb = x.feedback || {};
+  const html = `<h2>Teacher's marks and feedback</h2><p class="sub" style="margin:0 0 10px">Not you, or a shared computer? <button class="btn ghost sm" id="btn-fb-forget">Hide these results on this device</button></p>` + items.map(x => { const mk = x.marks || {}, fb = x.feedback || {};
     const chips = [x.reading !== null && x.reading !== undefined && x.reading !== '' ? `Reading ${x.reading}/${x.rmax || 40}` : '', x.listening !== null && x.listening !== undefined && x.listening !== '' ? `Listening ${x.listening}/${x.lmax || 35}` : ''].concat(['W1', 'W2', 'S1', 'S2', 'S3'].filter(k => mk[k] !== null && mk[k] !== undefined).map(k => `${k} ${mk[k]}/${MAXM[k]}`)).filter(Boolean);
     return `<div class="fb-item"><div class="fb-top"><span class="fb-overall">${x.overall === null || x.overall === undefined ? '—' : (+x.overall).toFixed(1)}<small> / 10 overall</small></span><span class="sub" style="margin:0">Test submitted ${fmtDate(x.submittedAt)}</span></div>
       <div class="stat-row">${chips.map(c => `<span class="stat ok">${esc(c)}</span>`).join('')}</div>
       ${['general', 'W1', 'W2', 'S'].filter(k => fb[k]).map(k => `<p><b>${lab[k]}:</b> ${esc(fb[k])}</p>`).join('')}
       ${x.docUrl ? `<p style="margin-top:10px"><a class="btn ghost sm" href="${esc(x.docUrl)}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Open my feedback in Google Docs</a></p>` : ''}</div>`; }).join('');
-  ['#tab-test', '#tab-results'].forEach(t => { let c = $(t + ' > .fb-card'); if (!items.length) { if (c) c.remove(); return; } if (!c) { c = document.createElement('div'); c.className = 'card fb-card'; $(t).prepend(c); } c.innerHTML = html; });
+  ['#tab-test', '#tab-results'].forEach(t => { let c = $(t + ' > .fb-card:not(.fb-gate)'); if (!items.length) { if (c) c.remove(); return; } if (!c) { c = document.createElement('div'); c.className = 'card fb-card'; $(t).prepend(c); } c.innerHTML = html; });
 }
 
 /* ====================== RESULTS ====================== */
@@ -1221,7 +1245,7 @@ async function loadReport() {
   try {
     const j = await api(isStaff() ? 'list_full' : 'list'); if (!j.ok) throw new Error(j.error || 'error');
     if (j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); }
-    const rows = j.rows || []; RAW = rows;
+    const rows = j.rows || [];
     $('#rp-note').hidden = !!CONFIG.API_URL; if (!CONFIG.API_URL) $('#rp-note').textContent = 'The class sheet is not connected yet: this report shows only submissions saved on this device.';
     renderReport(rows); st.textContent = `${rows.length} submission${rows.length === 1 ? '' : 's'} · updated ${new Date().toLocaleTimeString('en-GB')}`;
   } catch (e) { st.textContent = 'Could not load the class sheet. Check your connection and refresh.'; }
@@ -1269,10 +1293,11 @@ function renderRank() {
 }
 $$('#rp-rank th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = (k === 'score10' || k === 'reading' || k === 'listening') ? -1 : 1; } renderRank(); }));
 function downloadCsv(rows, fname) {
-  const head = ['Rank', 'Name', 'Class/ID', 'Objective /10', 'Reading', 'Listening', 'W1 words', 'W2 words', 'Time (s)', 'Submitted', 'Mode', 'Parts', 'Attempts', 'Writing T1', 'Writing T2', 'W1 mark /10', 'W2 mark /20', 'S1 /3', 'S2 /5', 'S3 /2', 'Overall /10', 'Released', 'Feedback T1', 'Feedback T2', 'Feedback Speaking', 'General comment', 'Google Doc'].concat(ITEMS.map(it => it.id));
+  const head = ['Rank', 'Name', 'Class/ID', 'Objective /10', 'Reading', 'Listening', 'W1 words', 'W2 words', 'Time (s)', 'Submitted', 'Mode', 'Parts', 'Attempts', 'Writing T1', 'Writing T2', 'W1 mark /10', 'W2 mark /20', 'S1 /3', 'S2 /5', 'S3 /2', 'Overall /10', 'Released', 'Assigned class', 'Feedback T1', 'Feedback T2', 'Feedback Speaking', 'General comment', 'Google Doc'].concat(ITEMS.map(it => it.id));
   const lines = [head].concat(rows.map(r => { const m = Object.fromEntries(r.answers.map(a => [a.id, a])), g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, v = x => x === null || x === undefined ? '' : x; return [r.rank || '', r.name, r.sid || '', (+r.score10).toFixed(1), r.reading === null ? '' : r.reading, r.listening === null ? '' : r.listening, (r.wwords || {}).W1 || '', (r.wwords || {}).W2 || '', r.timeSec, r.submittedAt, r.mode || '', r.partsTaken || '', r.attempts || 1, (r.writing || {}).W1 || '', (r.writing || {}).W2 || '',
-    v(mk.W1), v(mk.W2), v(mk.S1), v(mk.S2), v(mk.S3), v(g.overall), g.released ? 'yes' : '', fb.W1 || '', fb.W2 || '', fb.S || '', fb.general || '', g.docUrl || ''].concat(ITEMS.map(it => m[it.id] ? (m[it.id].ok ? '1' : '0') : '')); }));
-  const csv = '﻿' + lines.map(l => l.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+    v(mk.W1), v(mk.W2), v(mk.S1), v(mk.S2), v(mk.S3), v(g.overall), g.released ? 'yes' : '', r.assign || '', fb.W1 || '', fb.W2 || '', fb.S || '', fb.general || '', g.docUrl || ''].concat(ITEMS.map(it => m[it.id] ? (m[it.id].ok ? '1' : '0') : '')); }));
+  const cell = v => { const t = String(v); return typeof v === 'string' && /^[=+\-@\t\r]/.test(t) ? "'" + t : t; };
+  const csv = '﻿' + lines.map(l => l.map(v => '"' + cell(v).replace(/"/g, '""') + '"').join(',')).join('\r\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = fname; a.click();
 }
 $('#btn-csv').addEventListener('click', () => downloadCsv(RANK, CONFIG.CSV_PREFIX + '-ranking.csv'));
@@ -1300,7 +1325,7 @@ $('#l-remember').addEventListener('change', () => { if (!$('#l-remember').checke
 function renderTeacher() {
   const on = isStaff(); $('#login-card').hidden = on; $('#teacher-panel').hidden = !on; $('#tab-btn-teacher').textContent = on ? (A.role === 'admin' ? 'Admin' : 'Teacher') : 'Teacher';
   if (!on) { $('#l-name').value = $('#l-name').value || (CONFIG.LOCAL_USERS[0] || {}).name || ''; return; }
-  $('#t-name').textContent = A.name; $('#t-role').textContent = A.role === 'admin' ? 'Administrator · full access' : 'Teacher · view & export';
+  $('#t-name').textContent = A.name; $('#t-role').textContent = A.role === 'admin' ? 'Administrator · full access' : 'Teacher · grade, release & export';
   const adm = isAdmin();
   $$('#admin-settings input, #admin-settings select, #btn-save-settings').forEach(el => el.disabled = !adm);
   $('#settings-hint').textContent = adm ? 'Changes apply to every student the next time the page loads.' : 'Only the administrator can change settings.';
@@ -1319,7 +1344,7 @@ $('#btn-save-settings').addEventListener('click', () => saveSettings($('#s-statu
 function ensureAssignCard() {
   if ($('#admin-assign')) return false;
   const card = document.createElement('div'); card.className = 'card'; card.id = 'admin-assign';
-  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. With no class listed, every student chooses freely.</p>
+  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below (e.g. code CH35 → CH35-07) can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. A listening part is never shorter than its recording + 1 minute. With no class listed, every student chooses freely.</p>
     <div id="as-rows"></div>
     <div class="field" style="max-width:460px"><label for="as-others">Students whose Class / ID matches no code</label><select id="as-others" class="sel"><option value="full">Full choice — they pick skills and parts themselves</option><option value="closed">Closed — they cannot start</option></select></div>
     <div class="toolbar" style="margin:0"><button class="btn ghost sm" id="as-add">+ Add a class</button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="status" id="as-status" hidden><span class="dot"></span><span></span></div><button class="btn" id="as-save">Save assignments</button></div></div>`;
@@ -1330,15 +1355,16 @@ function ensureAssignCard() {
   $('#as-rows').addEventListener('change', e => { const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); });
   return true;
 }
+function minFor(id) { const p = PART[id]; return p && p.kind === 'listening' ? Math.ceil(p.src.audioMin) + 1 : 1; }   // a listening part is never shorter than its recording
 function addAssignRow(r) {
   const row = document.createElement('div'); row.className = 'as-row';
   row.innerHTML = `<div class="as-head"><div class="field" style="margin:0;flex:1;min-width:160px"><label>Class code</label><input class="as-code" maxlength="30" placeholder="e.g. CH35" value="${esc(r.code || '')}"></div><button class="btn ghost sm" data-as-del>Remove</button></div>
-    <div class="as-grid">${SKILLS.map(sk => `<div class="as-sk"><b>${PLAN[sk].label}</b>${partsOf(sk).map(p => { const on = !!(r.parts && r.parts[p.id]); return `<div class="as-cell"><label><input type="checkbox" data-p="${p.id}"${on ? ' checked' : ''}><span>${p.id}</span></label><input type="number" min="1" max="180" step="1" value="${on ? r.parts[p.id] : p.base}"${on ? '' : ' disabled'} aria-label="${p.id} minutes"><small>min</small></div>`; }).join('')}</div>`).join('')}</div>`;
+    <div class="as-grid">${SKILLS.map(sk => `<div class="as-sk"><b>${PLAN[sk].label}</b>${partsOf(sk).map(p => { const on = !!(r.parts && r.parts[p.id]); return `<div class="as-cell"><label><input type="checkbox" data-p="${p.id}"${on ? ' checked' : ''}><span>${p.id}</span></label><input type="number" min="${minFor(p.id)}" max="180" step="1" value="${on ? r.parts[p.id] : p.base}"${on ? '' : ' disabled'} aria-label="${p.id} minutes"><small>min</small></div>`; }).join('')}</div>`).join('')}</div>`;
   $('#as-rows').appendChild(row);
   if (!isAdmin()) $$('input, button', row).forEach(el => { el.disabled = true; });
 }
 function collectAssign() {
-  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const m = Math.round(+c.closest('.as-cell').querySelector('input[type=number]').value); if (m >= 1) parts[c.dataset.p] = Math.min(180, m); }); return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
+  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const inp = c.closest('.as-cell').querySelector('input[type=number]'); let m = Math.round(+inp.value); const lo = minFor(c.dataset.p); if (m < lo) { m = lo; inp.value = lo; } parts[c.dataset.p] = Math.min(180, m); }); if (parts.S0 && !parts.S1 && !parts.S2 && !parts.S3) delete parts.S0; return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
   return { rows, others: $('#as-others') ? $('#as-others').value : 'full' };
 }
 function fillAssign() {
@@ -1365,7 +1391,7 @@ const MAXM = { W1: 10, W2: 20, S1: 3, S2: 5, S3: 2 };
 function overallOf(r, marks) {       // same rule as the backend: each skill taken on /10, averaged, rounded to 0.5
   const s = [];
   for (const sk of r.skills || []) {
-    const ps = partsTakenIds(r, sk);
+    const ps = gradeParts(r, sk);
     if (sk === 'reading') s.push((+r.reading || 0) / (r.rmax || 40) * 10);
     else if (sk === 'listening') s.push((+r.listening || 0) / (r.lmax || 35) * 10);
     else { const ids = (sk === 'writing' ? ['W1', 'W2'] : ['S1', 'S2', 'S3']).filter(x => ps.includes(x)); if (!ids.length) continue; let got = 0, mx = 0;
@@ -1373,13 +1399,14 @@ function overallOf(r, marks) {       // same rule as the backend: each skill tak
   }
   return s.length ? Math.round(s.reduce((a, b) => a + b, 0) / s.length * 2) / 2 : null;
 }
+const gradeParts = (r, sk) => { const ids = partsTakenIds(r, sk); return ids.length || !(r.skills || []).includes(sk) ? ids : partsOf(sk).map(p => p.id); };
 let GR = null;
 function gradeForm() { const marks = {}, feedback = {}; ['W1', 'W2', 'S1', 'S2', 'S3'].forEach(k => { const el = $('#g-' + k); marks[k] = el && el.value !== '' ? +el.value : null; }); ['W1', 'W2', 'S', 'general'].forEach(k => { const el = $('#gf-' + k); feedback[k] = el ? el.value.trim() : (((GR.grading || {}).feedback || {})[k] || ''); }); return { clientId: GR.clientId, submittedAt: GR.submittedAt, marks, feedback }; }
 function gradeStatus(msg, kind) { const st = $('#g-status'); if (!st) return; st.hidden = !msg; st.className = 'status' + (kind ? ' ' + kind : ''); st.lastElementChild.textContent = msg || ''; }
 function gradeButtons() { const g = GR.grading || {}; $('#g-doc').textContent = g.docUrl ? 'Update the Google Doc' : 'Create the Google Doc'; $('#g-open').hidden = !g.docUrl; if (g.docUrl) $('#g-open').href = g.docUrl; $('#g-release').textContent = g.released ? 'Withdraw from the student' : 'Release to the student'; $('#g-state').textContent = !g.gradedAt ? 'Not marked yet' : g.released ? 'Released ' + fmtDate(g.releasedAt) + (g.docUrl && !g.docShared ? ' · Doc not shared' : '') : 'Saved, not released'; }
 function openGrade(i) {
   const r = RAW[i]; if (!r) return; GR = r; const g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, w = r.writing || {};
-  const wt = partsTakenIds(r, 'writing'), spk = partsTakenIds(r, 'speaking').filter(x => x !== 'S0');
+  const wt = gradeParts(r, 'writing'), spk = gradeParts(r, 'speaking').filter(x => x !== 'S0');
   const num = id => `<label class="gmark"><span>${id}</span><input type="number" id="g-${id}" min="0" max="${MAXM[id]}" step="0.25" value="${mk[id] === null || mk[id] === undefined ? '' : mk[id]}"><small>/ ${MAXM[id]}</small></label>`;
   const task = (id, W, an, extra) => `<h3 style="margin:14px 0 6px">${esc(W.title)} <span class="chip mu">${an.n} words · ${an.paras} par. · ${an.col.length} unit phrases${extra || ''}</span></h3><div class="usertext">${w[id] ? esc(w[id]) : '<i>(empty)</i>'}</div><div class="grade-row"><div class="gmarks">${num(id)}</div><textarea class="ta" id="gf-${id}" placeholder="Feedback on ${esc(W.title.replace(/^Task \d · /, '').toLowerCase())}…">${esc(fb[id] || '')}</textarea></div>`;
   const an1 = analyse(w.W1, TEST.writing.t1), an2 = analyse(w.W2, TEST.writing.t2);
@@ -1403,7 +1430,7 @@ async function gradeSave(quiet) {
 }
 function docBlocks(r) {
   const g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, w = r.writing || {}, v = x => x === null || x === undefined ? '—' : x;
-  const wt = partsTakenIds(r, 'writing'), spk = partsTakenIds(r, 'speaking').filter(x => x !== 'S0'), rows = [['Part', 'Score']];
+  const wt = gradeParts(r, 'writing'), spk = gradeParts(r, 'speaking').filter(x => x !== 'S0'), rows = [['Part', 'Score']];
   if (r.reading !== null) rows.push(['Reading', r.reading + ' / ' + r.rmax]);
   if (r.listening !== null) rows.push(['Listening', r.listening + ' / ' + r.lmax]);
   wt.forEach(id => rows.push([TEST.writing[id === 'W1' ? 't1' : 't2'].title, v(mk[id]) + ' / ' + MAXM[id]]));
@@ -1470,7 +1497,7 @@ if (S.status === 'running') {
   }
 } else { $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; }
 if (isStaff()) renderTeacher();
-loadFeedback();
+gateFeedback();
 })();
 </script>
 </body>
