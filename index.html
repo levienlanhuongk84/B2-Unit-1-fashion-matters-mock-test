@@ -358,6 +358,18 @@
   .grade-sum { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; margin: 14px 0 6px; padding: 12px 14px; border-radius: 10px; background: var(--purple-soft); color: var(--purple-ink); }
   .grade-sum b { font: 700 26px var(--font); }
   .grade-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .gcrit { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 6px 0 10px; padding: 12px; border-radius: 10px; background: var(--surface-2); }
+  .gcrit-item { display: flex; flex-direction: column; gap: 4px; }
+  .gcrit-item label { font: 700 11px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+  .stepper { display: flex; align-items: center; gap: 4px; }
+  .stepper button { width: 28px; height: 28px; flex: none; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); font: 700 16px var(--font); line-height: 1; cursor: pointer; color: var(--ink); }
+  .stepper button:hover { background: var(--purple-soft); }
+  .stepper input { font: 15px var(--font); padding: 6px 4px; border: 1px solid var(--line-strong); border-radius: 8px; width: 100%; text-align: center; }
+  .gcrit-item small { font: 12px var(--font); color: var(--muted); }
+  .gcrit-note { margin: 0 0 10px; font-size: 13px; }
+  .gate { display: flex; flex-direction: column; gap: 8px; margin: 12px 0 4px; padding: 12px 14px; border-radius: 10px; background: var(--orange-soft); }
+  .gate label { display: flex; gap: 8px; align-items: flex-start; font: 15px var(--font); color: var(--ink); cursor: pointer; }
+  .gate input { margin-top: 3px; flex: none; }
   .fb-card { border-left: 4px solid var(--orange); }
   .fb-item { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 12px; }
   .fb-item:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
@@ -1389,6 +1401,25 @@ function renderSubs() {
   tb.innerHTML = RAW.length ? RAW.map((r, i) => `<tr><td>${fmtDate(r.submittedAt)}${r.auto ? ' <span class="att">time up</span>' : ''}${r.mode === 'practice' ? ' <span class="att">practice</span>' : ''}</td><td>${esc(r.name)}</td><td>${esc(r.sid || '')}</td><td class="num">${r.reading === null ? '—' : r.reading}</td><td class="num">${r.listening === null ? '—' : r.listening}</td><td class="num">${(r.wwords.W1 || 0) + ' + ' + (r.wwords.W2 || 0)}</td><td class="num">${mmss(r.timeSec)}</td><td class="num" style="white-space:nowrap">${marksCell(r)}</td><td style="white-space:nowrap"><button class="btn ghost sm" data-view="${i}">Grade</button> ${adm ? `<button class="btn ghost sm" data-review="${i}">Review</button> <button class="btn ghost sm" data-del="${i}">Delete</button>` : ''}</td></tr>`).join('') : '<tr><td colspan="9" class="empty">No submissions yet.</td></tr>';
 }
 const MAXM = { W1: 10, W2: 20, S1: 3, S2: 5, S3: 2 };
+const CRIT = ['task', 'organization', 'vocabulary', 'grammar'];
+const CRIT_LABEL = { task: 'Task', organization: 'Organization', vocabulary: 'Vocabulary', grammar: 'Grammar' };
+function critField(id, key, val, perMax) {
+  const v = val === null || val === undefined || isNaN(val) ? '' : val;
+  const fid = `gc-${id}-${key}`;
+  return `<div class="gcrit-item"><label>${CRIT_LABEL[key]}</label><div class="stepper"><button type="button" data-step="-1" data-for="${fid}">−</button><input type="number" id="${fid}" min="0" max="${perMax}" step="0.25" value="${v}"><button type="button" data-step="1" data-for="${fid}">+</button></div><small>/ ${perMax}</small></div>`;
+}
+function critBlock(id, crit) {
+  const perMax = MAXM[id] / 4;
+  return `<div class="gcrit">${CRIT.map(k => critField(id, k, crit && crit[k], perMax)).join('')}</div><p class="sub gcrit-note">4 tiêu chí trên cộng lại thành điểm ${id} bên cạnh, tự tính khi điền đủ cả 4 ô — bỏ trống cả 4 để gõ thẳng điểm ${id} như trước.</p>`;
+}
+function critValues(id) { const o = {}; CRIT.forEach(k => { const el = $('#gc-' + id + '-' + k); const v = el && el.value !== '' ? +el.value : null; o[k] = v === null || isNaN(v) ? null : v; }); return o; }
+function critSync(id) {
+  if (!$('#gc-' + id + '-task')) return; const c = critValues(id);
+  if (CRIT.some(k => c[k] === null)) return;
+  const el = $('#g-' + id); if (!el) return;
+  el.value = Math.max(0, Math.min(MAXM[id], Math.round(CRIT.reduce((a, k) => a + c[k], 0) * 4) / 4));
+}
+function gateAllChecked() { const boxes = $$('#g-gate input[type=checkbox]'); return boxes.length > 0 && boxes.every(c => c.checked); }
 function overallOf(r, marks) {       // same rule as the backend: each skill taken on /10, averaged, rounded to 0.5
   const s = [];
   for (const sk of r.skills || []) {
@@ -1402,14 +1433,26 @@ function overallOf(r, marks) {       // same rule as the backend: each skill tak
 }
 const gradeParts = (r, sk) => { const ids = partsTakenIds(r, sk); return ids.length || !(r.skills || []).includes(sk) ? ids : partsOf(sk).map(p => p.id); };
 let GR = null;
-function gradeForm() { const marks = {}, feedback = {}; ['W1', 'W2', 'S1', 'S2', 'S3'].forEach(k => { const el = $('#g-' + k); marks[k] = el && el.value !== '' ? +el.value : null; }); ['W1', 'W2', 'S', 'general'].forEach(k => { const el = $('#gf-' + k); feedback[k] = el ? el.value.trim() : (((GR.grading || {}).feedback || {})[k] || ''); }); return { clientId: GR.clientId, submittedAt: GR.submittedAt, marks, feedback }; }
+function gradeForm() {
+  const marks = {}, feedback = {}, criteria = {};
+  ['W1', 'W2', 'S1', 'S2', 'S3'].forEach(k => { const el = $('#g-' + k); marks[k] = el && el.value !== '' ? +el.value : null; });
+  ['W1', 'W2', 'S', 'general'].forEach(k => { const el = $('#gf-' + k); feedback[k] = el ? el.value.trim() : (((GR.grading || {}).feedback || {})[k] || ''); });
+  ['W1', 'W2'].forEach(id => { if ($('#gc-' + id + '-task')) criteria[id] = critValues(id); });
+  return { clientId: GR.clientId, submittedAt: GR.submittedAt, marks, feedback, criteria };
+}
 function gradeStatus(msg, kind) { const st = $('#g-status'); if (!st) return; st.hidden = !msg; st.className = 'status' + (kind ? ' ' + kind : ''); st.lastElementChild.textContent = msg || ''; }
-function gradeButtons() { const g = GR.grading || {}; $('#g-doc').textContent = g.docUrl ? 'Update the Google Doc' : 'Create the Google Doc'; $('#g-open').hidden = !g.docUrl; if (g.docUrl) $('#g-open').href = g.docUrl; $('#g-release').textContent = g.released ? 'Withdraw from the student' : 'Release to the student'; $('#g-state').textContent = !g.gradedAt ? 'Not marked yet' : g.released ? 'Released ' + fmtDate(g.releasedAt) + (g.docUrl && !g.docShared ? ' · Doc not shared' : '') : 'Saved, not released'; }
+function gradeButtons() {
+  const g = GR.grading || {};
+  $('#g-doc').textContent = g.docUrl ? 'Update the Google Doc' : 'Create the Google Doc'; $('#g-open').hidden = !g.docUrl; if (g.docUrl) $('#g-open').href = g.docUrl;
+  $('#g-release').textContent = g.released ? 'Withdraw from the student' : 'Release to the student';
+  $('#g-release').disabled = !g.released && !gateAllChecked();
+  $('#g-state').textContent = !g.gradedAt ? 'Not marked yet' : g.released ? 'Released ' + fmtDate(g.releasedAt) + (g.docUrl && !g.docShared ? ' · Doc not shared' : '') : 'Saved, not released';
+}
 function openGrade(i) {
   const r = RAW[i]; if (!r) return; GR = r; const g = r.grading || {}, mk = g.marks || {}, fb = g.feedback || {}, w = r.writing || {};
   const wt = gradeParts(r, 'writing'), spk = gradeParts(r, 'speaking').filter(x => x !== 'S0');
   const num = id => `<label class="gmark"><span>${id}</span><input type="number" id="g-${id}" min="0" max="${MAXM[id]}" step="0.25" value="${mk[id] === null || mk[id] === undefined ? '' : mk[id]}"><small>/ ${MAXM[id]}</small></label>`;
-  const task = (id, W, an, extra) => `<h3 style="margin:14px 0 6px">${esc(W.title)} <span class="chip mu">${an.n} words · ${an.paras} par. · ${an.col.length} unit phrases${extra || ''}</span></h3><div class="usertext">${w[id] ? esc(w[id]) : '<i>(empty)</i>'}</div><div class="grade-row"><div class="gmarks">${num(id)}</div><textarea class="ta" id="gf-${id}" placeholder="Feedback on ${esc(W.title.replace(/^Task \d · /, '').toLowerCase())}…">${esc(fb[id] || '')}</textarea></div>`;
+  const task = (id, W, an, extra) => `<h3 style="margin:14px 0 6px">${esc(W.title)} <span class="chip mu">${an.n} words · ${an.paras} par. · ${an.col.length} unit phrases${extra || ''}</span></h3><div class="usertext">${w[id] ? esc(w[id]) : '<i>(empty)</i>'}</div>${critBlock(id, (fb.criteria || {})[id])}<div class="grade-row"><div class="gmarks">${num(id)}</div><textarea class="ta" id="gf-${id}" placeholder="Feedback on ${esc(W.title.replace(/^Task \d · /, '').toLowerCase())}…">${esc(fb[id] || '')}</textarea></div>`;
   const an1 = analyse(w.W1, TEST.writing.t1), an2 = analyse(w.W2, TEST.writing.t2);
   $('#view-body').innerHTML = `<h2 style="margin:0 0 4px;font:700 20px var(--font);color:var(--purple-ink)">${esc(r.name)}${r.sid ? ' · ' + esc(r.sid) : ''}</h2><p class="sub">Reading ${r.reading === null ? '—' : r.reading + '/' + r.rmax} · Listening ${r.listening === null ? '—' : r.listening + '/' + r.lmax} · ${fmtDate(r.submittedAt)} · <span id="g-state"></span></p>
     ${wt.includes('W1') ? task('W1', TEST.writing.t1, an1) : ''}${wt.includes('W2') ? task('W2', TEST.writing.t2, an2, ` · ${esc(TEST.writing.topicWord.word)} × ${an2.topicN}`) : ''}
@@ -1418,12 +1461,19 @@ function openGrade(i) {
     <h3 style="margin:14px 0 6px">General comment</h3><textarea class="ta" id="gf-general" style="min-height:70px" placeholder="Shown first to the student…">${esc(fb.general || '')}</textarea>
     <div class="grade-sum"><span>Overall</span><b id="g-overall">—</b><span>/ 10 · VSTEP rule: each skill taken on /10, averaged, rounded to 0.5</span></div>
     <div class="status" id="g-status" hidden><span class="dot"></span><span></span></div>
+    <div class="gate" id="g-gate">
+      <label><input type="checkbox"> Đã xem điểm số của bài này (kể cả gợi ý AI nếu có) và chỉnh sửa nếu chưa phù hợp</label>
+      <label><input type="checkbox"> Đã ghi nhận xét cho học viên</label>
+      <label><input type="checkbox"> Sẵn sàng trả kết quả cho học viên</label>
+    </div>
     <div class="grade-actions">${wt.length ? '<button class="btn ghost" id="g-ai">Suggest with AI</button>' : ''}<button class="btn" id="g-save">Save marks</button><button class="btn purple" id="g-doc">Create the Google Doc</button><a class="btn ghost" id="g-open" target="_blank" rel="noopener" style="text-decoration:none" hidden>Open the Doc</a><button class="btn ghost" id="g-release">Release to the student</button></div>
     <p class="sub" style="margin:8px 0 0;font-size:13px">Students see nothing until you release: then the student sees the marks, your comments and the Doc (view only) the next time they open this link on the device they used.</p>
-    ${wt.length ? '<p class="sub" style="margin:2px 0 0;font-size:13px">Suggest with AI reads the rubric bands and pre-fills marks + a note per task — always check it before saving; it never saves by itself.</p>' : ''}`;
-  const upd = () => { const o = overallOf(r, gradeForm().marks); $('#g-overall').textContent = o === null ? '—' : o.toFixed(1); };
+    <p class="sub" style="margin:2px 0 0;font-size:13px">Tick all three boxes above to unlock Release — withdrawing does not need them again.</p>
+    ${wt.length ? '<p class="sub" style="margin:2px 0 0;font-size:13px">Suggest with AI reads the rubric bands and pre-fills the 4 criteria + marks + a note per task — always check it before saving; it never saves by itself.</p>' : ''}`;
+  const upd = () => { wt.forEach(critSync); const o = overallOf(r, gradeForm().marks); $('#g-overall').textContent = o === null ? '—' : o.toFixed(1); };
   $('#view-body').oninput = upd; upd(); gradeButtons();
   $('#g-save').onclick = () => gradeSave(); $('#g-doc').onclick = gradeDoc; $('#g-release').onclick = gradeRelease;
+  $('#g-gate').onchange = gradeButtons;
   if (wt.length) $('#g-ai').onclick = () => gradeAi(wt, upd);
   $('#view-modal').hidden = false;
 }
@@ -1441,9 +1491,10 @@ async function gradeAi(wt, upd) {
     if (!j.ok) throw new Error(j.error);
     for (const id of wt) {
       const a = j.ai && j.ai[id]; if (!a) continue;
-      const fEl = $('#gf-' + id), note = `[Gợi ý AI — band ${a.band}/10: task ${a.criteria.task ?? '—'} · org ${a.criteria.organization ?? '—'} · vocab ${a.criteria.vocabulary ?? '—'} · grammar ${a.criteria.grammar ?? '—'}] ${a.note}`;
+      CRIT.forEach(k => { const el = $('#gc-' + id + '-' + k); if (el && a.criteria && typeof a.criteria[k] === 'number') el.value = a.criteria[k]; });
+      critSync(id);
+      const fEl = $('#gf-' + id), note = `[Gợi ý AI — band ${a.band}/10] ${a.note}`;
       if (!fEl.value.trim() || await ask(`Đã có nhận xét cho ${id}. Ghi đè bằng gợi ý của AI?`, 'Ghi đè')) fEl.value = note;
-      const mEl = $('#g-' + id); if (mEl) mEl.value = a.mark;
     }
     upd(); gradeStatus('Đã điền gợi ý AI — kiểm tra lại rồi bấm Save marks để lưu.', 'ok');
   } catch (e) { gradeStatus('Không chấm được bằng AI: ' + (e.message || 'error'), 'err'); }
@@ -1494,7 +1545,11 @@ $('#subs-tbl').addEventListener('click', async e => {
   const j = await api('delete', { clientId: r.clientId, submittedAt: r.submittedAt }); if (!j.ok) { alert('Could not delete: ' + (j.error || 'error')); return; }
   loadSubs();
 });
-$('#view-body').addEventListener('click', e => { const b = e.target.closest('[data-loc]'); if (!b) return; locate(b.dataset.loc, b.dataset.prefix || ''); });
+$('#view-body').addEventListener('click', e => {
+  const st = e.target.closest('[data-step]');
+  if (st) { const inp = document.getElementById(st.dataset.for); if (inp) { const max = +inp.max, min = +inp.min || 0, cur = inp.value === '' ? 0 : +inp.value; inp.value = Math.max(min, Math.min(max, Math.round((cur + (+st.dataset.step) * 0.25) * 4) / 4)); inp.dispatchEvent(new Event('input', { bubbles: true })); } return; }
+  const b = e.target.closest('[data-loc]'); if (!b) return; locate(b.dataset.loc, b.dataset.prefix || '');
+});
 $('#view-close').addEventListener('click', () => { $('#view-modal').hidden = true; $('#view-body').oninput = null; GR = null; });
 $('#btn-clear-all').addEventListener('click', async () => {
   const ok = await ask('Delete ALL results for this test? Every student will be able to take it again. This cannot be undone.', 'Delete all'); if (!ok) return;
