@@ -1410,7 +1410,7 @@ function critField(id, key, val, perMax) {
 }
 function critBlock(id, crit) {
   const perMax = MAXM[id] / 4;
-  return `<div class="gcrit">${CRIT.map(k => critField(id, k, crit && crit[k], perMax)).join('')}</div><p class="sub gcrit-note">4 tiêu chí trên cộng lại thành điểm ${id} bên cạnh, tự tính khi điền đủ cả 4 ô — bỏ trống cả 4 để gõ thẳng điểm ${id} như trước.</p>`;
+  return `<div class="gcrit">${CRIT.map(k => critField(id, k, crit && crit[k], perMax)).join('')}</div><p class="sub gcrit-note">The 4 criteria above sum to the ${id} mark shown alongside, computed automatically once all 4 are filled — leave all 4 blank to enter the ${id} mark directly, as before.</p>`;
 }
 function critValues(id) { const o = {}; CRIT.forEach(k => { const el = $('#gc-' + id + '-' + k); const v = el && el.value !== '' ? +el.value : null; o[k] = v === null || isNaN(v) ? null : v; }); return o; }
 function critSync(id) {
@@ -1462,9 +1462,9 @@ function openGrade(i) {
     <div class="grade-sum"><span>Overall</span><b id="g-overall">—</b><span>/ 10 · VSTEP rule: each skill taken on /10, averaged, rounded to 0.5</span></div>
     <div class="status" id="g-status" hidden><span class="dot"></span><span></span></div>
     <div class="gate" id="g-gate">
-      <label><input type="checkbox"> Đã xem điểm số của bài này (kể cả gợi ý AI nếu có) và chỉnh sửa nếu chưa phù hợp</label>
-      <label><input type="checkbox"> Đã ghi nhận xét cho học viên</label>
-      <label><input type="checkbox"> Sẵn sàng trả kết quả cho học viên</label>
+      <label><input type="checkbox"> Reviewed this attempt's marks (including the AI suggestion, if any) and revised them where needed</label>
+      <label><input type="checkbox"> Written feedback for the student</label>
+      <label><input type="checkbox"> Ready to release the results to the student</label>
     </div>
     <div class="grade-actions">${wt.length ? '<button class="btn ghost" id="g-ai">Suggest with AI</button>' : ''}<button class="btn" id="g-save">Save marks</button><button class="btn purple" id="g-doc">Create the Google Doc</button><a class="btn ghost" id="g-open" target="_blank" rel="noopener" style="text-decoration:none" hidden>Open the Doc</a><button class="btn ghost" id="g-release">Release to the student</button></div>
     <p class="sub" style="margin:8px 0 0;font-size:13px">Students see nothing until you release: then the student sees the marks, your comments and the Doc (view only) the next time they open this link on the device they used.</p>
@@ -1485,7 +1485,7 @@ async function gradeAi(wt, upd) {
   const btn = $('#g-ai'), context = {};
   if (wt.includes('W1')) { const W = TEST.writing.t1; context.W1 = { situation: W.situation, email: W.email, instruction: W.instruction, points: W.points, minWords: W.minWords }; }
   if (wt.includes('W2')) { const W = TEST.writing.t2; context.W2 = { topic: W.topic, instruction: W.instruction, minWords: W.minWords }; }
-  btn.disabled = true; gradeStatus('Đang chấm bằng AI…');
+  btn.disabled = true; gradeStatus('Grading with AI…');
   try {
     const j = await api('ai_grade', { clientId: GR.clientId, submittedAt: GR.submittedAt, context });
     if (!j.ok) throw new Error(j.error);
@@ -1493,11 +1493,11 @@ async function gradeAi(wt, upd) {
       const a = j.ai && j.ai[id]; if (!a) continue;
       CRIT.forEach(k => { const el = $('#gc-' + id + '-' + k); if (el && a.criteria && typeof a.criteria[k] === 'number') el.value = a.criteria[k]; });
       critSync(id);
-      const fEl = $('#gf-' + id), note = `[Gợi ý AI — band ${a.band}/10] ${a.note}`;
-      if (!fEl.value.trim() || await ask(`Đã có nhận xét cho ${id}. Ghi đè bằng gợi ý của AI?`, 'Ghi đè')) fEl.value = note;
+      const fEl = $('#gf-' + id), note = `[AI suggestion — band ${a.band}/10] ${a.note}`;
+      if (!fEl.value.trim() || await ask(`Feedback already exists for ${id}. Overwrite it with the AI suggestion?`, 'Overwrite')) fEl.value = note;
     }
-    upd(); gradeStatus('Đã điền gợi ý AI — kiểm tra lại rồi bấm Save marks để lưu.', 'ok');
-  } catch (e) { gradeStatus('Không chấm được bằng AI: ' + (e.message || 'error'), 'err'); }
+    upd(); gradeStatus('AI suggestion filled in — review it, then press Save marks to store it.', 'ok');
+  } catch (e) { gradeStatus('Could not grade with AI: ' + (e.message || 'error'), 'err'); }
   finally { btn.disabled = false; }
 }
 function docBlocks(r) {
