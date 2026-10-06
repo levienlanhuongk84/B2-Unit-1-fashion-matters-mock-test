@@ -468,7 +468,37 @@
       <p class="sub">Enter your name as on the class list, choose the skills you want to take, and press <b>Start</b>. Each skill has its own clock; inside a skill, every part shows the time you should give it.</p>
       <div class="two">
         <div class="field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" placeholder="e.g. Nguyen Van A" maxlength="80"></div>
-        <div class="field"><label for="f-sid">Class / ID (optional)</label><input id="f-sid" placeholder="e.g. CH – 12" maxlength="40"></div>
+        <div class="field"><label for="f-sid">Class / ID (optional)</label><select id="f-sid" class="sel lh-class" aria-label="Class"><option value="">— Choose your class —</option><option>CK1-51</option><option>CH-35</option></select>
+<script>
+/* LH class picker (2026-10-06): the class is CHOSEN from the list kept in the "Danh sách lớp" tab of "Sổ bài nộp SĐH 2026"
+   (served by its web app), so every page records the same codes. Falls back to the list above when offline.
+   Same id as the old text box: page code that reads .value / listens to 'input' keeps working. */
+(function () {
+  var URL = 'https://script.google.com/macros/s/AKfycbwcPyg1i2cVPMFU97a_mGbIum3tIliW_UTqUI3akdEQdRNaxgw1bxY5ysnEEi8MaMW9/exec?action=classes';
+  var sel = document.getElementById('f-sid'), base = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value'), want = '';
+  if (!document.getElementById('lh-class-css')) { var st = document.createElement('style'); st.id = 'lh-class-css';
+    st.textContent = '.field select.lh-class{font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line-strong,#ccc);border-radius:10px;background:var(--surface,#fff);color:var(--ink,#222);width:100%}';
+    document.head.appendChild(st); }
+  function canon(v) { var s = String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase(), m = s.match(/(CK\s*[12]|CH)\s*[-_.\s]*\s*(\d{1,3})/); return m ? m[1].replace(/\s+/g, '') + '-' + m[2] : String(v || '').trim(); }
+  function has(v) { for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === v) return true; return false; }
+  function pick(v) {                                   // a saved or programmatic value: use the matching listed class, else keep it as its own option
+    v = String(v || '').trim(); want = v; if (!v) { base.set.call(sel, ''); return; }
+    var c = canon(v); if (has(c)) { base.set.call(sel, c); return; }
+    if (!has(v)) { var o = document.createElement('option'); o.value = o.textContent = v; o.setAttribute('data-extra', '1'); sel.appendChild(o); }
+    base.set.call(sel, v);
+  }
+  Object.defineProperty(sel, 'value', { configurable: true, get: function () { return base.get.call(this); }, set: pick });
+  function fill(list) {
+    var cur = base.get.call(sel) || want; while (sel.options.length > 1) sel.remove(1);
+    list.forEach(function (c) { var o = document.createElement('option'); o.value = o.textContent = c.code || c; sel.appendChild(o); });
+    if (cur) pick(cur);
+  }
+  try { var cached = JSON.parse(localStorage.getItem('lh-classes') || 'null'); if (cached && cached.length) fill(cached); } catch (e) {}
+  fetch(URL).then(function (r) { return r.json(); }).then(function (j) {
+    if (j && j.ok && j.classes && j.classes.length) { try { localStorage.setItem('lh-classes', JSON.stringify(j.classes)); } catch (e) {} fill(j.classes); }
+  }).catch(function () {});
+})();
+</script></div>
       </div>
       <h3>What to take</h3>
       <p class="sub">Tick a whole skill, or only the parts you want to practise. The clock of a skill is the sum of the parts you choose.</p>
@@ -589,15 +619,14 @@
       <h2>Teacher sign-in</h2>
       <p class="sub">Teachers can see the full class report, read every student's writing and export results. The administrator can also open or close the test and manage submissions.</p>
       <div class="two">
-        <div class="field"><label for="l-name">Name</label><input id="l-name" autocomplete="username" placeholder="Teacher name"></div>
+        <div class="field"><label for="l-name">Name</label><input id="l-name" autocomplete="off" placeholder="Teacher name"></div>
         <div class="field"><label for="l-pass">Password</label>
           <div class="pw-wrap">
-            <input id="l-pass" type="password" autocomplete="current-password">
+            <input id="l-pass" type="password" autocomplete="new-password">
             <button type="button" class="pw-toggle" id="btn-pw-toggle" aria-label="Show password" tabindex="-1">Show</button>
           </div>
         </div>
       </div>
-      <label class="remember"><input type="checkbox" id="l-remember"><span>Remember me on this device</span></label>
       <div class="status err" id="l-err" hidden><span class="dot"></span><span></span></div>
       <p style="margin:10px 0 0"><button class="btn" id="btn-login">Sign in</button></p>
     </div>
@@ -1384,21 +1413,18 @@ document.addEventListener('mousemove', e => { const c = e.target.closest('[data-
 
 /* ====================== TEACHER / ADMIN ====================== */
 function setAuth(a) { A = a; try { a ? sessionStorage.setItem(CONFIG.KEY + ':auth', JSON.stringify(a)) : sessionStorage.removeItem(CONFIG.KEY + ':auth'); } catch (e) {} }
-function rememberedLogin() { try { return JSON.parse(localStorage.getItem(CONFIG.KEY + ':remember')); } catch (e) { return null; } }
-function setRemembered(user, password) { try { if (user && password) localStorage.setItem(CONFIG.KEY + ':remember', JSON.stringify({ user, password })); else localStorage.removeItem(CONFIG.KEY + ':remember'); } catch (e) {} }
+try { localStorage.removeItem(CONFIG.KEY + ':remember'); } catch (e) {} /* older builds saved the staff password here; never store it */
 $('#btn-pw-toggle').addEventListener('click', () => { const inp = $('#l-pass'); const show = inp.type === 'password'; inp.type = show ? 'text' : 'password'; $('#btn-pw-toggle').textContent = show ? 'Hide' : 'Show'; });
-(function () { const r = rememberedLogin(); if (r) { $('#l-name').value = r.user; $('#l-pass').value = r.password; $('#l-remember').checked = true; } })();
 $('#btn-login').addEventListener('click', async () => {
   const user = $('#l-name').value.trim(), password = $('#l-pass').value; const err = $('#l-err');
   err.hidden = true; if (!user || !password) { err.hidden = false; err.lastElementChild.textContent = 'Enter your name and password.'; return; }
   $('#btn-login').disabled = true;
-  try { const j = await api('login', { user, password }); if (!j.ok) throw new Error(j.error || 'Sign-in failed'); setAuth({ name: j.name || user, role: j.role || 'teacher', password }); if (j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); } setRemembered($('#l-remember').checked ? user : null, $('#l-remember').checked ? password : null); renderTeacher(); }
+  try { const j = await api('login', { user, password }); if (!j.ok) throw new Error(j.error || 'Sign-in failed'); setAuth({ name: j.name || user, role: j.role || 'teacher', password }); if (j.settings) { SET = Object.assign({}, DEFAULT_SET, j.settings); store.set('settings', SET); applySettings(); } renderTeacher(); }
   catch (e) { err.hidden = false; err.lastElementChild.textContent = 'Sign-in failed: ' + (e.message || 'wrong name or password'); }
   $('#btn-login').disabled = false;
 });
 $('#l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btn-login').click(); });
 $('#btn-signout').addEventListener('click', () => { setAuth(null); renderTeacher(); applyLock(); });
-$('#l-remember').addEventListener('change', () => { if (!$('#l-remember').checked) setRemembered(null, null); });
 function renderTeacher() {
   const on = isStaff(); $('#login-card').hidden = on; $('#teacher-panel').hidden = !on; $('#tab-btn-teacher').textContent = on ? (A.role === 'admin' ? 'Admin' : 'Teacher') : 'Teacher';
   if (!on) { $('#l-name').value = $('#l-name').value || (CONFIG.LOCAL_USERS[0] || {}).name || ''; return; }
