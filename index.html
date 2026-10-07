@@ -468,7 +468,7 @@
       <p class="sub">Enter your name as on the class list, choose the skills you want to take, and press <b>Start</b>. Each skill has its own clock; inside a skill, every part shows the time you should give it.</p>
       <div class="two">
         <div class="field"><label for="f-name">Full name</label><input id="f-name" autocomplete="name" placeholder="e.g. Nguyen Van A" maxlength="80"></div>
-        <div class="field"><label for="f-sid">Class / ID (optional)</label><select id="f-sid" class="sel lh-class" aria-label="Class"><option value="">— Choose your class —</option><option>CK1-51</option><option>CH-35</option></select>
+        <div class="field"><label for="f-sid">Class / ID <span style="color:var(--bad)">*</span></label><select id="f-sid" class="sel lh-class" aria-label="Class"><option value="">— Choose your class —</option><option>CK1-51</option><option>CH-35</option></select>
 <script>
 /* LH class picker (2026-10-06): the class is CHOSEN from the list kept in the "Danh sách lớp" tab of "Sổ bài nộp SĐH 2026"
    (served by its web app), so every page records the same codes. Falls back to the list above when offline.
@@ -859,9 +859,11 @@ function syncAssignUI() {
 let lastSet = 0, sidDeb = null;   // a page opened before the teacher saved an assignment re-reads the settings when a class code is typed
 $('#f-sid').addEventListener('input', () => { syncAssignUI(); clearTimeout(sidDeb); sidDeb = setTimeout(() => { if (CONFIG.API_URL && Date.now() - lastSet > 5000) refreshSettings(1); }, 700); });
 $$('#mode-pick input').forEach(r => r.addEventListener('change', () => $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked))));
+$('#f-sid').addEventListener('change', e => e.target.style.borderColor = '');
 $('#btn-start').addEventListener('click', async () => {
   const name = $('#f-name').value.trim(), sid = $('#f-sid').value.trim();
   if (name.length < 2) { $('#f-name').focus(); $('#f-name').style.borderColor = 'var(--bad)'; return; }
+  if (!sid) { $('#f-sid').focus(); $('#f-sid').style.borderColor = 'var(--bad)'; return; }   // class is required (2026-10-06)
   const btn = $('#btn-start'), label = btn.textContent; btn.disabled = true; btn.textContent = 'Checking the test settings…';
   const fresh_ = await refreshSettings(CONFIG.API_URL ? 4 : 1);
   btn.textContent = label; applySettings();
