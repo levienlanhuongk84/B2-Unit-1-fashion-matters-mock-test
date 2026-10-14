@@ -1443,7 +1443,7 @@ function renderTeacher() {
   $('#settings-hint').textContent = adm ? 'Changes apply to every student the next time the page loads.' : 'Only the administrator can change settings.';
   $('#btn-clear-all').hidden = !adm; $('#subs-admin-hint').hidden = !adm;
   $('#s-open').value = SET.open ? '1' : '0'; $('#s-pass').value = SET.passMark; $('#s-rank').value = SET.showRanking ? '1' : '0'; $('#s-msg').value = SET.message || '';
-  const who = A.name + '|' + A.role; if (ensureAssignCard() || $('#admin-assign').dataset.who !== who) { $('#admin-assign').dataset.who = who; fillAssign(); }
+  const who = A.name + '|' + A.role; if (ensureAssignCard() || $('#admin-assign').dataset.who !== who) { $('#admin-assign').dataset.who = who; asSeen = new Set((((SET.assign || {}).rows) || []).map(r => r.code)); fillAssign(); }
   loadSubs();
 }
 async function saveSettings(st) {
@@ -1456,15 +1456,18 @@ $('#btn-save-settings').addEventListener('click', () => saveSettings($('#s-statu
 function ensureAssignCard() {
   if ($('#admin-assign')) return false;
   const card = document.createElement('div'); card.className = 'card'; card.id = 'admin-assign';
-  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below (e.g. code CH35 → CH35-07) can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. A listening part is never shorter than its recording + 1 minute. With no class listed, every student chooses freely.</p>
+  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below (e.g. code CH35 → CH35-07) can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. A listening part is never shorter than its recording + 1 minute. With no class listed, every student chooses freely. Changes are saved automatically.</p>
+    <div id="as-live" class="note-box" style="margin:0 0 12px"></div>
     <div id="as-rows"></div>
     <div class="field" style="max-width:460px"><label for="as-others">Students whose Class / ID matches no code</label><select id="as-others" class="sel"><option value="full">Full choice — they pick skills and parts themselves</option><option value="closed">Closed — they cannot start</option></select></div>
     <div class="toolbar" style="margin:0"><button class="btn ghost sm" id="as-add">+ Add a class</button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="status" id="as-status" hidden><span class="dot"></span><span></span></div><button class="btn" id="as-save">Save assignments</button></div></div>`;
   $('#admin-settings').after(card);
-  $('#as-add').addEventListener('click', () => addAssignRow({ code: '', parts: {} }));
-  $('#as-save').addEventListener('click', () => saveSettings($('#as-status')));
-  $('#as-rows').addEventListener('click', e => { const d = e.target.closest('[data-as-del]'); if (d) d.closest('.as-row').remove(); });
-  $('#as-rows').addEventListener('change', e => { const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); });
+  $('#as-add').addEventListener('click', () => { addAssignRow({ code: '', parts: {} }); assignHints(); const r = $$('#as-rows .as-row').pop(); if (r) $('.as-code', r).focus(); });
+  $('#as-save').addEventListener('click', () => { clearTimeout(asTimer); saveSettings($('#as-status')); });
+  $('#as-rows').addEventListener('click', e => { const d = e.target.closest('[data-as-del]'); if (d) { d.closest('.as-row').remove(); scheduleAssignSave(); } });
+  $('#as-rows').addEventListener('change', e => { const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); scheduleAssignSave(); });
+  $('#as-rows').addEventListener('input', scheduleAssignSave);
+  $('#as-others').addEventListener('change', scheduleAssignSave);
   return true;
 }
 function minFor(id) { const p = PART[id]; return p && p.kind === 'listening' ? Math.ceil(p.src.audioMin) + 1 : 1; }   // a listening part is never shorter than its recording
@@ -1475,8 +1478,8 @@ function addAssignRow(r) {
   $('#as-rows').appendChild(row);
   if (!isAdmin()) $$('input, button', row).forEach(el => { el.disabled = true; });
 }
-function collectAssign() {
-  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const inp = c.closest('.as-cell').querySelector('input[type=number]'); let m = Math.round(+inp.value); const lo = minFor(c.dataset.p); if (m < lo) { m = lo; inp.value = lo; } parts[c.dataset.p] = Math.min(180, m); }); if (parts.S0 && !parts.S1 && !parts.S2 && !parts.S3) delete parts.S0; return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
+function collectAssign(keepInputs) {
+  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const inp = c.closest('.as-cell').querySelector('input[type=number]'); let m = Math.round(+inp.value); const lo = minFor(c.dataset.p); if (!(m >= lo)) { m = lo; if (!keepInputs) inp.value = lo; } parts[c.dataset.p] = Math.min(180, m); }); if (parts.S0 && !parts.S1 && !parts.S2 && !parts.S3) delete parts.S0; return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
   return { rows, others: $('#as-others') ? $('#as-others').value : 'full' };
 }
 function fillAssign() {
@@ -1484,6 +1487,39 @@ function fillAssign() {
   $('#as-rows').innerHTML = ''; (as.rows || []).forEach(addAssignRow);
   $('#as-others').value = as.others === 'closed' ? 'closed' : 'full';
   const adm = isAdmin(); $('#as-others').disabled = !adm; $('#as-add').hidden = !adm; $('#as-save').hidden = !adm;
+  assignHints(); renderAssignLive();
+}
+// auto-save of class assignments + the list of saved class codes, new ones marked (teacher request 2026-10-14)
+let asTimer = null, asBusy = false, asAgain = false, asSeen = new Set();
+const asJson = a => JSON.stringify({ rows: (a && a.rows) || [], others: (a && a.others) === 'closed' ? 'closed' : 'full' });
+function assignHints() {
+  const seen = {};
+  $$('#as-rows .as-row').forEach(row => {
+    const code = $('.as-code', row).value.trim(), any = $$('input[type=checkbox][data-p]', row).some(c => c.checked), k = normCode(code);
+    let h = $('.as-hint', row); if (!h) { h = document.createElement('small'); h.className = 'as-hint'; h.style.cssText = 'display:block;margin-top:6px;color:var(--bad)'; row.appendChild(h); }
+    h.textContent = !code ? (any ? 'Type a class code to save this class.' : 'Type a class code and tick the parts to save this class.') : !any ? 'Tick at least one part to save ' + code + '.' : seen[k] ? code + ' is already listed above; only the first one counts.' : '';
+    h.hidden = !h.textContent; if (code) seen[k] = 1;
+  });
+}
+function renderAssignLive() {
+  const box = $('#as-live'); if (!box) return; const rows = ((SET.assign || {}).rows) || [];
+  box.innerHTML = rows.length ? `<b>Assigned classes (${rows.length})</b>: students pick these codes in the Class / ID list.<ul style="margin:6px 0 0;padding-left:20px">${rows.map(r => `<li><b>${esc(r.code)}</b>${asSeen.has(r.code) ? '' : ' <span class="chip gd">New</span>'} · ${Object.keys(r.parts || {}).map(id => esc(id) + ' ' + r.parts[id] + '′').join(' · ')}</li>`).join('')}</ul>`
+    : '<b>Assigned classes</b>: none yet. Every student chooses freely' + (((SET.assign || {}).others) === 'closed' ? ', except that unmatched codes are closed.' : '.');
+}
+function scheduleAssignSave() { assignHints(); if (!isAdmin()) return; clearTimeout(asTimer); asTimer = setTimeout(autoSaveAssign, 1000); }
+async function autoSaveAssign() {
+  if (asBusy) { asAgain = true; return; }
+  const assign = collectAssign(true); if (asJson(assign) === asJson(SET.assign)) return;
+  const st = $('#as-status'), before = new Set((((SET.assign || {}).rows) || []).map(r => r.code));
+  st.hidden = false; st.className = 'status'; st.lastElementChild.textContent = 'Saving…'; asBusy = true;
+  try {
+    const settings = { open: SET.open, passMark: SET.passMark, showRanking: SET.showRanking, message: SET.message || '', assign };   // only the assignments change; unsaved edits in Test settings stay unsaved
+    const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error);
+    SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); syncAssignUI(); renderAssignLive();
+    const added = ((SET.assign || {}).rows || []).map(r => r.code).filter(c => !before.has(c));
+    st.className = 'status ok'; st.lastElementChild.textContent = 'Saved automatically' + (added.length ? ' · ' + added.join(', ') + ' added' : '') + '.';
+  } catch (e) { st.className = 'status err'; st.lastElementChild.textContent = 'Could not save: ' + (e.message || 'error') + '. Press Save assignments to try again.'; }
+  finally { asBusy = false; if (asAgain) { asAgain = false; autoSaveAssign(); } }
 }
 async function loadSubs() {
   const st = $('#subs-status'); st.textContent = 'Loading…';
