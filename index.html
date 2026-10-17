@@ -490,14 +490,14 @@
   }
   sel.addEventListener('change', function () { want = base.get.call(sel); });
   Object.defineProperty(sel, 'value', { configurable: true, get: function () { return base.get.call(this); }, set: pick });
-  var listed = ['CK1-51', 'CH-35'], assigned = [];   // fallback until the class list arrives
+  var listed = [], assigned = [];   // mock tests: no built-in codes (teacher, 2026-10-17)
   function fill(list) {
     if (list) listed = list.map(function (c) { return String(c.code || c); });
     var cur = want || base.get.call(sel), seen = {}; while (sel.options.length > 1) sel.remove(1);   // re-pick what the student (or the saved value) asked for
-    assigned.concat(listed).forEach(function (code) { if (!code || seen[code]) return; seen[code] = 1; var o = document.createElement('option'); o.value = o.textContent = code; sel.appendChild(o); });
+    (assigned.length ? assigned : listed).forEach(function (code) { if (!code || seen[code]) return; seen[code] = 1; var o = document.createElement('option'); o.value = o.textContent = code; sel.appendChild(o); });
     if (cur) pick(cur);
   }
-  // class codes the teacher assigns on this page (Admin → Class assignments) appear in the list automatically, first
+  // class codes the teacher assigns on this page (Admin → Class assignments) become the whole list; with none assigned the Sổ bài nộp list is shown (2026-10-17)
   window.lhAddClasses = function (codes) { assigned = (codes || []).map(function (c) { return String(c || '').trim(); }).filter(Boolean); fill(); };
   try { var cached = JSON.parse(localStorage.getItem('lh-classes') || 'null'); if (cached && cached.length) fill(cached); } catch (e) {}
   fetch(URL).then(function (r) { return r.json(); }).then(function (j) {
