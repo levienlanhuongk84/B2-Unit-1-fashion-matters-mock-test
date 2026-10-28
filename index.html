@@ -373,6 +373,10 @@
   .as-row { border: 1px solid var(--line); border-radius: 10px; background: var(--surface-3); padding: 12px; margin-bottom: 12px; }
   .as-head { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 10px; }
   .as-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  /* latest class (2026-10-28) */
+  .as-row.as-latest { border-color: var(--good); box-shadow: inset 0 0 0 1px var(--good); }
+  .as-row.as-latest::before { content: "✓ Latest — the only code students see"; display: inline-block; margin-bottom: 8px; font: 700 11px/1.3 var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--good); border-radius: 999px; padding: 4px 10px; max-width: 100%; white-space: normal; }
+  /* end latest class */
   .as-sk { display: flex; flex-direction: column; gap: 6px; }
   .as-sk > b { font: 700 12px var(--font-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--purple-ink); }
   .as-cell { display: grid; grid-template-columns: 52px 64px auto; justify-content: start; gap: 6px; align-items: center; font: 700 12px var(--font-mono); color: var(--ink-2); }
@@ -490,15 +494,16 @@
   }
   sel.addEventListener('change', function () { want = base.get.call(sel); });
   Object.defineProperty(sel, 'value', { configurable: true, get: function () { return base.get.call(this); }, set: pick });
-  var listed = [], assigned = [];   // mock tests: no built-in codes (teacher, 2026-10-17)
+  var listed = [], assigned = [], keep = null;   // mock tests: no built-in codes (teacher, 2026-10-17); keep = does a saved code belong to the latest class (2026-10-28)
   function fill(list) {
     if (list) listed = list.map(function (c) { return String(c.code || c); });
     var cur = want || base.get.call(sel), seen = {}; while (sel.options.length > 1) sel.remove(1);   // re-pick what the student (or the saved value) asked for
     (assigned.length ? assigned : listed).forEach(function (code) { if (!code || seen[code]) return; seen[code] = 1; var o = document.createElement('option'); o.value = o.textContent = code; sel.appendChild(o); });
-    if (cur) pick(cur);
+    if (cur) { if (assigned.length && keep && !keep(cur)) { want = ''; base.set.call(sel, ''); } else pick(cur); }
   }
   // class codes the teacher assigns on this page (Admin → Class assignments) become the whole list; with none assigned the Sổ bài nộp list is shown (2026-10-17)
-  window.lhAddClasses = function (codes) { assigned = (codes || []).map(function (c) { return String(c || '').trim(); }).filter(Boolean); fill(); };
+  // the engine passes only the LATEST assigned code and a test for it: a saved code of an older class is cleared, so students never pick the wrong code (2026-10-28)
+  window.lhAddClasses = function (codes, keepFn) { assigned = (codes || []).map(function (c) { return String(c || '').trim(); }).filter(Boolean); keep = typeof keepFn === 'function' ? keepFn : null; fill(); };
   try { var cached = JSON.parse(localStorage.getItem('lh-classes') || 'null'); if (cached && cached.length) fill(cached); } catch (e) {}
   fetch(URL).then(function (r) { return r.json(); }).then(function (j) {
     if (j && j.ok && j.classes && j.classes.length) { try { localStorage.setItem('lh-classes', JSON.stringify(j.classes)); } catch (e) {} fill(j.classes); }
@@ -789,7 +794,8 @@ document.addEventListener('click', e => { const a = e.target.closest('[data-go]'
 
 /* ====================== SETTINGS ====================== */
 function applySettings() {
-  if (window.lhAddClasses) window.lhAddClasses((((SET || {}).assign || {}).rows || []).map(r => r.code));   // class codes assigned in Admin appear in the class list (2026-10-08)
+  const latest = latestClass();   // students see ONLY the latest class code: the last row of Class assignments (teacher, 2026-10-28; was every assigned code since 2026-10-08)
+  if (window.lhAddClasses) window.lhAddClasses(latest ? [latest] : [], v => { try { const r = assignmentFor(v); return !!r && r !== 'closed' && r.code === latest; } catch (e) { return true; } });
   const closed = !SET.open; $('#btn-start').disabled = closed;
   const note = $('#closed-note'); const msg = (closed ? 'The test is currently closed. ' : '') + (SET.message || '');
   note.hidden = !msg.trim(); note.textContent = msg.trim();
@@ -864,6 +870,7 @@ function syncAssignUI() {
   const saved = S.assign; if (S.status === 'idle') S.assign = lock ? asg : null; pickSummary(); if (S.status === 'idle') S.assign = saved;
 }
 let lastSet = 0, sidDeb = null;   // a page opened before the teacher saved an assignment re-reads the settings when a class code is typed
+setInterval(() => { if (CONFIG.API_URL && S.status === 'idle' && !isStaff() && !document.hidden && Date.now() - lastSet > 90000) refreshSettings(1); }, 100000 + Math.floor(Math.random() * 20000));   // an open start page shows a newly assigned class within about 2 minutes (2026-10-28)
 $('#f-sid').addEventListener('input', () => { syncAssignUI(); clearTimeout(sidDeb); sidDeb = setTimeout(() => { if (CONFIG.API_URL && Date.now() - lastSet > 5000) refreshSettings(1); }, 700); });
 $$('#mode-pick input').forEach(r => r.addEventListener('change', () => $$('#mode-pick .mode').forEach(m => m.classList.toggle('on', m.querySelector('input').checked))));
 $('#f-sid').addEventListener('change', e => e.target.style.borderColor = '');
@@ -1449,24 +1456,24 @@ function renderTeacher() {
 async function saveSettings(st) {
   st.hidden = false; st.className = 'status'; st.lastElementChild.textContent = 'Saving…';
   const settings = { open: $('#s-open').value === '1', passMark: Math.max(0, Math.min(10, +$('#s-pass').value || CONFIG.PASS_MARK)), showRanking: $('#s-rank').value === '1', message: $('#s-msg').value.trim().slice(0, 200), assign: $('#as-rows') ? collectAssign() : (SET.assign || { rows: [], others: 'full' }) };
-  try { const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error); SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); fillAssign(); syncAssignUI(); st.className = 'status ok'; st.lastElementChild.textContent = 'Saved.'; }
+  try { const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error); SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); fillAssign(); syncAssignUI(); st.className = 'status ok'; st.lastElementChild.textContent = 'Saved.' + (st.id === 'as-status' ? latestNote() : ''); }
   catch (e) { st.className = 'status err'; st.lastElementChild.textContent = 'Could not save: ' + (e.message || 'error'); }
 }
 $('#btn-save-settings').addEventListener('click', () => saveSettings($('#s-status')));
 function ensureAssignCard() {
   if ($('#admin-assign')) return false;
   const card = document.createElement('div'); card.className = 'card'; card.id = 'admin-assign';
-  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below (e.g. code CH35 → CH35-07) can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. A listening part is never shorter than its recording + 1 minute. With no class listed, every student chooses freely. Changes are saved automatically.</p>
+  card.innerHTML = `<h2>Class assignments</h2><p class="sub">A student whose <b>Class / ID</b> starts with a class code below (e.g. code CH35 → CH35-07) can take only the parts ticked for that class, with your minutes, in exam mode; each part closes when its time is up. A listening part is never shorter than its recording + 1 minute. With no class listed, every student chooses freely. Students see <b>only the latest class</b> in their Class / ID list: the last row below (a class you add or edit becomes the last row). Changes are saved automatically.</p>
     <div id="as-live" class="note-box" style="margin:0 0 12px"></div>
     <div id="as-rows"></div>
     <div class="field" style="max-width:460px"><label for="as-others">Students whose Class / ID matches no code</label><select id="as-others" class="sel"><option value="full">Full choice — they pick skills and parts themselves</option><option value="closed">Closed — they cannot start</option></select></div>
     <div class="toolbar" style="margin:0"><button class="btn ghost sm" id="as-add">+ Add a class</button><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><div class="status" id="as-status" hidden><span class="dot"></span><span></span></div><button class="btn" id="as-save">Save assignments</button></div></div>`;
   $('#admin-settings').after(card);
-  $('#as-add').addEventListener('click', () => { addAssignRow({ code: '', parts: {} }); assignHints(); const r = $$('#as-rows .as-row').pop(); if (r) $('.as-code', r).focus(); });
+  $('#as-add').addEventListener('click', () => { addAssignRow({ code: '', parts: {} }); assignHints(); const r = $$('#as-rows .as-row').pop(); if (r) { asTouched = r; $('.as-code', r).focus(); } });
   $('#as-save').addEventListener('click', () => { clearTimeout(asTimer); saveSettings($('#as-status')); });
-  $('#as-rows').addEventListener('click', e => { const d = e.target.closest('[data-as-del]'); if (d) { d.closest('.as-row').remove(); scheduleAssignSave(); } });
-  $('#as-rows').addEventListener('change', e => { const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); scheduleAssignSave(); });
-  $('#as-rows').addEventListener('input', scheduleAssignSave);
+  $('#as-rows').addEventListener('click', e => { const d = e.target.closest('[data-as-del]'); if (d) { const row = d.closest('.as-row'); if (row === asTouched) asTouched = null; row.remove(); scheduleAssignSave(); } });
+  $('#as-rows').addEventListener('change', e => { asTouched = e.target.closest('.as-row') || asTouched; const c = e.target.closest('input[type=checkbox][data-p]'); if (c) c.closest('.as-cell').querySelector('input[type=number]').disabled = !c.checked || !isAdmin(); scheduleAssignSave(); });
+  $('#as-rows').addEventListener('input', e => { asTouched = e.target.closest('.as-row') || asTouched; scheduleAssignSave(); });
   $('#as-others').addEventListener('change', scheduleAssignSave);
   return true;
 }
@@ -1479,18 +1486,26 @@ function addAssignRow(r) {
   if (!isAdmin()) $$('input, button', row).forEach(el => { el.disabled = true; });
 }
 function collectAssign(keepInputs) {
-  const rows = $$('#as-rows .as-row').map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const inp = c.closest('.as-cell').querySelector('input[type=number]'); let m = Math.round(+inp.value); const lo = minFor(c.dataset.p); if (!(m >= lo)) { m = lo; if (!keepInputs) inp.value = lo; } parts[c.dataset.p] = Math.min(180, m); }); if (parts.S0 && !parts.S1 && !parts.S2 && !parts.S3) delete parts.S0; return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
+  const els = $$('#as-rows .as-row'); if (asTouched && els.includes(asTouched)) { els.splice(els.indexOf(asTouched), 1); els.push(asTouched); }   // the row changed last is saved last = the latest class
+  const rows = els.map(row => { const parts = {}; $$('input[type=checkbox][data-p]', row).forEach(c => { if (!c.checked) return; const inp = c.closest('.as-cell').querySelector('input[type=number]'); let m = Math.round(+inp.value); const lo = minFor(c.dataset.p); if (!(m >= lo)) { m = lo; if (!keepInputs) inp.value = lo; } parts[c.dataset.p] = Math.min(180, m); }); if (parts.S0 && !parts.S1 && !parts.S2 && !parts.S3) delete parts.S0; return { code: $('.as-code', row).value.trim(), parts }; }).filter(r => r.code && Object.keys(r.parts).length);
   return { rows, others: $('#as-others') ? $('#as-others').value : 'full' };
 }
 function fillAssign() {
   if (!$('#as-rows')) return; const as = SET.assign || {};
-  $('#as-rows').innerHTML = ''; (as.rows || []).forEach(addAssignRow);
+  $('#as-rows').innerHTML = ''; asTouched = null; (as.rows || []).forEach(addAssignRow);
   $('#as-others').value = as.others === 'closed' ? 'closed' : 'full';
   const adm = isAdmin(); $('#as-others').disabled = !adm; $('#as-add').hidden = !adm; $('#as-save').hidden = !adm;
   assignHints(); renderAssignLive();
 }
 // auto-save of class assignments + the list of saved class codes, new ones marked (teacher request 2026-10-14)
-let asTimer = null, asBusy = false, asAgain = false, asSeen = new Set();
+let asTimer = null, asBusy = false, asAgain = false, asSeen = new Set(), asTouched = null;   // asTouched = the row the teacher changed last (2026-10-28)
+function latestClass() { const rows = (((SET || {}).assign || {}).rows) || []; return rows.length ? rows[rows.length - 1].code : ''; }
+function latestNote() { const l = latestClass(); return l ? ' Students now see only ' + l + ' (the latest) in the Class / ID list.' : ''; }
+function asMoveLatest() {   // after an auto-save the saved last row moves to the end on screen too; focus and caret stay where the teacher is typing
+  const host = $('#as-rows'), row = asTouched; if (!host || !row || !host.contains(row) || host.lastElementChild === row || normCode($('.as-code', row).value) !== normCode(latestClass())) return;
+  const a = document.activeElement, inRow = !!a && row.contains(a); let s = null, e = null; try { s = a.selectionStart; e = a.selectionEnd; } catch (x) {}
+  host.appendChild(row); if (inRow) { a.focus(); try { if (s !== null) a.setSelectionRange(s, e); } catch (x) {} }
+}
 const asJson = a => JSON.stringify({ rows: (a && a.rows) || [], others: (a && a.others) === 'closed' ? 'closed' : 'full' });
 function assignHints() {
   const seen = {};
@@ -1503,7 +1518,9 @@ function assignHints() {
 }
 function renderAssignLive() {
   const box = $('#as-live'); if (!box) return; const rows = ((SET.assign || {}).rows) || [];
-  box.innerHTML = rows.length ? `<b>Assigned classes (${rows.length})</b>: students pick these codes in the Class / ID list.<ul style="margin:6px 0 0;padding-left:20px">${rows.map(r => `<li><b>${esc(r.code)}</b>${asSeen.has(r.code) ? '' : ' <span class="chip gd">New</span>'} · ${Object.keys(r.parts || {}).map(id => esc(id) + ' ' + r.parts[id] + '′').join(' · ')}</li>`).join('')}</ul>`
+  const latest = latestClass(); let marked = false;
+  $$('#as-rows .as-row').reverse().forEach(row => { const on = !marked && !!latest && normCode($('.as-code', row).value) === normCode(latest); row.classList.toggle('as-latest', on); marked = marked || on; });
+  box.innerHTML = rows.length ? `<b>Assigned classes (${rows.length})</b>: students see only <b>${esc(latest)}</b>, the latest class, in the Class / ID list.<ul style="margin:6px 0 0;padding-left:20px">${rows.map(r => `<li><b>${esc(r.code)}</b>${r.code === latest ? ' <span class="chip gd">Latest</span>' : ''}${asSeen.has(r.code) ? '' : ' <span class="chip">New</span>'} · ${Object.keys(r.parts || {}).map(id => esc(id) + ' ' + r.parts[id] + '′').join(' · ')}</li>`).join('')}</ul>`
     : '<b>Assigned classes</b>: none yet. Every student chooses freely' + (((SET.assign || {}).others) === 'closed' ? ', except that unmatched codes are closed.' : '.');
 }
 function scheduleAssignSave() { assignHints(); if (!isAdmin()) return; clearTimeout(asTimer); asTimer = setTimeout(autoSaveAssign, 1000); }
@@ -1515,9 +1532,9 @@ async function autoSaveAssign() {
   try {
     const settings = { open: SET.open, passMark: SET.passMark, showRanking: SET.showRanking, message: SET.message || '', assign };   // only the assignments change; unsaved edits in Test settings stay unsaved
     const j = await api('save_settings', { settings }); if (!j.ok) throw new Error(j.error);
-    SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); syncAssignUI(); renderAssignLive();
+    SET = Object.assign({}, DEFAULT_SET, j.settings || settings); store.set('settings', SET); applySettings(); syncAssignUI(); asMoveLatest(); renderAssignLive();
     const added = ((SET.assign || {}).rows || []).map(r => r.code).filter(c => !before.has(c));
-    st.className = 'status ok'; st.lastElementChild.textContent = 'Saved automatically' + (added.length ? ' · ' + added.join(', ') + ' added' : '') + '.';
+    st.className = 'status ok'; st.lastElementChild.textContent = 'Saved automatically' + (added.length ? ' · ' + added.join(', ') + ' added' : '') + '.' + latestNote();
   } catch (e) { st.className = 'status err'; st.lastElementChild.textContent = 'Could not save: ' + (e.message || 'error') + '. Press Save assignments to try again.'; }
   finally { asBusy = false; if (asAgain) { asAgain = false; autoSaveAssign(); } }
 }
