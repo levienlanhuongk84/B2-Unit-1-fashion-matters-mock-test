@@ -1144,6 +1144,9 @@ async function toggleRec(pid) {
   } catch (e) { $('#rec-st').textContent = 'Microphone not available: ' + (e.message || 'permission denied') + '. You can still practise aloud.'; }
 }
 function stopRec() { if (REC && REC.state !== 'inactive') { try { REC.stop(); } catch (e) {} } clearInterval(recTick); }
+// 3.5.0: submitting, finishing a section or leaving the attempt silences EVERY player — the exam recording (AU) and the
+// <audio controls> players on the page (practice-mode recording, Speaking playback), which kept playing when hidden.
+function stopAudio() { if (AU) { try { AU.pause(); } catch (e) {} AU = null; } document.querySelectorAll('audio').forEach(a => { try { a.pause(); } catch (e) {} }); }
 
 /* ====================== TIMER ====================== */
 let tick = null;
@@ -1173,7 +1176,7 @@ function startTimer() {
 }
 
 function closePart(p) {   // class assignment, exam mode: a part closes when its own time is up
-  S.partDone[p.id] = true; stopRec(); if (AU && p.kind === 'listening') { try { AU.pause(); } catch (e) {} }
+  S.partDone[p.id] = true; stopRec(); if (AU && p.kind === 'listening') { try { AU.pause(); } catch (e) {} } document.querySelectorAll('#quiz audio').forEach(a => { try { a.pause(); } catch (e) {} });
   const parts = curParts(), order = parts.map((x, i) => i).filter(i => i > S.pi).concat(parts.map((x, i) => i).filter(i => i < S.pi));
   const next = order.find(i => !S.partDone[parts[i].id]); save();
   if (next === undefined) { clearInterval(tick); finishSection(true); return; }
@@ -1199,7 +1202,7 @@ async function finishSection(auto) {
     const ok = await ask(`${note}${last ? 'Finish and submit the whole test?' : 'Finish ' + PLAN[sk].label + ' and move on? You cannot come back to it.'}`, last ? 'Submit' : 'Finish');
     if (!ok || S.status !== 'running') return;
   }
-  clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; }
+  clearInterval(tick); stopRec(); stopAudio();
   const el = Math.round((Date.now() - S.secStart) / 1000); S.secTime[sk] = S.mode === 'exam' ? Math.min(S.secDur, el) : el; S.secAuto[sk] = !!auto;
   S.si++; S.phase = 'intro'; S.pi = 0; save();
   if (S.si < S.skills.length) { renderSkillNav(); renderIntro(); window.scrollTo({ top: 0 }); } else submitAll();
@@ -1218,11 +1221,11 @@ function submitAll() {
     auto: Object.values(S.secAuto).some(Boolean), secAuto: S.secAuto, answers: g.rows, writing: { W1: S.writing.W1 || '', W2: S.writing.W2 || '' }, wwords: { W1: words(S.writing.W1), W2: words(S.writing.W2) }, secTime: S.secTime, partTime: Object.fromEntries(Object.entries(S.partTime).map(([k, v]) => [k, Math.round(v)])) };
   S.result.token = rnd(16); if (S.assign) S.result.assign = S.assign.code;
   const mine = store.get('mine', []); mine.push({ clientId: S.result.clientId, submittedAt: S.result.submittedAt, token: S.result.token, name: S.name }); store.set('mine', mine.slice(-20));
-  S.status = 'done'; S.pending = S.result; save();
+  S.status = 'done'; S.pending = S.result; save(); stopAudio();
   renderResults(); showTab('results'); lockTest(); send();
 }
 function exitAttempt() {
-  ask('Leave this attempt and go back to the start page? Answers and clocks of this attempt will be discarded.', 'Leave').then(ok => { if (!ok) return; clearInterval(tick); stopRec(); if (AU) { try { AU.pause(); } catch (e) {} AU = null; } S = Object.assign(fresh(), { name: S.name, sid: S.sid, clientId: S.clientId }); save(); $('#quiz').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); window.scrollTo({ top: 0 }); });
+  ask('Leave this attempt and go back to the start page? Answers and clocks of this attempt will be discarded.', 'Leave').then(ok => { if (!ok) return; clearInterval(tick); stopRec(); stopAudio(); S = Object.assign(fresh(), { name: S.name, sid: S.sid, clientId: S.clientId }); save(); $('#quiz').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); window.scrollTo({ top: 0 }); });
 }
 $('#btn-exit').addEventListener('click', exitAttempt);
 $('#btn-again').addEventListener('click', () => { S = Object.assign(fresh(), { name: S.name, sid: S.sid }); save(); $('#done-card').hidden = true; $('#tab-btn-results').hidden = true; $('#start-card').hidden = false; $('#f-name').value = S.name || ''; $('#f-sid').value = S.sid || ''; syncAssignUI(); showTab('test'); });
